@@ -17,9 +17,10 @@ def main():
 
 
 def plot_scatter(df, obstacles, nr):
-    df_toplot = df.query(f'obstacles == {obstacles} and nr == {nr}').melt(value_vars=['emp_VAP_avg'], id_vars=['target_distance', 'awareness_window'])
-    st.write(df_toplot.head())
-    fig = px.scatter(df_toplot, x='target_distance', y='value', color='awareness_window', symbol='awareness_window')
+    df_toplot = (df.query(f'obstacles == {obstacles} and nr == {nr}')
+                   .melt(value_vars=['emp_VAP_avg'], id_vars=['target_distance', 'awareness_window'])
+                   .sort_values('awareness_window'))
+    fig = px.scatter(df_toplot, x='target_distance', y='value', color='awareness_window', symbol='awareness_window', title='VAP vs Tx-Rx Distance')
     fig.update_xaxes(title_text='Tx-Rx Distance (m)')
     fig.update_yaxes(title_text='VAP')
     st.plotly_chart(fig)
