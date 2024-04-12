@@ -29,9 +29,9 @@ def main():
 
     with st.expander('Some plots 20 Hz ', expanded=True):
         #lets filter by obstacles and nr
-        #obstacles1 = st.toggle('Obstacles', False)
+        obstacles1 = st.toggle('Obstacles', False)
         #nr = st.toggle('NR', False)
-        plot_scatter(df_1, obstacles)
+        plot_scatter(df_1, obstacles1)
 
     with st.expander('Some plots 50 Hz', expanded=True):
         #lets filter by obstacles and nr
