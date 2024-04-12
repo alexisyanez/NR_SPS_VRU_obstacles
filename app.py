@@ -29,21 +29,21 @@ def main():
 
     with st.expander('Some plots 20 Hz ', expanded=True):
         #lets filter by obstacles and nr
-        obstacles = st.toggle('Obstacles', False)
+        obstacles1 = st.toggle('Obstacles', False)
         #nr = st.toggle('NR', False)
-        plot_scatter(df_1, obstacles)
+        plot_scatter(df_1, obstacles1)
 
     with st.expander('Some plots 50 Hz', expanded=True):
         #lets filter by obstacles and nr
-        obstacles = st.toggle('Obstacles', False)
+        obstacles2 = st.toggle('Obstacles', False)
         #nr = st.toggle('NR', False)
-        plot_scatter(df_2, obstacles)
+        plot_scatter(df_2, obstacles2)
 
     with st.expander('Some plots 4', expanded=True):
         #lets filter by obstacles and nr
-        obstacles = st.toggle('Obstacles', False)
+        obstacles3 = st.toggle('Obstacles', False)
         # nr = st.toggle('NR', False)
-        plot_scatter2(df_4, obstacles)
+        plot_scatter2(df_4, obstacles3)
 
 def plot_scatter(df, obstacles): #,nr):
     #df_toplot = (df.query(f'obstacles == {obstacles} and nr == {nr}')
