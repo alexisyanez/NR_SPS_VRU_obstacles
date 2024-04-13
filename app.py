@@ -56,12 +56,19 @@ def plot_scatter(df, obstacles): #,nr):
     st.plotly_chart(fig)
 
 def plot_scatter2(df, obstacles):
-    df_toplot = [df['All_indv_emp_VAP'][0],['All_indv_VRU_AVGPDR'][0]]#(df.query(f'obstacles == {obstacles}')
-                #   .melt(value_vars=['All_indv_emp_VAP'][0], id_vars=['All_indv_VRU_AVGPDR'][0])) 
+    df_toplot = df[['All_indv_emp_VAP', 'All_indv_VRU_AVGPDR']].iloc[0]
     fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPDR', y='All_indv_emp_VAP', title='VAP vs Tx-Rx Distance')
     fig.update_xaxes(title_text='Tx-Rx Distance (m)')
     fig.update_yaxes(title_text='VAP')
-    st.plotly_chart(fig)    
+    st.plotly_chart(fig)
+
+#def plot_scatter2(df, obstacles):
+#    df_toplot = [df['All_indv_emp_VAP'][0],['All_indv_VRU_AVGPDR'][0]]#(df.query(f'obstacles == {obstacles}')
+                #   .melt(value_vars=['All_indv_emp_VAP'][0], id_vars=['All_indv_VRU_AVGPDR'][0])) 
+#    fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPDR', y='All_indv_emp_VAP', title='VAP vs Tx-Rx Distance')
+#    fig.update_xaxes(title_text='Tx-Rx Distance (m)')
+#    fig.update_yaxes(title_text='VAP')
+#    st.plotly_chart(fig)    
 
 
 def load_data(data_path):
