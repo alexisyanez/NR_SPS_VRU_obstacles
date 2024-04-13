@@ -66,7 +66,7 @@ def plot_scatter2(df, obstacles):
 
 
     # Crear el gráfico de dispersión con Plotly
-    fig = px.scatter(x=a, y=b, title='VAP vs Tx-Rx Distance')
+    fig = px.scatter(x=a.tolist(), y=b.tolist(), title='VAP vs Tx-Rx Distance')
     fig.update_xaxes(title_text='Tx-Rx Distance (m)')
     fig.update_yaxes(title_text='VAP')
 
