@@ -57,8 +57,8 @@ def plot_scatter(df, obstacles): #,nr):
 
 def plot_scatter2(df, obstacles):
     df_toplot = (df.query(f'obstacles == {obstacles}')
-                   .melt(value_vars=['All_indv_emp_VAP[:]'], id_vars=['All_indv_VRU_AVGPD[:]'])) 
-    fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPD[:]', y='value', color='awareness_window', symbol='awareness_window', title='VAP vs Tx-Rx Distance')
+                   .melt(value_vars=['All_indv_emp_VAP'][0], id_vars=['All_indv_VRU_AVGPD'][0])) 
+    fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPD', y='value', title='VAP vs Tx-Rx Distance')
     fig.update_xaxes(title_text='Tx-Rx Distance (m)')
     fig.update_yaxes(title_text='VAP')
     st.plotly_chart(fig)    
