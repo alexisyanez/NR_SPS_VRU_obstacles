@@ -70,7 +70,7 @@ def plot_scatter2(df, obstacles):
     a_concatenated = [item for sublist in a for item in sublist]
     b_concatenated = [item for sublist in b for item in sublist]
     # Crear el gráfico de dispersión con Plotly
-    fig = px.scatter(x=b, y=a, title='VAP vs Tx-Rx Distance')
+    fig = px.scatter(x=b_concatenated, y=a_concatenated, title='VAP vs Tx-Rx Distance')
     fig.update_xaxes(title_text='Tx-Rx Distance (m)')
     fig.update_yaxes(title_text='VAP')
 
