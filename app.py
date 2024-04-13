@@ -66,6 +66,7 @@ def plot_scatter2(df, obstacles):
     # Assuming df is your DataFrame and obstacles is defined
     df_toplot = (df.query(f'obstacles == {obstacles}')
                .assign(All_indv_combined=lambda x: list(itertools.chain.from_iterable(zip(x['All_indv_emp_VAP'], x['All_indv_VRU_AVGPDR']))))
+               .explode('All_indv_combined')  # Explode the list to individual rows
                .melt(value_vars=['All_indv_combined'], id_vars=['All_indv_VRU_AVGPDR', 'density_scenario'])
                .sort_values('density_scenario'))
     
