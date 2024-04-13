@@ -62,10 +62,10 @@ def plot_scatter2(df, obstacles):
     # Convertir la cadena en una lista real
     df['All_indv_emp_VAP'] = df['All_indv_emp_VAP'].apply(ast.literal_eval)
     # Ahora puedes usar .tolist()
-    a = df['All_indv_emp_VAP'].iloc[0]
+    a = df['All_indv_emp_VAP'].iloc[0].iloc[0]
     
     df['All_indv_VRU_AVGPDR'] = df['All_indv_VRU_AVGPDR'].apply(ast.literal_eval)
-    b=df['All_indv_VRU_AVGPDR'].iloc[0]
+    b=df['All_indv_VRU_AVGPDR'].iloc[0].iloc[0]
     #aa=a.tolist()
     #bb=b.tolist()
 #     df_toplot = pd.DataFrame({
@@ -75,7 +75,7 @@ def plot_scatter2(df, obstacles):
 
 
     # Crear el gráfico de dispersión con Plotly
-    fig = px.scatter(x=a, y=b, title='VAP vs Tx-Rx Distance')
+    fig = px.scatter(x=b, y=a, title='VAP vs Tx-Rx Distance')
     fig.update_xaxes(title_text='Tx-Rx Distance (m)')
     fig.update_yaxes(title_text='VAP')
 
