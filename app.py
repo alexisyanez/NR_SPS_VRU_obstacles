@@ -62,10 +62,10 @@ def plot_scatter2(df, obstacles):
     # Convertir la cadena en una lista real
     df['All_indv_emp_VAP'] = df['All_indv_emp_VAP'].apply(ast.literal_eval)
     # Ahora puedes usar .tolist()
-    a = float(df['All_indv_emp_VAP'].iloc[0])
+    a = df['All_indv_emp_VAP'].iloc[0]
     
     df['All_indv_VRU_AVGPDR'] = df['All_indv_VRU_AVGPDR'].apply(ast.literal_eval)
-    b=float(df['All_indv_VRU_AVGPDR'].iloc[0])
+    b=df['All_indv_VRU_AVGPDR'].iloc[0]
     #aa=a.tolist()
     #bb=b.tolist()
 #     df_toplot = pd.DataFrame({
