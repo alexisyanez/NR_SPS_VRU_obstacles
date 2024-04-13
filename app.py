@@ -61,7 +61,7 @@ def plot_scatter(df, obstacles): #,nr):
 def plot_scatter2(df, obstacles):
     # Convertir la cadena en una lista real
     df_toplot = (df.query(f'obstacles == {obstacles}')
-                    .melt(value_vars=['emp_VAP_avg'], id_vars=['All_indv_VRU_AVGPDR', 'ds'])
+                    .melt(value_vars=['All_indv_emp_VAP'], id_vars=['All_indv_VRU_AVGPDR', 'ds'])
                     .sort_values('ds'))
     fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPDR', y='emp_VAP_avg', trendline="linear", exponent=-1, color='ds', symbol='ds', title='VAP vs PDR VRU average')
     fig.update_xaxes(range=[0, 1],title_text='PDR')
