@@ -59,20 +59,20 @@ def plot_scatter2(df, obstacles):
     print(df['All_indv_emp_VAP'].iloc[0])
     print(df['All_indv_VRU_AVGPDR'].iloc[0])
     
-"""     df_toplot = pd.DataFrame({
-        'All_indv_emp_VAP': df['All_indv_emp_VAP'][0],
-        'All_indv_VRU_AVGPDR': df['All_indv_VRU_AVGPDR'][0]
-    })
+#     df_toplot = pd.DataFrame({
+#        'All_indv_emp_VAP': df['All_indv_emp_VAP'][0],
+#        'All_indv_VRU_AVGPDR': df['All_indv_VRU_AVGPDR'][0]
+#    })
 
 
     # Crear el gráfico de dispersión con Plotly
-    fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPDR', y='All_indv_emp_VAP', title='VAP vs Tx-Rx Distance')
-    fig.update_xaxes(title_text='Tx-Rx Distance (m)')
-    fig.update_yaxes(title_text='VAP')
+#    fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPDR', y='All_indv_emp_VAP', title='VAP vs Tx-Rx Distance')
+#    fig.update_xaxes(title_text='Tx-Rx Distance (m)')
+#    fig.update_yaxes(title_text='VAP')
 
     # Mostrar el gráfico
-    st.plotly_chart(fig)
- """
+#    st.plotly_chart(fig)
+
 #def plot_scatter2(df, obstacles):
 #    df_toplot = [df['All_indv_emp_VAP'][0],['All_indv_VRU_AVGPDR'][0]]#(df.query(f'obstacles == {obstacles}')
                 #   .melt(value_vars=['All_indv_emp_VAP'][0], id_vars=['All_indv_VRU_AVGPDR'][0])) 
