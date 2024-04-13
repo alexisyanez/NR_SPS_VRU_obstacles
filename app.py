@@ -59,21 +59,26 @@ def plot_scatter(df, obstacles): #,nr):
     st.plotly_chart(fig)
 
 def plot_scatter2(df, obstacles):
+    df['All_indv_combined_emp'] = df['All_indv_emp_VAP'].apply(lambda x: list(itertools.chain.from_iterable(x)))
+    df['All_indv_combined_VRU'] = df['All_indv_VRU_AVGPDR'].apply(lambda x: list(itertools.chain.from_iterable(x)))
+
+    # Calculate the lengths of the concatenated lists
+    length_emp = df['All_indv_combined_emp'].apply(len)
+    length_VRU = df['All_indv_combined_VRU'].apply(len)
+
+    # Debugging: Print the lengths
+    print("Length of All_indv_combined_emp:", length_emp)
+    print("Length of All_indv_combined_VRU:", length_VRU)
+    
     # Convertir la cadena en una lista real
     #df_toplot = (df.query(f'obstacles == {obstacles}')
     #                .melt(value_vars=['All_indv_emp_VAP'], id_vars=['All_indv_VRU_AVGPDR', 'density_scenario'])
     #                .sort_values('density_scenario'))
-    # Assuming df is your DataFrame and obstacles is defined
-    df_toplot = (df.query(f'obstacles == {obstacles}')
-               .assign(All_indv_combined=lambda x: list(itertools.chain.from_iterable(zip(x['All_indv_emp_VAP'], x['All_indv_VRU_AVGPDR']))))
-               .explode('All_indv_combined')  # Explode the list to individual rows
-               .melt(value_vars=['All_indv_combined'], id_vars=['All_indv_VRU_AVGPDR', 'density_scenario'])
-               .sort_values('density_scenario'))
-    
-    fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPDR', y='value', trendline='lowess', color='density_scenario', symbol='density_scenario', title='VAP vs PDR VRU average')
-    fig.update_xaxes(range=[0, 1],title_text='PDR')
-    fig.update_yaxes(range=[0, 1],title_text='VAP')
-    st.plotly_chart(fig)
+ 
+    #fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPDR', y='value', trendline='lowess', color='density_scenario', symbol='density_scenario', title='VAP vs PDR VRU average')
+    #fig.update_xaxes(range=[0, 1],title_text='PDR')
+    #fig.update_yaxes(range=[0, 1],title_text='VAP')
+    #st.plotly_chart(fig)
 
     #df['All_indv_emp_VAP'] = df['All_indv_emp_VAP'].apply(ast.literal_eval)
     #a = df['All_indv_emp_VAP'].iloc[0]
