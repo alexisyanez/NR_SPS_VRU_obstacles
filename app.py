@@ -2,7 +2,7 @@ import streamlit as st
 import json
 import pandas as pd
 import plotly.express as px
-import ast 
+import itertools
 
 def main():
     st.set_page_config(layout='wide')
@@ -60,9 +60,15 @@ def plot_scatter(df, obstacles): #,nr):
 
 def plot_scatter2(df, obstacles):
     # Convertir la cadena en una lista real
+    #df_toplot = (df.query(f'obstacles == {obstacles}')
+    #                .melt(value_vars=['All_indv_emp_VAP'], id_vars=['All_indv_VRU_AVGPDR', 'density_scenario'])
+    #                .sort_values('density_scenario'))
+    # Assuming df is your DataFrame and obstacles is defined
     df_toplot = (df.query(f'obstacles == {obstacles}')
-                    .melt(value_vars=['All_indv_emp_VAP'], id_vars=['All_indv_VRU_AVGPDR', 'density_scenario'])
-                    .sort_values('density_scenario'))
+               .assign(All_indv_combined=lambda x: list(itertools.chain.from_iterable(zip(x['All_indv_emp_VAP'], x['All_indv_VRU_AVGPDR']))))
+               .melt(value_vars=['All_indv_combined'], id_vars=['All_indv_VRU_AVGPDR', 'density_scenario'])
+               .sort_values('density_scenario'))
+    
     fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPDR', y='value', trendline='lowess', color='density_scenario', symbol='density_scenario', title='VAP vs PDR VRU average')
     fig.update_xaxes(range=[0, 1],title_text='PDR')
     fig.update_yaxes(range=[0, 1],title_text='VAP')
