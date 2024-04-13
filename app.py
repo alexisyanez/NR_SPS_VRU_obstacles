@@ -39,6 +39,8 @@ def main():
         #nr = st.toggle('NR', False)
         plot_scatter(df_2, obstacles)
 
+    with st.expander('Show data 10 Hz'):
+        st.write(df_4)
     with st.expander('Some plots 4', expanded=True):
         #lets filter by obstacles and nr
         #obstacles3 = st.toggle('Obstacles', False)
