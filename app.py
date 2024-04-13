@@ -2,6 +2,7 @@ import streamlit as st
 import json
 import pandas as pd
 import plotly.express as px
+import ast 
 
 def main():
     st.set_page_config(layout='wide')
@@ -58,7 +59,12 @@ def plot_scatter(df, obstacles): #,nr):
     st.plotly_chart(fig)
 
 def plot_scatter2(df, obstacles):
-    a=df['All_indv_emp_VAP'].iloc[0].tolist()
+    # Convertir la cadena en una lista real
+    df['All_indv_emp_VAP'] = df['All_indv_emp_VAP'].apply(ast.literal_eval)
+    # Ahora puedes usar .tolist()
+    a = df['All_indv_emp_VAP'].iloc[0].tolist()
+    
+    df['All_indv_VRU_AVGPDR'] = df['All_indv_VRU_AVGPDR'].apply(ast.literal_eval)
     b=df['All_indv_VRU_AVGPDR'].iloc[0].tolist()
     #aa=a.tolist()
     #bb=b.tolist()
