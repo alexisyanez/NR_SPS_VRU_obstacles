@@ -63,7 +63,7 @@ def plot_scatter2(df, obstacles):
     df_toplot = (df.query(f'obstacles == {obstacles}')
                     .melt(value_vars=['All_indv_emp_VAP'], id_vars=['All_indv_VRU_AVGPDR', 'density_scenario'])
                     .sort_values('density_scenario'))
-    fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPDR', y='All_indv_emp_VAP', trendline="linear", exponent=-1, color='density_scenario', symbol='density_scenario', title='VAP vs PDR VRU average')
+    fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPDR', y='All_indv_emp_VAP', trendline='lowess', color='density_scenario', symbol='density_scenario', title='VAP vs PDR VRU average')
     fig.update_xaxes(range=[0, 1],title_text='PDR')
     fig.update_yaxes(range=[0, 1],title_text='VAP')
     st.plotly_chart(fig)
