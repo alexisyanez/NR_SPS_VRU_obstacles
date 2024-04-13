@@ -36,17 +36,17 @@ def main():
 
     with st.expander('Some plots 50 Hz', expanded=True):
         #lets filter by obstacles and nr
-        #obstacles2 = st.toggle('Obstacles', False)
+        obstacles2 = st.toggle('Obstacles2', False)
         #nr = st.toggle('NR', False)
-        plot_scatter(df_2, obstacles)
+        plot_scatter(df_2, obstacles2)
 
-    with st.expander('Show data 10 Hz'):
+    with st.expander('Show data 20 Hz Fitting Results'):
         st.write(df_4)
     with st.expander('Some plots 4', expanded=True):
         #lets filter by obstacles and nr
-        #obstacles3 = st.toggle('Obstacles', False)
+        obstacles3 = st.toggle('Obstacles3', False)
         # nr = st.toggle('NR', False)
-        plot_scatter2(df_4, obstacles)
+        plot_scatter2(df_4, obstacles3)
 
 def plot_scatter(df, obstacles): #,nr):
     #df_toplot = (df.query(f'obstacles == {obstacles} and nr == {nr}')
@@ -60,22 +60,29 @@ def plot_scatter(df, obstacles): #,nr):
 
 def plot_scatter2(df, obstacles):
     # Convertir la cadena en una lista real
-    df['All_indv_emp_VAP'] = df['All_indv_emp_VAP'].apply(ast.literal_eval)
-    # Ahora puedes usar .tolist()
-    a = df['All_indv_emp_VAP'].iloc[0]
-    
-    df['All_indv_VRU_AVGPDR'] = df['All_indv_VRU_AVGPDR'].apply(ast.literal_eval)
-    b=df['All_indv_VRU_AVGPDR'].iloc[0]
+    df_toplot = (df.query(f'obstacles == {obstacles}')
+                    .melt(value_vars=['emp_VAP_avg'], id_vars=['All_indv_VRU_AVGPDR', 'ds'])
+                    .sort_values('ds'))
+    fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPDR', y='emp_VAP_avg', color='ds', symbol='ds', title='VAP vs PDR VRU average')
+    fig.update_xaxes(range=[0, 1],title_text='PDR')
+    fig.update_yaxes(range=[0, 1],title_text='VAP')
+    st.plotly_chart(fig)
 
-    a_concatenated = [item for sublist in a for item in sublist]
-    b_concatenated = [item for sublist in b for item in sublist]
+    #df['All_indv_emp_VAP'] = df['All_indv_emp_VAP'].apply(ast.literal_eval)
+    #a = df['All_indv_emp_VAP'].iloc[0]
+    
+    #df['All_indv_VRU_AVGPDR'] = df['All_indv_VRU_AVGPDR'].apply(ast.literal_eval)
+    #b=df['All_indv_VRU_AVGPDR'].iloc[0]
+
+    #a_concatenated = [item for sublist in a for item in sublist]
+    #b_concatenated = [item for sublist in b for item in sublist]
     # Crear el gráfico de dispersión con Plotly
-    fig = px.scatter(x=b_concatenated, y=a_concatenated, title='VAP vs Tx-Rx Distance')
-    fig.update_xaxes(title_text='Tx-Rx Distance (m)')
-    fig.update_yaxes(title_text='VAP')
+    #fig = px.scatter(x=b[0], y=[0], title='VAP vs Tx-Rx Distance')
+    #fig.update_xaxes(title_text='Tx-Rx Distance (m)')
+    #fig.update_yaxes(title_text='VAP')
 
     # Mostrar el gráfico
-    st.plotly_chart(fig)
+    #st.plotly_chart(fig)
 
 #def plot_scatter2(df, obstacles):
 #    df_toplot = [df['All_indv_emp_VAP'][0],['All_indv_VRU_AVGPDR'][0]]#(df.query(f'obstacles == {obstacles}')
