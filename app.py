@@ -56,8 +56,8 @@ def plot_scatter(df, obstacles): #,nr):
     st.plotly_chart(fig)
 
 def plot_scatter2(df, obstacles):
-    print(df['All_indv_emp_VAP'][0])
-    print(df['All_indv_VRU_AVGPDR'][0])
+    print(df['All_indv_emp_VAP'].iloc[0])
+    print(df['All_indv_VRU_AVGPDR'].iloc[0])
     
 """     df_toplot = pd.DataFrame({
         'All_indv_emp_VAP': df['All_indv_emp_VAP'][0],
