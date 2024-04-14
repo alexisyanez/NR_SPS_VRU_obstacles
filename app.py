@@ -59,8 +59,11 @@ def plot_scatter(df, obstacles): #,nr):
     st.plotly_chart(fig)
 
 def plot_scatter2(df, obstacles):
-    df['All_indv_emp_VAP'] = df['All_indv_emp_VAP'].apply(lambda x: x[0] if isinstance(x, list) else [])
-    df['All_indv_VRU_AVGPDR'] = df['All_indv_VRU_AVGPDR'].apply(lambda x: x[0] if isinstance(x, list) else [])
+    df['oo_All_indv_emp_VAP'] = df['All_indv_emp_VAP'].apply(lambda x: x[:] if isinstance(x, list) else [])
+    df['oo_All_indv_VRU_AVGPDR'] = df['All_indv_VRU_AVGPDR'].apply(lambda x: x[:] if isinstance(x, list) else [])
+
+    print(df['oo_All_indv_emp_VAP'])
+    print(df['oo_All_indv_VRU_AVGPDR'])
 
     # Crear el DataFrame para el gráfico de dispersión
     #df_toplot = df.explode('All_indv_emp_VAP').melt(value_vars=['All_indv_emp_VAP'], id_vars=['All_indv_VRU_AVGPDR', 'density_scenario']).sort_values('density_scenario')
