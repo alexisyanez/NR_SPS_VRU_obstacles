@@ -2,6 +2,7 @@ import streamlit as st
 import json
 import pandas as pd
 import plotly.express as px
+import sys
 #from itertools import cycle,chain
 #import numpy as np
 
@@ -61,7 +62,16 @@ def plot_scatter(df, obstacles): #,nr):
 
 
 def plot_scatter2(df, obstacles):
-    df2=df.explode('All_indv_emp_VAP','All_indv_VRU_AVGPDR')
+    df2=df[['All_indv_emp_VAP','All_indv_VRU_AVGPDR','obstacles','density_scenario']]
+    df2=df2.explode('All_indv_emp_VAP','All_indv_VRU_AVGPDR')
+    
+    # Get DataFrame size in bytes
+    size_bytes = sys.getsizeof(df)
+
+# Convert to megabytes
+    size_mb = size_bytes / (1024 * 1024)
+
+    #print(f"DataFrame size: {size_mb:.2f} MB")
     #print(df2['All_indv_emp_VAP'])
     #print(df['All_indv_emp_VAP'])
     #print(df2['All_indv_VRU_AVGPDR'])
