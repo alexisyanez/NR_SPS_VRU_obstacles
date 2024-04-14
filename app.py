@@ -2,8 +2,8 @@ import streamlit as st
 import json
 import pandas as pd
 import plotly.express as px
-import itertools
-import numpy as np
+#from itertools import cycle,chain
+#import numpy as np
 
 def main():
     st.set_page_config(layout='wide')
@@ -59,10 +59,18 @@ def plot_scatter(df, obstacles): #,nr):
     fig.update_yaxes(title_text='VAP')
     st.plotly_chart(fig)
 
+
 def plot_scatter2(df, obstacles):
-    #df = pd.DataFrame({'A': [1, 2], 'B': [[1, 2], [3, 4]], 'C': [[1, 2], [3, 4]]})
-    df2=unnest(df, ['All_indv_VRU_AVGPDR', 'All_indv_emp_VAP', 'density_scenario','obstacles'])  # multiple columns
-   
+    df2=df.explode('All_indv_emp_VAP','All_indv_VRU_AVGPDR')
+    #print(df2['All_indv_emp_VAP'])
+    #print(df['All_indv_emp_VAP'])
+    #print(df2['All_indv_VRU_AVGPDR'])
+    #print(df['All_indv_VRU_AVGPDR'])
+    #print(df2['obstacles'])
+    #print(df['obstacles'])
+    #print(df2['density_scenario'])
+    #print(df['density_scenario'])
+
     df_toplot = (df2.query(f'obstacles == {obstacles}')
                    .melt(value_vars=['All_indv_emp_VAP'], id_vars=['All_indv_VRU_AVGPDR', 'density_scenario'])
                    .sort_values('density_scenario'))
@@ -70,24 +78,18 @@ def plot_scatter2(df, obstacles):
     fig.update_xaxes(title_text='AVG PDR VRU')
     fig.update_yaxes(title_text='VAP')
     st.plotly_chart(fig)
-    
-    #print()
-    #df_expand=df.explode('')
-    #a=df['All_indv_VRU_AVGPDR'][0]
-    #b=df['All_indv_emp_VAP'][0]
-    #fig = px.scatter(x=a, y=b,title='VAP vs PDR_VRU_AVG')
-   
-    #fig.update_xaxes(title_text='VRU PDR AVG')
-    #fig.update_yaxes(title_text='VAP')
-          
-    #st.plotly_chart(fig)
 
-def unnest(frame, explode):
-    def mesh(values):
-        return np.array(np.meshgrid(*values)).T.reshape(-1, len(values))
+#print()
+#df_expand=df.explode('')
+#a=df['All_indv_VRU_AVGPDR'][0]
+#b=df['All_indv_emp_VAP'][0]
+#fig = px.scatter(x=a, y=b,title='VAP vs PDR_VRU_AVG')
 
-    data = np.vstack(mesh(row) for row in frame[explode].values)
-    return pd.DataFrame(data=data, columns=explode)
+#fig.update_xaxes(title_text='VRU PDR AVG')
+#fig.update_yaxes(title_text='VAP')
+        
+#st.plotly_chart(fig)
+
 
 def load_data(data_path):
     # I need to read some json files
