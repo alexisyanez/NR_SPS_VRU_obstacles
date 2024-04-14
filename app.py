@@ -59,11 +59,34 @@ def plot_scatter(df, obstacles): #,nr):
     st.plotly_chart(fig)
 
 def plot_scatter2(df, obstacles):
-    df['oo_All_indv_emp_VAP'] = df['All_indv_emp_VAP'].apply(lambda x: x[:] if isinstance(x, list) else [])
-    df['oo_All_indv_VRU_AVGPDR'] = df['All_indv_VRU_AVGPDR'].apply(lambda x: x[:] if isinstance(x, list) else [])
 
-    print(df['oo_All_indv_emp_VAP'])
-    print(df['oo_All_indv_VRU_AVGPDR'])
+# Flatten the lists
+    #df_expanded = pd.concat([df.explode('All_indv_emp_VAP'), df.explode('All_indv_VRU_AVGPDR')])
+
+    # Create the scatter plot
+    a=df['All_indv_VRU_AVGPDR'][0]
+    b=df['All_indv_emp_VAP'][0]
+    fig = px.scatter(x=a, y=b, title='VAP vs PDR VRU average')
+    fig.update_xaxes(range=[0, 1], title_text='PDR')
+    fig.update_yaxes(range=[0, 1], title_text='VAP')
+
+    # Display the plot using Streamlit
+    st.plotly_chart(fig)
+
+
+
+    #df_expanded = pd.concat([df.explode('All_indv_emp_VAP'),df.explode('All_indv_VRU_AVGPDR')])   
+    #df_toplot = (df_expanded.query(f'obstacles == {obstacles}')
+    #                .melt(value_vars=['All_indv_emp_VAP'], id_vars=['All_indv_VRU_AVGPDR', 'density_scenario'])
+    #                .sort_values('density_scenario'))
+
+    # Crear el gráfico de dispersión con los valores float
+    #fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPDR', y='value', color='density_scenario', symbol='density_scenario', title='VAP vs PDR VRU average')
+    #fig.update_xaxes(range=[0, 1], title_text='PDR')
+    #fig.update_yaxes(range=[0, 1], title_text='VAP')
+
+    #st.plotly_chart(fig)
+
 
     # Crear el DataFrame para el gráfico de dispersión
     #df_toplot = df.explode('All_indv_emp_VAP').melt(value_vars=['All_indv_emp_VAP'], id_vars=['All_indv_VRU_AVGPDR', 'density_scenario']).sort_values('density_scenario')
