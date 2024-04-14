@@ -66,8 +66,8 @@ def plot_scatter2(df, obstacles):
     df['All_indv_combined_emp'] = pd.to_numeric(df['All_indv_combined_emp'], errors='coerce')
     df['All_indv_combined_VRU'] = pd.to_numeric(df['All_indv_combined_VRU'], errors='coerce')
 
-    with st.expander('Show data 20 Hz Fitting Results'):
-        st.write(df)
+    #with st.expander('Show data 20 Hz Fitting Results'):
+    st.write(df)
     # Melt the DataFrame
     df_toplot = df.explode('All_indv_combined_emp').melt(value_vars=['All_indv_combined_emp'], id_vars=['All_indv_combined_VRU', 'density_scenario']).sort_values('density_scenario')
     # Create the scatter plot
