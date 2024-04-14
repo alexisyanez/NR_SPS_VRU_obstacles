@@ -59,19 +59,44 @@ def plot_scatter(df, obstacles): #,nr):
     st.plotly_chart(fig)
 
 def plot_scatter2(df, obstacles):
+    
+    a=df['All_indv_VRU_AVGPDR'][0]
+    b=df['All_indv_emp_VAP'][0]
+    fig = px.scatter(x=a, y=b,title='VAP vs PDR_VRU_AVG')
+   
+    fig.update_xaxes(title_text='VRU PDR AVG')
+    fig.update_yaxes(title_text='VAP')
+    
+    for i in range(1, 6):  # Itera desde 1 hasta 5
+        a_i = df['All_indv_VRU_AVGPDR'][i]
+        b_i = df['All_indv_emp_VAP'][i]
+        fig.add_trace(px.scatter(x=a_i, y=b_i, mode='markers', name=f'Traza {i}').data[0])
+    
+    st.plotly_chart(fig)
 
+    #st.plotly_chart(fig)
+
+    #df_toplot = (df.query(f'obstacles == {obstacles} and nr == {nr}')
+    #fig = px.scatter(x=a, y=b,title='VAP vs PDR_VRU_AVG')
+    #fig.update_layout(showlegend=True)
+    #for i in range(1,5):
+    #    a=df['All_indv_VRU_AVGPDR'][i]
+    #    b=df['All_indv_VRU_AVGPDR'][i]
+    #    fig.add_trace(px.scatter(x=a, y=b))
+    
+    
 # Flatten the lists
     #df_expanded = pd.concat([df.explode('All_indv_emp_VAP'), df.explode('All_indv_VRU_AVGPDR')])
 
     # Create the scatter plot
-    a=df['All_indv_VRU_AVGPDR'][0]
-    b=df['All_indv_emp_VAP'][0]
-    fig = px.scatter(x=a, y=b, title='VAP vs PDR VRU average')
-    fig.update_xaxes(range=[0, 1], title_text='PDR')
-    fig.update_yaxes(range=[0, 1], title_text='VAP')
+    #a=df['All_indv_VRU_AVGPDR'][0]
+    #b=df['All_indv_emp_VAP'][0]
+    #fig = px.scatter(x=a, y=b, title='VAP vs PDR VRU average')
+    #fig.update_xaxes(range=[0, 1], title_text='PDR')
+    #fig.update_yaxes(range=[0, 1], title_text='VAP')
 
     # Display the plot using Streamlit
-    st.plotly_chart(fig)
+    #st.plotly_chart(fig)
 
 
 
