@@ -60,8 +60,8 @@ def plot_scatter(df, obstacles): #,nr):
 
 def plot_scatter2(df, obstacles):
     # Concatenate 'All_indv_emp_VAP' and 'All_indv_VRU_AVGPDR' separately
-    df['All_indv_combined_emp'] = df['All_indv_emp_VAP'].apply(lambda x: list(itertools.chain.from_iterable(x)))
-    df['All_indv_combined_VRU'] = df['All_indv_VRU_AVGPDR'].apply(lambda x: list(itertools.chain.from_iterable(x)))
+    df['All_indv_combined_emp'] = df['All_indv_emp_VAP'].apply(lambda x: list(itertools.chain.from_iterable(x))).astype(float)
+    df['All_indv_combined_VRU'] = df['All_indv_VRU_AVGPDR'].apply(lambda x: list(itertools.chain.from_iterable(x))).astype(float)
 
     # Melt the DataFrame
     df_toplot = df.explode('All_indv_combined_emp').melt(value_vars=['All_indv_combined_emp'], id_vars=['All_indv_VRU_AVGPDR', 'density_scenario']).sort_values('density_scenario')
