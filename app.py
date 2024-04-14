@@ -67,8 +67,7 @@ def plot_scatter2(df, obstacles):
     df['All_indv_combined_VRU'] = pd.to_numeric(df['All_indv_combined_VRU'], errors='coerce')
 
     # Melt the DataFrame
-    df_toplot = df.explode('All_indv_combined_emp').melt(value_vars=['All_indv_combined_emp'], id_vars=['All_indv_VRU_AVGPDR', 'density_scenario']).sort_values('density_scenario')
-
+    df_toplot = df.explode('All_indv_combined_emp').melt(value_vars=['All_indv_combined_emp'], id_vars=['All_indv_combined_VRU', 'density_scenario']).sort_values('density_scenario')
     # Create the scatter plot
     fig = px.scatter(df_toplot, x='All_indv_combined_VRU', y='value', trendline='lowess', color='density_scenario', symbol='density_scenario', title='VAP vs PDR VRU average')
     fig.update_xaxes(range=[0, 1], title_text='PDR')
