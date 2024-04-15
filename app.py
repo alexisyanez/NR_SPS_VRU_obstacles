@@ -82,8 +82,8 @@ def plot_scatter2(df):
     
     fig2.update_layout(title='Scatter Plot Figures VAP v/s VRU AVGPDR, density_scenario = 1, LOWESS Fit for obs',
                         autosize=False,
-                        width=800,
-                        height=800,)
+                        width=500,
+                        height=500)
     st.plotly_chart(fig2)
 
 
@@ -101,8 +101,8 @@ def plot_scatter2(df):
     #st.title('Grafico Scatter para Scenarios nivel de densidad = 2')
     fig3.update_layout(title='Scatter Plot Figures VAP v/s VRU AVGPDR, density_scenario = 2, LOWESS Fit for obs',
                         autosize=False,
-                        width=800,
-                        height=800,)
+                        width=500,
+                        height=500)
     
     st.plotly_chart(fig3)
     
@@ -123,8 +123,8 @@ def plot_scatter2(df):
     #st.title('Grafico Scatter para Scenarios nivel de densidad = 3')
     fig4.update_layout(title='Scatter Plot Figures VAP v/s VRU AVGPDR, density_scenario = 3, LOWESS Fit for obs',
                         autosize=False,
-                        width=800,
-                        height=800,)
+                        width=500,
+                        height=500)
     st.plotly_chart(fig4)
 
 #####
@@ -144,8 +144,8 @@ def plot_scatter2(df):
     #st.title('Grafico Scatter para Scenarios nivel de densidad = 3')
     fig5.update_layout(title='Scatter Plot Figures VAP v/s VRU AVGPDR, density_scenario = 4, LOWESS Fit for obs',
                         autosize=False,
-                        width=800,
-                        height=800,)
+                        width=500,
+                        height=500)
     st.plotly_chart(fig5)
 
 #####
@@ -166,7 +166,7 @@ def plot_scatter2(df):
     fig6.update_layout(title='Scatter Plot Figures VAP v/s VRU AVGPDR, density_scenario = 5, LOWESS Fit for obs',
                         autosize=False,
                         width=800,
-                        height=800,)
+                        height=800)
     st.plotly_chart(fig6)
 
 
