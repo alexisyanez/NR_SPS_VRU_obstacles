@@ -2,12 +2,16 @@ import streamlit as st
 import json
 import pandas as pd
 import plotly.express as px
-import sys
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import statsmodels.api as sm
+#import sys
 #from itertools import cycle,chain
 #import numpy as np
 
 def main():
-    st.set_page_config(layout='wide')
+    #st.set_option('server.maxMessageSize', 600)
+    st.set_page_config(layout='centered')
     st.title('Results visualization for OOP for SPS')
 
     path_data1 = 'OOP_for_SPS/Final_results_group1.json'
@@ -46,9 +50,9 @@ def main():
         st.write(df_4)
     with st.expander('Some plots 4', expanded=True):
         #lets filter by obstacles and nr
-        obstacles3 = st.toggle('Obstacles3', False)
+        #obstacles3 = st.toggle('Obstacles3', False)
         # nr = st.toggle('NR', False)
-        plot_scatter2(df_4, obstacles3)
+        plot_scatter2(df_4)
 
 def plot_scatter(df, obstacles): #,nr):
     #df_toplot = (df.query(f'obstacles == {obstacles} and nr == {nr}')
@@ -61,34 +65,94 @@ def plot_scatter(df, obstacles): #,nr):
     st.plotly_chart(fig)
 
 
-def plot_scatter2(df, obstacles):
-    df2=df[['All_indv_emp_VAP','All_indv_VRU_AVGPDR','obstacles','density_scenario']]
-    df2=df2.explode('All_indv_emp_VAP','All_indv_VRU_AVGPDR')
+def plot_scatter2(df):    
+    fig2 = make_subplots(rows=1, cols=1)
+
+    # Primer subplot (gráfico de dispersión)
+    fig2.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][0], y=df['All_indv_emp_VAP'][0], mode='markers', name='no-obs'), row=1, col=1)
+    fig2.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][3], y=df['All_indv_emp_VAP'][3], mode='markers',marker=dict(symbol='star'), name='obs'), row=1, col=1)
+    # Segundo subplot (gráfico de dispersión)
+    fig2.update_xaxes(title_text='VRU PDR AVG', range=[0,1])
+    fig2.update_yaxes(title_text='VAP', range=[0,1])
+
+    # Compute LOWESS fit
+    lowess_1 = sm.nonparametric.lowess(df['All_indv_emp_VAP'][3], df['All_indv_VRU_AVGPDR'][3], frac=0.2)
+    #st.write(lowess_1)
+    fig2.add_trace(go.Scatter(x=lowess_1[:, 0], y=lowess_1[:, 1], mode='lines', name='LOWESS Fit for obs', line=dict(color='red')))
     
-    # Get DataFrame size in bytes
-    size_bytes = sys.getsizeof(df)
+    fig2.update_layout(title='Grafico Scatter para Scenarios nivel de densidad = 1 con LOWESS Fit para obs')
+    st.plotly_chart(fig2)
 
-# Convert to megabytes
-    size_mb = size_bytes / (1024 * 1024)
 
-    #print(f"DataFrame size: {size_mb:.2f} MB")
-    #print(df2['All_indv_emp_VAP'])
-    #print(df['All_indv_emp_VAP'])
-    #print(df2['All_indv_VRU_AVGPDR'])
-    #print(df['All_indv_VRU_AVGPDR'])
-    #print(df2['obstacles'])
-    #print(df['obstacles'])
-    #print(df2['density_scenario'])
-    #print(df['density_scenario'])
+#####
+    fig3 = make_subplots(rows=1, cols=1)
+    fig3.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][1], y=df['All_indv_emp_VAP'][1], mode='markers', name='no-obs'), row=1, col=1)
+    fig3.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][4], y=df['All_indv_emp_VAP'][4], mode='markers', name='obs'), row=1, col=1)
+    fig3.update_xaxes(title_text='VRU PDR AVG', range=[0,1])
+    fig3.update_yaxes(title_text='VAP', range=[0,1])
+    # Compute LOWESS fit
+    lowess_1 = sm.nonparametric.lowess(df['All_indv_emp_VAP'][4], df['All_indv_VRU_AVGPDR'][4], frac=0.2)
+    #st.write(lowess_1)
+    fig3.add_trace(go.Scatter(x=lowess_1[:, 0], y=lowess_1[:, 1], mode='lines', name='LOWESS Fit for obs', line=dict(color='red')))
 
-    df_toplot = (df2.query(f'obstacles == {obstacles}')
-                   .melt(value_vars=['All_indv_emp_VAP'], id_vars=['All_indv_VRU_AVGPDR', 'density_scenario'])
-                   .sort_values('density_scenario'))
-    fig = px.scatter(df_toplot, x='All_indv_VRU_AVGPDR', y='value', color='density_scenario', symbol='density_scenario', title='VAP vs AVG PDR Sourronding VRU')
-    fig.update_xaxes(title_text='AVG PDR VRU')
-    fig.update_yaxes(title_text='VAP')
-    st.plotly_chart(fig)
+    #st.title('Grafico Scatter para Scenarios nivel de densidad = 2')
+    fig3.update_layout(title='Grafico Scatter para Scenarios nivel de densidad = 2 con LOWESS Fit para obs')
+    
+    st.plotly_chart(fig3)
+    
+#####
+    fig4 = make_subplots(rows=1, cols=1)
+    fig4.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][2], y=df['All_indv_emp_VAP'][2], mode='markers', name='no-obs'), row=1, col=1)
+    fig4.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][6], y=df['All_indv_emp_VAP'][6], mode='markers', name='obs'), row=1, col=1)
+    # Tercer subplot (gráfico de dispersión)
+    #fig2.add_trace(go.Scatter(x=[0, 1, 2], y=[10, 20, 30]), row=1, col=3)
+    fig4.update_xaxes(title_text='VRU PDR AVG', range=[0,1])
+    fig4.update_yaxes(title_text='VAP', range=[0,1])
+    # Mostrar los subplots en Streamlit
+    # Compute LOWESS fit
+    lowess_1 = sm.nonparametric.lowess(df['All_indv_emp_VAP'][6], df['All_indv_VRU_AVGPDR'][6], frac=0.2)
+    #st.write(lowess_1)
+    fig4.add_trace(go.Scatter(x=lowess_1[:, 0], y=lowess_1[:, 1], mode='lines', name='LOWESS Fit for obs', line=dict(color='red')))
 
+    #st.title('Grafico Scatter para Scenarios nivel de densidad = 3')
+    fig4.update_layout(title='Grafico Scatter para Scenarios nivel de densidad = 3 con LOWESS Fit para obs')
+    st.plotly_chart(fig4)
+
+#####
+    fig5 = make_subplots(rows=1, cols=1)
+    fig5.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][5], y=df['All_indv_emp_VAP'][5], mode='markers', name='no-obs'), row=1, col=1)
+    fig5.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][8], y=df['All_indv_emp_VAP'][8], mode='markers', name='obs'), row=1, col=1)
+    # Tercer subplot (gráfico de dispersión)
+    #fig2.add_trace(go.Scatter(x=[0, 1, 2], y=[10, 20, 30]), row=1, col=3)
+    fig5.update_xaxes(title_text='VRU PDR AVG', range=[0,1])
+    fig5.update_yaxes(title_text='VAP', range=[0,1])
+    # Mostrar los subplots en Streamlit
+    # Compute LOWESS fit
+    lowess_1 = sm.nonparametric.lowess(df['All_indv_emp_VAP'][8], df['All_indv_VRU_AVGPDR'][8], frac=0.2)
+    #st.write(lowess_1)
+    fig5.add_trace(go.Scatter(x=lowess_1[:, 0], y=lowess_1[:, 1], mode='lines', name='LOWESS Fit for obs', line=dict(color='red')))
+
+    #st.title('Grafico Scatter para Scenarios nivel de densidad = 3')
+    fig5.update_layout(title='Grafico Scatter para Scenarios nivel de densidad = 4 con LOWESS Fit para obs')
+    st.plotly_chart(fig5)
+
+#####
+    fig6 = make_subplots(rows=1, cols=1)
+    fig6.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][7], y=df['All_indv_emp_VAP'][7], mode='markers', name='no-obs'), row=1, col=1)
+    fig6.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][9], y=df['All_indv_emp_VAP'][9], mode='markers', name='obs'), row=1, col=1)
+    # Tercer subplot (gráfico de dispersión)
+    #fig2.add_trace(go.Scatter(x=[0, 1, 2], y=[10, 20, 30]), row=1, col=3)
+    fig6.update_xaxes(title_text='VRU PDR AVG', range=[0,1])
+    fig6.update_yaxes(title_text='VAP', range=[0,1])
+    # Mostrar los subplots en Streamlit
+    # Compute LOWESS fit
+    lowess_1 = sm.nonparametric.lowess(df['All_indv_emp_VAP'][9], df['All_indv_VRU_AVGPDR'][9], frac=0.2)
+    #st.write(lowess_1)
+    fig6.add_trace(go.Scatter(x=lowess_1[:, 0], y=lowess_1[:, 1], mode='lines', name='LOWESS Fit for obs', line=dict(color='red')))
+
+    #st.title('Grafico Scatter para Scenarios nivel de densidad = 3')
+    fig6.update_layout(title='Grafico Scatter para Scenarios nivel de densidad = 5 con LOWESS Fit para obs')
+    st.plotly_chart(fig6)
 #print()
 #df_expand=df.explode('')
 #a=df['All_indv_VRU_AVGPDR'][0]
