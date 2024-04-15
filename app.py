@@ -80,14 +80,17 @@ def plot_scatter2(df):
     #st.write(lowess_1)
     fig2.add_trace(go.Scatter(x=lowess_1[:, 0], y=lowess_1[:, 1], mode='lines', name='LOWESS Fit for obs', line=dict(color='red')))
     
-    fig2.update_layout(title='Grafico Scatter para Scenarios nivel de densidad = 1 con LOWESS Fit para obs')
+    fig2.update_layout(title='Scatter Plot Figures VAP v/s VRU AVGPDR, density_scenario = 1, LOWESS Fit for obs',
+                        autosize=False,
+                        width=800,
+                        height=800,)
     st.plotly_chart(fig2)
 
 
 #####
     fig3 = make_subplots(rows=1, cols=1)
-    fig3.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][1], y=df['All_indv_emp_VAP'][1], mode='markers', name='no-obs'), row=1, col=1)
-    fig3.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][4], y=df['All_indv_emp_VAP'][4], mode='markers', name='obs'), row=1, col=1)
+    fig2.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][1], y=df['All_indv_emp_VAP'][1], mode='markers', name='no-obs'), row=1, col=1)
+    fig2.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][4], y=df['All_indv_emp_VAP'][4], mode='markers', name='obs'), row=1, col=1)
     fig3.update_xaxes(title_text='VRU PDR AVG', range=[0,1])
     fig3.update_yaxes(title_text='VAP', range=[0,1])
     # Compute LOWESS fit
@@ -96,7 +99,10 @@ def plot_scatter2(df):
     fig3.add_trace(go.Scatter(x=lowess_1[:, 0], y=lowess_1[:, 1], mode='lines', name='LOWESS Fit for obs', line=dict(color='red')))
 
     #st.title('Grafico Scatter para Scenarios nivel de densidad = 2')
-    fig3.update_layout(title='Grafico Scatter para Scenarios nivel de densidad = 2 con LOWESS Fit para obs')
+    fig3.update_layout(title='Scatter Plot Figures VAP v/s VRU AVGPDR, density_scenario = 2, LOWESS Fit for obs',
+                        autosize=False,
+                        width=800,
+                        height=800,)
     
     st.plotly_chart(fig3)
     
@@ -115,7 +121,10 @@ def plot_scatter2(df):
     fig4.add_trace(go.Scatter(x=lowess_1[:, 0], y=lowess_1[:, 1], mode='lines', name='LOWESS Fit for obs', line=dict(color='red')))
 
     #st.title('Grafico Scatter para Scenarios nivel de densidad = 3')
-    fig4.update_layout(title='Grafico Scatter para Scenarios nivel de densidad = 3 con LOWESS Fit para obs')
+    fig4.update_layout(title='Scatter Plot Figures VAP v/s VRU AVGPDR, density_scenario = 3, LOWESS Fit for obs',
+                        autosize=False,
+                        width=800,
+                        height=800,)
     st.plotly_chart(fig4)
 
 #####
@@ -133,7 +142,10 @@ def plot_scatter2(df):
     fig5.add_trace(go.Scatter(x=lowess_1[:, 0], y=lowess_1[:, 1], mode='lines', name='LOWESS Fit for obs', line=dict(color='red')))
 
     #st.title('Grafico Scatter para Scenarios nivel de densidad = 3')
-    fig5.update_layout(title='Grafico Scatter para Scenarios nivel de densidad = 4 con LOWESS Fit para obs')
+    fig5.update_layout(title='Scatter Plot Figures VAP v/s VRU AVGPDR, density_scenario = 4, LOWESS Fit for obs',
+                        autosize=False,
+                        width=800,
+                        height=800,)
     st.plotly_chart(fig5)
 
 #####
@@ -151,14 +163,18 @@ def plot_scatter2(df):
     fig6.add_trace(go.Scatter(x=lowess_1[:, 0], y=lowess_1[:, 1], mode='lines', name='LOWESS Fit for obs', line=dict(color='red')))
 
     #st.title('Grafico Scatter para Scenarios nivel de densidad = 3')
-    fig6.update_layout(title='Grafico Scatter para Scenarios nivel de densidad = 5 con LOWESS Fit para obs')
+    fig6.update_layout(title='Scatter Plot Figures VAP v/s VRU AVGPDR, density_scenario = 5, LOWESS Fit for obs',
+                        autosize=False,
+                        width=800,
+                        height=800,)
     st.plotly_chart(fig6)
+
+
 #print()
 #df_expand=df.explode('')
 #a=df['All_indv_VRU_AVGPDR'][0]
 #b=df['All_indv_emp_VAP'][0]
 #fig = px.scatter(x=a, y=b,title='VAP vs PDR_VRU_AVG')
-
 #fig.update_xaxes(title_text='VRU PDR AVG')
 #fig.update_yaxes(title_text='VAP')
         
