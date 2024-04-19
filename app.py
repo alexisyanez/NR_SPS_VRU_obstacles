@@ -5,9 +5,10 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import statsmodels.api as sm
-#import sys
-#from itertools import cycle,chain
-#import numpy as np
+import numpy as np
+from scipy.optimize import curve_fit
+import matplotlib.pyplot as plt
+
 
 def main():
     #st.set_option('server.maxMessageSize', 600)
@@ -23,8 +24,16 @@ def main():
     path_data3 = 'OOP_for_SPS/Final_results_group3_10Hz.json'
     df_3 = load_data(path_data3)
 
-    path_data4 = 'OOP_for_SPS/Final_results_group4_Fitting_20Hz.json'
+    path_data4 = 'OOP_for_SPS/Final_results_group4_Fitting_20Hz_old_14-04-2024.json'
     df_4 = load_data(path_data4)
+
+    path_data5 = 'OOP_for_SPS/Final_results_group4_Fitting_20Hz.json'
+    df_5 = load_data(path_data5)
+
+    path_data6 = 'OOP_for_SPS/Final_results_group5_ds_1_0_Fitting_20Hz.json'
+    df_6 = load_data(path_data6)
+
+
 
     with st.expander('Show data 10 Hz'):
         st.write(df_3)
@@ -47,12 +56,29 @@ def main():
         plot_scatter(df_2, obstacles2)
 
     with st.expander('Show data 20 Hz Fitting Results'):
+        st.write("First group results")
         st.write(df_4)
+        st.write("Second group results")
+        st.write(df_5)
+        st.write("Third group results")
+        st.write(df_6)
     with st.expander('Some plots 4', expanded=True):
-        #lets filter by obstacles and nr
-        #obstacles3 = st.toggle('Obstacles3', False)
-        # nr = st.toggle('NR', False)
-        plot_scatter2(df_4)
+        
+        st.write("Scatter plot for Density Scenario=6")
+        plot_scatter2(df_4,0,3,6)
+        st.write("Scatter plot for Density Scenario=5")
+        plot_scatter2(df_5,1,4,5)
+        st.write("Scatter plot for Density Scenario=4")
+        plot_scatter2(df_5,2,5,4)
+        st.write("Scatter plot for Density Scenario=3")
+        plot_scatter2(df_5,5,8,3)
+        st.write("Scatter plot for Density Scenario=2")
+        plot_scatter2(df_5,7,9,2)
+        st.write("Scatter plot for Density Scenario=1")
+        plot_scatter2(df_6,0,2,1)
+        st.write("Scatter plot for Density Scenario=0")
+        plot_scatter2(df_6,1,3,0)
+
 
 def plot_scatter(df, obstacles): #,nr):
     #df_toplot = (df.query(f'obstacles == {obstacles} and nr == {nr}')
@@ -65,26 +91,82 @@ def plot_scatter(df, obstacles): #,nr):
     st.plotly_chart(fig)
 
 
-def plot_scatter2(df):    
+def plot_scatter2(df,no_obs,obs,ds):    
     fig2 = make_subplots(rows=1, cols=1)
 
     # Primer subplot (gráfico de dispersión)
-    fig2.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][0], y=df['All_indv_emp_VAP'][0], mode='markers', name='no-obs'), row=1, col=1)
-    fig2.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][3], y=df['All_indv_emp_VAP'][3], mode='markers',marker=dict(symbol='star'), name='obs'), row=1, col=1)
+    fig2.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][no_obs], y=df['All_indv_emp_VAP'][no_obs], mode='markers', name='no-obs'), row=1, col=1)
+    fig2.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][obs], y=df['All_indv_emp_VAP'][obs], mode='markers',marker=dict(symbol='star'), name='obs'), row=1, col=1)
     # Segundo subplot (gráfico de dispersión)
     fig2.update_xaxes(title_text='VRU PDR AVG', range=[0,1])
     fig2.update_yaxes(title_text='VAP', range=[0,1])
 
     # Compute LOWESS fit
-    lowess_1 = sm.nonparametric.lowess(df['All_indv_emp_VAP'][3], df['All_indv_VRU_AVGPDR'][3], frac=0.2)
+    lowess_1 = sm.nonparametric.lowess(df['All_indv_emp_VAP'][obs], df['All_indv_VRU_AVGPDR'][obs], frac=0.2)
+    lowess_2 = sm.nonparametric.lowess(df['All_indv_emp_VAP'][no_obs], df['All_indv_VRU_AVGPDR'][no_obs], frac=0.2)
     #st.write(lowess_1)
     fig2.add_trace(go.Scatter(x=lowess_1[:, 0], y=lowess_1[:, 1], mode='lines', name='LOWESS Fit for obs', line=dict(color='red')))
+    fig2.add_trace(go.Scatter(x=lowess_2[:, 0], y=lowess_2[:, 1], mode='lines', name='LOWESS Fit for no_obs', line=dict(color='blue')))
     
+    # Fit the model to the data
+    initial_guess = [1, 1, 1]  # Initial parameter guesses
+    limites_inferiores = [0, 0, 0]
+    limites_superiores = [2, 2, 2]
+    limites = (limites_inferiores, limites_superiores)
+    optimized_params, _ = curve_fit(my_model,df['All_indv_VRU_AVGPDR'][obs], df['All_indv_emp_VAP'][obs], p0=initial_guess, bounds=limites)
+    
+    st.write("Parametros Optimizados",optimized_params)
+
+    # Plot the data and the fitted curve
+    fig2.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][obs], y=my_model(df['All_indv_VRU_AVGPDR'][obs], *optimized_params), mode='lines', name='Fitted Curve model', line=dict(color='orange')))
+
     fig2.update_layout(title='Scatter Plot Figures VAP v/s VRU AVGPDR, density_scenario = 1, LOWESS Fit for obs',
                         autosize=False,
-                        width=500,
-                        height=500)
+                        width=400,
+                        height=400,
+                        legend=dict(x=0.3, y=0.1))
+       
     st.plotly_chart(fig2)
+
+def my_model(x, a,c,b):
+    return a-b*((c-x)**2)
+
+def load_data(data_path):
+    # I need to read some json files
+    with open(data_path) as f:
+        data = json.load(f)
+    return pd.DataFrame(data).T
+
+
+if __name__ == '__main__':
+    main()
+
+
+""" import numpy as np
+from scipy.optimize import curve_fit
+import matplotlib.pyplot as plt
+
+# Define your model function (e.g., a polynomial, exponential, etc.)
+def my_model(x, a, b, c):
+    return a * np.exp(b * x) + c
+
+# Generate some example data (replace with your actual data)
+xdata = np.linspace(0, 10, 100)
+ydata = my_model(xdata, 2, 0.5, 1) + np.random.normal(0, 0.1, len(xdata))
+
+# Fit the model to the data
+initial_guess = [1, 0.1, 0.5]  # Initial parameter guesses
+optimized_params, _ = curve_fit(my_model, xdata, ydata, p0=initial_guess)
+
+# Plot the data and the fitted curve
+plt.scatter(xdata, ydata, label='Data')
+plt.plot(xdata, my_model(xdata, *optimized_params), label='Fitted Curve', color='red')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.legend()
+plt.show() 
+def my_model(x, a, b, c, z):
+return a-b*np.float_power((c-x),z)
 
 
 #####
@@ -101,8 +183,8 @@ def plot_scatter2(df):
     #st.title('Grafico Scatter para Scenarios nivel de densidad = 2')
     fig3.update_layout(title='Scatter Plot Figures VAP v/s VRU AVGPDR, density_scenario = 2, LOWESS Fit for obs',
                         autosize=False,
-                        width=500,
-                        height=500)
+                        width=400,
+                        height=400)
     
     st.plotly_chart(fig3)
     
@@ -169,24 +251,4 @@ def plot_scatter2(df):
                         height=800)
     st.plotly_chart(fig6)
 
-
-#print()
-#df_expand=df.explode('')
-#a=df['All_indv_VRU_AVGPDR'][0]
-#b=df['All_indv_emp_VAP'][0]
-#fig = px.scatter(x=a, y=b,title='VAP vs PDR_VRU_AVG')
-#fig.update_xaxes(title_text='VRU PDR AVG')
-#fig.update_yaxes(title_text='VAP')
-        
-#st.plotly_chart(fig)
-
-
-def load_data(data_path):
-    # I need to read some json files
-    with open(data_path) as f:
-        data = json.load(f)
-    return pd.DataFrame(data).T
-
-
-if __name__ == '__main__':
-    main()
+"""
