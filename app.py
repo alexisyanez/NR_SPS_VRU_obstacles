@@ -55,7 +55,15 @@ def main():
         #nr = st.toggle('NR', False)
         plot_scatter(df_2, obstacles2)
 
-    with st.expander('Scatter and fittings figures', expanded=True):
+    with st.expander('Show data 20 Hz Fitting Results'):
+        st.write("First group results")
+        st.write(df_4)
+        st.write("Second group results")
+        st.write(df_5)
+        st.write("Third group results")
+        st.write(df_6)
+
+    with st.expander('PDR Bar figures', expanded=True):
         # Sample data
         x_values = np.linspace(0, 6, 7)
         y_values_no_obs = [df_4['VRU_PDR_avg'][0],df_5['VRU_PDR_avg'][1],df_5['VRU_PDR_avg'][2],df_5['VRU_PDR_avg'][5],df_5['VRU_PDR_avg'][7],df_6['VRU_PDR_avg'][0],df_6['VRU_PDR_avg'][1]]
@@ -79,15 +87,27 @@ def main():
        
         st.plotly_chart(fig3)
         
+        x_values = np.linspace(0, 6, 7)
+        y_values_no_obs = [df_4['ALL_PDR_avg'][0],df_5['ALL_PDR_avg'][1],df_5['ALL_PDR_avg'][2],df_5['ALL_PDR_avg'][5],df_5['ALL_PDR_avg'][7],df_6['ALL_PDR_avg'][0],df_6['ALL_PDR_avg'][1]]
+        error_values_no_obs = [df_4['ALL_PDR_std'][0],df_5['ALL_PDR_std'][1],df_5['ALL_PDR_std'][2],df_5['ALL_PDR_std'][5],df_5['ALL_PDR_std'][7],df_6['ALL_PDR_std'][0],df_6['ALL_PDR_std'][1]]
 
+        
+        y_values_obs = [df_4['ALL_PDR_avg'][3],df_5['ALL_PDR_avg'][4],df_5['ALL_PDR_avg'][6],df_5['ALL_PDR_avg'][8],df_5['ALL_PDR_avg'][9],df_6['ALL_PDR_avg'][2],df_6['ALL_PDR_avg'][3]]
+        error_values_obs = [df_4['ALL_PDR_std'][3],df_5['ALL_PDR_std'][4],df_5['ALL_PDR_std'][6],df_5['ALL_PDR_std'][8],df_5['ALL_PDR_std'][9],df_6['ALL_PDR_std'][2],df_6['ALL_PDR_std'][3]]
+        
+        fig4 = make_subplots(rows=1, cols=1)
+        # Create the bar chart with error bars
+        
+        fig4.add_trace(go.Bar(x=x_values, y=y_values_no_obs, error_y=dict(type='data', array=error_values_no_obs, visible=True), name='no_obs'), row=1, col=1)
+        fig4.add_trace(go.Bar(x=x_values, y=y_values_obs, error_y=dict(type='data', array=error_values_obs, visible=True), name='obs'), row=1, col=1)
 
-    with st.expander('Show data 20 Hz Fitting Results'):
-        st.write("First group results")
-        st.write(df_4)
-        st.write("Second group results")
-        st.write(df_5)
-        st.write("Third group results")
-        st.write(df_6)
+        fig4.update_layout(title='Bar Plot Figures ALL AVGPDR, density_scenario = [0,1,2,3,4,5,6]',
+                        autosize=False,
+                        width=600,
+                        height=500)
+                        #legend=dict(x=0.3, y=0.1))
+       
+        st.plotly_chart(fig4)
 
     with st.expander('Scatter and fittings figures', expanded=True):
         
