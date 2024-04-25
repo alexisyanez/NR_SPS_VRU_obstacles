@@ -45,6 +45,7 @@ class Vehicle():
         self.neighbour_list = []
         self.VRUneighbour_list = []  #adding the list of neighbout for VRU
         self.VRUreception = []  # To check message reception 
+        self.PDR_VRUreception_pair = []
         self.transmission_statistic = []
         self.VRUtransmission_statistic = [] # Collecting the statistic for VRU neigbohrs
         self.target_distance = target_distance
@@ -339,9 +340,11 @@ class Vehicle():
                 if current_time>start_sampling_time:
                     self.num_rec += 1
 
-                    if self.type == 1 and vehicle.type == 2:
+                    if self.type == 1 and vehicle.type == 2:  # Type 1 corresponds to VRU, and Type 2 is Car
                         if self in vehicle.VRUneighbour_list:
                             vehicle.VRUreception.append(self.index)
+                            
+                        
                         #if self in VRU_List:
                         #    VRU_index = VRU_List.index(self)
                         #    vehicle.VRUreception[VRU_index]=1

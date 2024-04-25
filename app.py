@@ -33,6 +33,10 @@ def main():
     path_data6 = 'OOP_for_SPS/Final_results_group5_ds_1_0_Fitting_20Hz.json'
     df_6 = load_data(path_data6)
 
+    path_data7 = 'OOP_for_SPS/Final_results_group6_Fitting_20Hz.json'
+    df_7 = load_data(path_data7)
+
+
 
 
     with st.expander('Show data 10 Hz'):
@@ -62,6 +66,8 @@ def main():
         st.write(df_5)
         st.write("Third group results")
         st.write(df_6)
+        st.write("Fourth group results")
+        st.write(df_7)
 
     with st.expander('PDR Bar figures', expanded=True):
         # Sample data

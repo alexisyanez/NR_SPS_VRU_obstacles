@@ -320,10 +320,10 @@ def main(time_period,target_distance,start_sampling_time,interval,RC_low,RC_high
                 if sum_tran>0: 
                     individual_PDR.append(sum_rec/sum_tran) #np.average(vehicle.transmission_statistic))
                     
-                    if vehicle.type == 1:
+                    if vehicle.type == 1: #Type 1 is VRU
                         VRUindividual_PDR.append(sum_rec/sum_tran)
 
-                    if vehicle.type == 2:
+                    if vehicle.type == 2: #Type 2 is car
                         VRU_neig_dup = set(vehicle.VRUreception)
                         VRU_rec = len(VRU_neig_dup)
                         len_VRU_N =len(vehicle.VRUneighbour_list)
