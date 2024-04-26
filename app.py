@@ -33,7 +33,7 @@ def main():
     path_data6 = 'OOP_for_SPS/Final_results_group5_ds_1_0_Fitting_20Hz.json'
     df_6 = load_data(path_data6)
 
-    path_data7 = 'OOP_for_SPS/Final_results_group7_Fitting_20Hz.json'
+    path_data7 = 'OOP_for_SPS/Final_results_group6_Fitting_20Hz.json'
     df_7 = load_data(path_data7)
 
 
