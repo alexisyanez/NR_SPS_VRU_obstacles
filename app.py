@@ -74,11 +74,13 @@ def main():
         x_values = np.linspace(0, 6, 7)
         y_values_no_obs = [df_4['VRU_PDR_avg'][0],df_5['VRU_PDR_avg'][1],df_5['VRU_PDR_avg'][2],df_5['VRU_PDR_avg'][5],df_5['VRU_PDR_avg'][7],df_6['VRU_PDR_avg'][0],df_6['VRU_PDR_avg'][1]]
         error_values_no_obs = [df_4['VRU_PDR_std'][0],df_5['VRU_PDR_std'][1],df_5['VRU_PDR_std'][2],df_5['VRU_PDR_std'][5],df_5['VRU_PDR_std'][7],df_6['VRU_PDR_std'][0],df_6['VRU_PDR_std'][1]]
-
         
+
         y_values_obs = [df_4['VRU_PDR_avg'][3],df_5['VRU_PDR_avg'][4],df_5['VRU_PDR_avg'][6],df_5['VRU_PDR_avg'][8],df_5['VRU_PDR_avg'][9],df_6['VRU_PDR_avg'][2],df_6['VRU_PDR_avg'][3]]
         error_values_obs = [df_4['VRU_PDR_std'][3],df_5['VRU_PDR_std'][4],df_5['VRU_PDR_std'][6],df_5['VRU_PDR_std'][8],df_5['VRU_PDR_std'][9],df_6['VRU_PDR_std'][2],df_6['VRU_PDR_std'][3]]
         
+               
+
         fig3 = make_subplots(rows=1, cols=1)
         # Create the bar chart with error bars
         
@@ -97,15 +99,25 @@ def main():
         y_values_no_obs = [df_4['ALL_PDR_avg'][0],df_5['ALL_PDR_avg'][1],df_5['ALL_PDR_avg'][2],df_5['ALL_PDR_avg'][5],df_5['ALL_PDR_avg'][7],df_6['ALL_PDR_avg'][0],df_6['ALL_PDR_avg'][1]]
         error_values_no_obs = [df_4['ALL_PDR_std'][0],df_5['ALL_PDR_std'][1],df_5['ALL_PDR_std'][2],df_5['ALL_PDR_std'][5],df_5['ALL_PDR_std'][7],df_6['ALL_PDR_std'][0],df_6['ALL_PDR_std'][1]]
 
+        y_values_no_obs_g4 = [df_7['Total_PDR_avg'][0],df_7['Total_PDR_avg'][1],df_7['Total_PDR_avg'][2],df_7['Total_PDR_avg'][5],df_7['Total_PDR_avg'][7],df_7['Total_PDR_avg'][8],df_7['Total_PDR_avg'][10]]
+        error_values_no_obs_g4 = [df_7['Total_PDR_std'][0],df_7['Total_PDR_std'][1],df_7['Total_PDR_std'][2],df_7['Total_PDR_std'][5],df_7['Total_PDR_std'][7],df_7['Total_PDR_std'][8],df_7['Total_PDR_std'][10]]
+
         
         y_values_obs = [df_4['ALL_PDR_avg'][3],df_5['ALL_PDR_avg'][4],df_5['ALL_PDR_avg'][6],df_5['ALL_PDR_avg'][8],df_5['ALL_PDR_avg'][9],df_6['ALL_PDR_avg'][2],df_6['ALL_PDR_avg'][3]]
         error_values_obs = [df_4['ALL_PDR_std'][3],df_5['ALL_PDR_std'][4],df_5['ALL_PDR_std'][6],df_5['ALL_PDR_std'][8],df_5['ALL_PDR_std'][9],df_6['ALL_PDR_std'][2],df_6['ALL_PDR_std'][3]]
         
+        y_values_obs_g4 = [df_7['Total_PDR_avg'][3],df_7['Total_PDR_avg'][4],df_7['Total_PDR_avg'][6],df_7['Total_PDR_avg'][9],df_7['Total_PDR_avg'][11],df_7['Total_PDR_avg'][12],df_7['Total_PDR_avg'][13]]
+        error_values_obs_g4 = [df_7['Total_PDR_std'][3],df_7['Total_PDR_std'][4],df_5['VRU_PDR_std'][6],df_7['Total_PDR_std'][9],df_7['Total_PDR_std'][11],df_7['Total_PDR_std'][12],df_7['Total_PDR_std'][13]]
+
         fig4 = make_subplots(rows=1, cols=1)
         # Create the bar chart with error bars
         
         fig4.add_trace(go.Bar(x=x_values, y=y_values_no_obs, error_y=dict(type='data', array=error_values_no_obs, visible=True), name='no_obs'), row=1, col=1)
         fig4.add_trace(go.Bar(x=x_values, y=y_values_obs, error_y=dict(type='data', array=error_values_obs, visible=True), name='obs'), row=1, col=1)
+        
+        fig4.add_trace(go.Bar(x=x_values, y=y_values_no_obs_g4, error_y=dict(type='data', array=error_values_no_obs_g4, visible=True), name='no_obs-g6'), row=1, col=1)
+        fig4.add_trace(go.Bar(x=x_values, y=y_values_obs_g4, error_y=dict(type='data', array=error_values_obs_g4, visible=True), name='obs-g6'), row=1, col=1)
+
 
         fig4.update_layout(title='Bar Plot Figures ALL AVGPDR, density_scenario = [0,1,2,3,4,5,6]',
                         autosize=False,
@@ -117,6 +129,22 @@ def main():
 
     with st.expander('Scatter and fittings figures', expanded=True):
         
+        st.write("Scatter plot for Density Scenario=6")
+        plot_scatter2(df_7,0,3,6)
+        st.write("Scatter plot for Density Scenario=5")
+        plot_scatter2(df_7,1,4,5)
+        st.write("Scatter plot for Density Scenario=4")
+        plot_scatter2(df_7,2,6,4)
+        st.write("Scatter plot for Density Scenario=3")
+        plot_scatter2(df_7,5,9,3)
+        st.write("Scatter plot for Density Scenario=2")
+        plot_scatter2(df_7,7,11,2)
+        st.write("Scatter plot for Density Scenario=1")
+        plot_scatter2(df_7,8,12,1)
+        st.write("Scatter plot for Density Scenario=0")
+        plot_scatter2(df_7,10,13,0)
+        
+        '''
         st.write("Scatter plot for Density Scenario=6")
         plot_scatter2(df_4,0,3,6)
         st.write("Scatter plot for Density Scenario=5")
@@ -131,6 +159,7 @@ def main():
         plot_scatter2(df_6,0,2,1)
         st.write("Scatter plot for Density Scenario=0")
         plot_scatter2(df_6,1,3,0)
+        '''
 
 def plot_scatter(df, obstacles): #,nr):
     #df_toplot = (df.query(f'obstacles == {obstacles} and nr == {nr}')
