@@ -202,7 +202,7 @@ def plot_scatter2(df,no_obs,obs,ds):
     # Plot the data and the fitted curve
     fig2.add_trace(go.Scatter(x=df['All_indv_VRU_AVGPDR'][obs], y=my_model(df['All_indv_VRU_AVGPDR'][obs], *optimized_params), mode='lines', name='Fitted Curve model for obs', line=dict(color='orange')))
 
-    fig2.update_layout(title='Scatter Plot Figures VAP v/s VRU AVGPDR, density_scenario = 1, LOWESS Fit for obs',
+    fig2.update_layout(title='Scatter Plot Figures VAP v/s VRU AVGPDR, density_scenario ='+str(ds)+', LOWESS Fit for obs',
                         autosize=False,
                         width=600,
                         height=500)
