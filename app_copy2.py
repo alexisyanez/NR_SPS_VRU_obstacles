@@ -40,7 +40,16 @@ def main():
     path_data12 = 'OOP_for_SPS/Final_results_group14_Fitting_20Hz_aw200.json'
     df_12 = load_data(path_data12)
 
+    path_data13 = 'OOP_for_SPS/Final_results_group15_Fitting_20Hz_aw200_half_build.json' #Copy1_Final_resutls_group14_Fitting_20Hz_aw200.json'
+    df_13 = load_data(path_data11)
+
+    path_data14 = 'OOP_for_SPS/Final_results_group17_Fitting_20Hz_aw200_half_build_saturation.json' #Final_results_group14_Fitting_20Hz_aw200.json'
+    df_14 = load_data(path_data12)
+
     df_7 = pd.concat([df_7_1,df_7_2,df_11,df_12])
+
+    df_15 = pd.concat([df_13,df_14])
+
 
     if not os.path.exists("images"):
         os.mkdir("images")
@@ -74,6 +83,8 @@ def main():
         #st.write(df_8)
     
     #with st.expander('Scatter Plot VAP v/s AVG VRU PDR'):
+    df_20Hz_HalfBuild_AW200=plot_scatter4(df_15,i)
+    i=i+1
 
     fig6 = make_subplots(rows=1, cols=1) #px.scatter(df_20Hz_1, x='All_indv_VRU_AVGPDR', y='All_indv_emp_VAP',color='obstacles', symbol='obstacles', title='VAP v/s VRU PDR through scenarios') # notched=True,
     fig6.update_traces(hovertemplate=None)
@@ -102,6 +113,7 @@ def main():
     fig6.add_trace(go.Scatter3d(y=df_20Hz_2_noobs['All_indv_VRU_AVGPDR'], z=df_20Hz_2_noobs['All_indv_emp_VAP'], x=df_20Hz_2_noobs['density_scenario'], mode='markers', name='20Hz_aw500_no-obs'))
     fig6.add_trace(go.Scatter3d(y=df_10Hz_1_noobs['All_indv_VRU_AVGPDR'], z=df_10Hz_1_noobs['All_indv_emp_VAP'], x=df_10Hz_1_noobs['density_scenario'], mode='markers', name='10Hz_aw200_no-obs'))
     fig6.add_trace(go.Scatter3d(y=df_10Hz_2_noobs['All_indv_VRU_AVGPDR'], z=df_10Hz_2_noobs['All_indv_emp_VAP'], x=df_10Hz_2_noobs['density_scenario'], mode='markers', name='10Hz_aw500_no-obs'))
+    fig6.add_trace(go.Scatter3d(y=df_10Hz_2_noobs['All_indv_VRU_AVGPDR'], z=df_10Hz_2_noobs['All_indv_emp_VAP'], x=df_10Hz_2_noobs['density_scenario'], mode='markers', name='10Hz_aw500_no-obs'))
         
     fig6.update_xaxes(title_text='VRU PDR AVG', range=[0,1],tickfont_size=16, title_font=dict(size=18))
     fig6.update_yaxes(title_text='VAP', range=[0,1], tickfont_size=16, title_font=dict(size=18))
@@ -122,7 +134,7 @@ def main():
     )
 
     #    st.plotly_chart(fig6)    
-    fig6.write_image("images/fig2.pdf", format='pdf')
+    fig6.write_image("images/2-fig2.pdf", format='pdf')
 
     fig9 = make_subplots(rows=1, cols=1) #px.scatter(df_20Hz_1, x='All_indv_VRU_AVGPDR', y='All_indv_emp_VAP',color='obstacles', symbol='obstacles', title='VAP v/s VRU PDR through scenarios') # notched=True,
     #fig9.update_traces(hovertemplate=None)
@@ -212,7 +224,7 @@ def main():
     )
 
     #st.plotly_chart(fig9)  
-    fig9.write_image("images/fig3.pdf", format='pdf')
+    fig9.write_image("images/2-fig3.pdf", format='pdf')
 
     fig11=fig9
     fig11.data[1].visible = False
@@ -240,7 +252,7 @@ def main():
     #fig11.add_trace(go.Scatter(x=df_20Hz_1_noobs['All_indv_VRU_AVGPDR'], y=my_model(df_20Hz_1_noobs['All_indv_VRU_AVGPDR'], *optimized_params), mode='lines', name='Fitted Curve model for noobs', line=dict(color='orange')))
 
     
-    fig11.write_image("images/fig4.pdf", format='pdf')
+    fig11.write_image("images/2-fig4.pdf", format='pdf')
     #st.plotly_chart(fig11)  
 
     fig10 = make_subplots(rows=1, cols=1) #px.scatter(df_20Hz_1, x='All_indv_VRU_AVGPDR', y='All_indv_emp_VAP',color='obstacles', symbol='obstacles', title='VAP v/s VRU PDR through scenarios') # notched=True,
@@ -298,7 +310,7 @@ def main():
         #)
     )
     #st.plotly_chart(fig10)  
-    fig10.write_image("images/fig5.pdf", format='pdf')
+    fig10.write_image("images/2-fig5.pdf", format='pdf')
 
 #@st.cache_data
 def plot_scatter4(df_7,ind): 
@@ -387,7 +399,7 @@ def plot_scatter4(df_7,ind):
                 traceorder="normal")
     )
     #st.plotly_chart(fig7)
-    name="images/fig6-"+str(ind)+"_PDRALLL.pdf"
+    name="images/2-fig6-"+str(ind)+"_PDRALLL.pdf"
     fig7.write_image(name, format='pdf')
 
     df_7_3 = df_7[['density_scenario','All_indv_VRU_AVGPDR','obstacles']] #'All_indv_emp_VAP','All_indv_VRU_AVGPDR',        
@@ -427,7 +439,7 @@ def plot_scatter4(df_7,ind):
     )
 
     #st.plotly_chart(fig7)
-    name="images/fig6-"+str(ind)+"_VAPVRU.pdf"
+    name="images/2-fig6-"+str(ind)+"_VAPVRU.pdf"
     fig7.write_image(name, format='pdf')
 
     return df
