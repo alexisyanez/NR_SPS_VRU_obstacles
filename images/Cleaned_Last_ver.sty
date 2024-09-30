@@ -1,0 +1,728 @@
+\documentclass[lettersize,journal]{IEEEtran}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{cite}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usepackage{physics}
+\usepackage{balance} % balance
+\usepackage{subcaption}
+
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+% updated with editorial comments 8/9/2021
+\usetikzlibrary{shapes,arrows,positioning}
+
+\tikzset{decision/.style={diamond, draw, fill=white!20, aspect=3,
+    text width=12em, text badly centered, node distance=3cm, inner sep=0pt},
+block/.style={rectangle, draw, fill=white!20, 
+    text width=12em, text centered, rounded corners, minimum height=4em},
+small_block/.style={circle, draw, fill=white!20, 
+    text width=0em, text centered, rounded corners, minimum height=0em},    
+line/.style={draw, -latex'},
+cloud/.style={draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em},}
+
+    
+\begin{document}
+
+\title{An Analytical Model for Vulnerable Road User Awareness over C-V2X NR networks}
+
+\author{Alexis Yáñez,~\IEEEmembership{Member,~IEEE,} Felipe Salas, César Azurdia-Meza, ~\IEEEmembership{Member,~IEEE,} Jorge Sandoval,~\IEEEmembership{Member,~IEEE,} Sandra Céspedes,~\IEEEmembership{Senior Member,~IEEE,}
+
+
+
+
+        % <-this % stops a space
+\thanks{This paper was produced by the IEEE Publication Technology Group. They are in Piscataway, NJ.}% <-this % stops a space
+\thanks{Manuscript received April 19, 2021; revised August 16, 2021.}}
+
+% The paper headers
+\markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2021}%
+{Shell \MakeLowercase{\textit{et al.}}: A Sample Article Using IEEEtran.cls for IEEE Journals}
+
+%\IEEEpubid{0000--0000/00\$00.00~\copyright~2024 IEEE}
+% Remember, if you use this you must call \IEEEpubidadjcol in the second
+% column for its text to clear the IEEEpubid mark.
+
+\maketitle
+
+\begin{abstract}
+The widespread adoption of cellular networks has played a pivotal role in the integration of road safety applications, capitalizing on the ubiquitous use of this technology by road users and its commitment to minimizing message exchange latency. Particularly noteworthy in the realm of Cellular to Everything C-V2X is the sidelink feature, which emerges as a standout element in collaborative vehicular contexts.
+This research shows the formulation of an analytical model with the primary objective of assessing the awareness of Vulnerable Road Users (VRU) in urban intersections. This inclusive term encompasses pedestrians, cyclists, and motorcyclists, among others. The underlying assumption in our model is that all VRUs are connected to the 5G network, thereby contributing to the effectiveness of on-road safety applications.
+Our analytical model is meticulously crafted to mirror the intricate dynamics of the 5G New Radio (NR) network operating in communication mode 2, taking into consideration the influencing factors of signal propagation obstacles such as buildings in an urban intersection setting. Building upon previous models, we fine-tune our approach to accommodate the unique challenges an urban intersection scenario poses.
+Our research indicates that the adjusted model exhibits commendable performance in an intersection scenario without buildings and maintains this efficiency in scenarios with buildings at all four corners and with only two. This adaptability is crucial for deploying 5G NR technologies in urban environments where building-induced signal occlusions are prevalent. The model’s robustness in diverse architectural settings enhances its applicability for future Cellular Vehicle-to-Everything (C-V2X) networks, ensuring reliable vehicular and pedestrian communication.
+
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+Cellular Vehicle-to-everything (C-V2X), Vulnerable Road Users (VRU), New Radio (NR), Autonomous Resource Allocation, Semi-persistent Scheduling (SPS) 
+\end{IEEEkeywords}
+
+\section{Introduction}
+\IEEEPARstart{I}{n} contemporary times, a burgeoning interest surrounds the integration of vulnerable road users (VRU) into the broader spectrum of road traffic considerations. This type of user refers to pedestrians, cyclists, motorcyclists, or other users of means of transport that lack a chassis to protect them in case of collision or accident. From academic circles to standardization bodies and the automotive industry, there is a collective pursuit to incorporate VRU detection into various road traffic scenarios seamlessly. In this context, Cellular Vehicular-to-Everything (C-V2X) technology emerges as a promising solution to address the challenges connected road traffic poses.
+
+In particular, C-V2X stands out for its feasibility in including VRU in the context of connected vehicles. Currently, cellular technology provides connectivity to these users, allowing active participation of VRU in the context of information exchange to alert their presence, which can be used in various road safety applications in contrast to the passive approach, where VRU detection is performed by sensors or cameras in modern vehicles or the infrastructure \cite{silva2024vulnerable}. 
+
+In fact, numerous authors have made efforts to integrate pedestrians into vehicular networks, and the prominence of C-V2X technology becomes evident due to its extensive market penetration, broad coverage, and the facilitation of low-latency cooperative awareness messages (CAM) for vehicles and VRU Awareness Messages (VAM) for VRU \cite{Kabil2022}.
+
+On the other hand, regarding the radio access for C-V2X technology, it is possible to observe proposals and evaluations of medium access control (MAC) and resource allocation protocols for C-V2X, where the authors analyze the network performance \cite{Sehla2022}. However, when addressing the problem of actively including VRU in wireless communication networks, it becomes necessary to discriminate how alert messages from VRU are received in their neighbourhood and how the motorized vehicles in the surrounding area are aware of the VRU. This paper addresses the problem of modelling VRU awareness for motorized vehicles from an active participation approach and how this metric can be related to network performance metrics. In this way, we demonstrate the relationship between the VRU awareness metric and the packet delivery ratio (PDR), and also we study the conditions where this relationship is valid.
+
+In this work, we focus on studying 5G New Radio (NR) toward VRU inclusion in the vehicular networking context.
+The advent of 5G-NR introduces novel features that significantly contribute to ensuring safety in scenarios involving autonomous vehicles, connected sensors, smart signalling, and VRU interactions. Particularly relevant are the advancements in 5G-NR that result in reduced latency compared to preceding technologies. The target requirements set for up to $3$ [ms] maximum end-to-end latency in extended sensor and high-grade automated driving scenarios underscore the transformative impact of 5G-NR in the field \cite{Kabil2022}.
+
+5G-NR presents two different modes of communication to exploit device-to-device D2D through the sidelink; in this research, we focus on communication mode 2, where the resource allocation procedures are done autonomously; this implies novel challenges since the use of this mode 2 over the sidelink is critical where the devices lost base station coverage and collision of packets can often occur because the resources are allocated autonomously from each device. There are several proposals to improve this allocation procedure \cite{Shin2023}, as it directly impacts the performance of the communication network. Let's consider VRU as an active user of the communication network; this impact becomes relevant to study to establish if the proposed improvements are going in the right direction, not only in terms of network performance but also in the VRU awareness levels.
+
+In urban intersection scenarios, challenges arise from exposed and hidden terminal problems, as depicted in Figure \ref{fig:1-1}. Taking cyclist B as an example, the exposed terminal perceives the physical channel as occupied, influenced by signals received from neighbouring entities A, C, and D. This phenomenon directly influences the resource allocation algorithm, tasked with determining suitable resources for transmitting awareness messages such as CAMs and VAMs. Additionally, within the same figure, a hidden terminal scenario unfolds with pedestrian C situated beyond the coverage range of vehicle D. This spatial disparity increases the likelihood of multiple terminals selecting the same resource, thereby introducing conflicts into the resource allocation algorithm.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.2]{Figures/Expose_And_Hiden_Problem.pdf}
+\caption{Illustration of hidden and exposed terminal problems in an urban intersection scenario.}
+\label{fig:1-1}
+\end{figure}
+
+The escalating emphasis on incorporating VRU into road traffic scenarios using C-V2X technology, specifically harnessing the strides in 5G NR, is a direct response to the urgent imperative of curbing accidents and fatalities involving VRU and motorized vehicles.
+
+Analytical models stand out as invaluable tools, capable of furnishing profound insights into the aforementioned challenges and their ensuing effects, including conflicts within resource allocation algorithms. Analytical models for vehicular networking serve as a conduit for scrutinizing latency and packet delivery performance and play a pivotal role in informing the design of effective resource allocation strategies, clustering mechanisms, and message suppression techniques within the C-V2X network.
+
+Despite the effectiveness of analytical models in vehicular communication scenarios for studying network performance, most existing models tend to concentrate on optimizing parameters and mitigating interference effects. Our innovative approach aims to pioneer a comprehensive model that meticulously considers the intricate resource allocation mechanisms inherent in 5G-NR Mode 2. The overarching objective is to forge a tangible connection between objective network metrics and the level of awareness that motorized vehicles glean from 5G-connected VRU. Through this holistic approach, we anticipate making substantial contributions to the future selection of C-V2X parameters and network optimizations, with an unwavering focus on prioritizing the safety of Vulnerable Road Users.
+
+\begin{table}[]
+    \centering
+    \caption{Acronyms}   
+    \begin{tabular}{l l}
+    \\
+       VRU  & Vulnerable Road Users  \\
+       V2X & Vehicular-to-Everything\\
+       C-V2X  & Cellular Vehicular-to-Everything\\
+       NR & New Radio \\
+       LTE & Long Term Evolution\\
+       MAC & Medium Access Control \\
+       3GPP & 3rd Generation Patnership Project \\
+       SCS & Sub-carrier Spacing \\
+       SB-SPS & Sensing Based Semi-Persisntan Schedule \\
+       RB & Resource Block \\
+       CSMA/CA & Carrier Sense Multiple Access with Collision Avoidance \\
+       UE & User equipment \\
+       CAM & Cooperative Awareness Message \\
+       BSM & Basic Safety Message \\
+       VAM & VRU Awareness Message \\
+       DENM & Decentralized Environmental Notification Messages \\
+       DSRC & Dedicated Shor-Range Communication \\ 
+       OFDM & Orthogonal Frequency Division Multiplexing \\
+       VAP & VRU Awareness Probability \\
+       NAR & Neighborhood Awareness Ratio \\
+       PDR & Packet Delivery Ratio \\
+       PSCCH & Physical Sidelink Control Channel \\
+       PSSCH & Physical Sidelink Shared Channel  \\
+       PCEF &  Policy and Charging Enforcement Function \\
+       UE &  User Equipment \\
+       SL &  Sidelink \\
+       DSRC &  Dedicated Short-range Communication \\
+    \end{tabular}    
+    \label{tab:acronyms}
+\end{table}
+
+\section{Related Work}
+
+Prior investigations have scrutinized the performance of Cellular Vehicular-to-Everything (C-V2X) through the lens of the resource reservation mode, akin to LTE's mode 4 and NR's mode 2 \cite{Gonzalez2019}. These examinations have studied diverse sources of signal transmission errors, emphasizing the realm of vehicular communication within highway scenarios. Nevertheless, scant attention has been allocated to considering potential obstacles that might impede signal propagation, an issue commonly encountered in urban intersection scenarios.
+
+\begin{table*}[!h]
+\centering
+\caption{Comparison of Simulation tools}
+\label{TabTools}
+\begin{tabular}
+{p{0.14\textwidth}p{0.20\textwidth}p{0.10\textwidth}p{0.10\textwidth}p{0.10\textwidth}p{0.10\textwidth}p{0.10\textwidth}}
+\\
+\hline 
+ Tool & Technology & Related Framework & SUMO Integration & Urban Scenario & ETSI Messages & Language \\
+\hline 
+SimuLTE \cite{virdis2014simulte} & LTE rel8, mode 3 & Omnet++, INet & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & C++ \\
+Simu5G \cite{Nardini2020} & LTE, 5G, NR-V2X mode 1  & Omnet++, INet, VEINS & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & C++ \\
+Artery-C \cite{Hegde2020} & LTE, C-V2X (Rel 14) Mode 3 and Mode 4 & Omnet++, INet, VEINS, SimuLTE, Vanetza, Artery & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & C++ \\
+Open C-V2X\cite{mccarthy2021opencv2x} & LTE, C-V2X (Rel 14) Mode 4 & Omnet++, SimuLTE, Artery, VEINS & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & C++ \\
+WiLab-V2Xsim \cite{Todisco2021} & 802.11p, LTE, NR, C-V2X Mode 4 and Mode 2 & LTEV2Vsim & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & Matlab \\
+Simulator for SPS \cite{Gu2023} & LTE, C-V2X (Rel 16) Mode 4 & - & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & Python \\
+ms-van3t \cite{RAVIGLIONE202470}  & 802.11p, LTE Rel 14, NR Rel 16, C-V2X Mode 4 and Mode 2 & NS-3, 5G-LENA & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & C++ \\
+ \hline
+\end{tabular}
+        
+\end{table*}
+
+
+In a study by Gu et al., \cite{Gu2023}, an exploration into interference effects in signal propagation was undertaken to utilize C-V2X technology. The researchers directed their efforts towards optimizing the re-selection counter, an important parameter instrumental in resource reservation, ensuring the efficient transmission of periodic messages across the network. However, it is essential to note that this study did not study the intricacies of 5G-NR or account for obstacles within an urban scenario.
+
+In a divergent approach, Lara et al. \cite{Lara2021} presented an all-encompassing model aiming to quantify the probability of detecting Vulnerable Road Users (VRU) by neighbouring vehicles. Their investigation encompassed the utilization of CSMA/CA (Carrier Sense Multiple Access with Collision Avoidance) over the 802.11p protocol for vehicular communications. Furthermore, their research incorporated realistic simulations of urban intersections, effectively bridging the divide between theoretical models and pragmatic urban scenarios. The access technology employed in this study markedly differs from the resource allocation scheme implemented in 5G-NR C-V2X.
+In their comprehensive study, Molina et al. \cite{molina2017system} presented an insightful classification outlining four distinct categories of packet errors impacting C-V2X Mode 4, a precursor technology to NR Mode 2. These categories span a spectrum of errors, encompassing those arising from half-duplex transmissions, instances where received signal power falls below the sensing power threshold, errors due to propagation effects, and collisions between packets. The systematic categorization and elucidation of packet errors significantly contribute to our understanding of the challenges associated with C-V2X Mode 4 and its potential evolution into NR Mode 2.
+In a study spearheaded by Stipancic et al. \cite{stipancic2020pedestrian}, the authors proposed an innovative modelling approach to evaluate the effects of various factors, such as exposure, intersection geometry, and signalization, on pedestrian injuries at urban signalized intersections. Their method incorporates a comprehensive Full Bayes spatial Poisson Log-Normal model, which accounts for underlying variations and spatial correlations that are not directly observable. Employing the Integrated Nested Laplace Approximation technique, the researchers harnessed a substantial dataset comprising geometric and signalization-related information from 1864 intersections in Montreal, Quebec. Their model analysis affirmed a positive relationship between pedestrian and vehicle traffic volumes and the frequency of pedestrian injuries at these intersections. It is crucial to highlight that although their research doesn't directly involve wireless networks, it offers valuable insights into understanding and modelling injuries among Vulnerable Road Users from a physical standpoint.
+
+\subsection{Simulation tools} 
+
+To study suitable simulation frameworks which can be used for our analytical model implementation, this section shows the efforts to simulate wireless communication protocols in a vehicular context using C-V2X. 5G-NR is a wireless protocol published by 3GPP; some efforts from the scientific community have been made to simulate 5G-NR networks; for example, in Simu5G \cite{Nardini2020}, we can see that they integrate 5G protocols with the well-known vehicular simulator VEINS. Simu5G is deployed over OMNet++, which is based on C++; Simu5G can simulate an urban scenario but only uses mode 1 to exploit device-to-device (D2D) communication over the 5G-NR protocol; so, communication using the sidelink is only available when passing through a base station. On the other hand, Artery-C published on \cite{Hegde2020} enables 5G NR over ETSI messages format using VANETZA; we can see modes 1 and 2 are already implemented, but the simulator has many sub-modules which need to be installed before running the scenarios, it is not simple to build-up the setup for Artery-C since there is no documentation and version matching for every module is highly sensitive. On the other hand, Open C-V2X \cite{mccarthy2021opencv2x} implement mode 4 using SimuLTE \cite{virdis2014simulte} as a base, SimuLTE is the predecessor of Simu5G where just mode 3 is implemented. Conversely, a Matlab-based simulator is presented in WiLabV2Xsim \cite{Todisco2021} as an extension of a previous version. It is possible to run the simulator only in a highway scenario. Authors in \cite{RAVIGLIONE202470} have presented an MSVan3t, it is an extension for 5G-LENA, including the sidelink on their simulation based on NS-3, oriented to include full-stack protocols including LTE, NR and mode 4 and 2, respectively. On \cite{Gu2023}, authors present an SPS simulator for the autonomous resource allocation on LTE; in a recent version, they have updated the simulator to an Object object-oriented programming; simplicity is one of the most important aspects of this simulator. Although there is no formal documentation associated to it, it is really easy to understand the functionalities since it was programmed on Python. So, adding new classes or modifying them to accomplish other goals is simple.
+
+\begin{table}[]
+    \centering
+    \caption{Notation and Definitions}
+    \begin{tabular}{l l}
+    \\
+    \hline 
+    Symbol & Definition\\
+    \hline
+       $r$  & Beacon range  \\
+       $Z$  & Calibration Parameter to fit NAR with PDR  \\
+       $NRV$  & Number of VRU which target vehicles receive a message\\
+       $NTV$  & Total number of VRU in a beacon range \\
+       $PDR_{VRU}$  & PDR from VRU  \\ 
+       $v_i$  & Vehicle $i$ \\ 
+       $P_c$  & Collision Probability \\
+       $d_{i,j}$  & The distance between $v_i$ and $v_j$ in meters  \\
+       
+       $P^t$  & Transmision Power  \\
+       $N_a$  & Numbers of resources availables \\
+       $K$ & Path loss constant \\
+       $\beta$ & Long Term Evolution \\
+       $A$ & Customize scalar\\
+       $B$ & Customize scalar\\
+       $C$ & Customize scalar\\
+    \hline
+    \end{tabular}    
+    \label{tab:def}
+\end{table}
+\section{VRU on the Connected Vehicular Context}
+\subsection{Resource Allocation in C-V2X}
+
+To comprehend spectrum utilization in C-V2X, Fig. \ref{fig:fig2} elucidates a resource block (RB), defining it in both time and frequency dimensions. In this representation, the red square represents a resource that is defined in a frequency subchannel and a time subframe, also known as a slot. These resources are what each of the devices must use to transmit information in both mode 1 and mode 2. For C-V2X, the frequency for the subchannels to be used corresponds to the 5.9 GHz band, but also for NR, the millimetric wave between 24-100 GHz is also allowed \cite{hakeem2020}. On the other hand, the size of the subframe in time depends on the numerology selected for the 3GPP standard $\mu$, given by $T_{slot}=1/2^{\mu} [s]$ \cite{Sehla2022}.
+
+In the context of sidelink usage in C-V2X, denoting the ability of terminals and devices to connect directly through the PC5 interface, 3GPP has put forth two modes of communication or utilization of this link, each involving distinct methods for resource allocation. The inception of the C-V2X concept in release 14, applying it to LTE, led to the definition of communication modes 3 and 4 by 3GPP. Mode 3 entails the use of sidelink by terminals through resource reservation orchestrated by the infrastructure, employing the Semi-persistent Schedule (SPS). Here, a user equipment (UE) allocates a resource for subsequent times. On the contrary, in mode 4, reservation occurs autonomously and in a decentralized manner by the terminals, heightening the probability of collisions due to conflicts in the resource reservation process. A channel sensing window has been defined to address this issue, giving rise to the Sensing-Based Semi-persistent Schedule (SB-SPS) algorithm. On the C-V2X domain this algorithm allocates resources for the transmission of basic safety messages (BSMs), cooperative awareness messages (CAMs), and decentralized environmental notification messages (DENMs).
+
+In the domain of 5G-NR, spanning 3GPP release 16 to release 18 \cite{Shin2023}, notable enhancements have been implemented at the physical layer. The Sub-carrier Spacing (SCS) is determined by a numerology $\mu=0,1,2,3$, providing the value for SCS as $15~KHz \cdot 2^\mu$. Additionally, a novel physical channel for feedback has been proposed. Communication modes in NR are delineated as mode 1 (akin to mode 3 in LTE) and mode 2 (resembling mode 4 in LTE). Ongoing refinements introduced to mode 2 include the capacity to manage periodic and aperiodic traffic \cite{yoon2021stochastic,yi2020enhanced,hegde2019enhanced,ye2019deep}. The latter involves the non-periodic generation of different messages, necessitating distinct duration for sensing windows and the immediate reservation of resources \cite{Sehla2022}.
+
+When a TX-UE initiates its resource selection process at a specific time instant $n$, it must perform the sensing procedure and resource selection for resources within designated time intervals. These intervals are referred to as the sensing window and the resource selection window, respectively (see Figure \ref{fig:SW}). The sensing window spans from $(n - T_0)$ to $(n - T_{\text{proc},0})$, while the resource selection window spans from $(n + T_1)$ to $(n + T_2)$. For NR the specific $T_0$ is configurable to either $1100$ ms or $100$ ms; $T_{\text{proc},0}=\{1,1,2,4\}$ physical slots depending on the numerology correspondent to $\mu=\{0,1,2,3\}$ ; $T_1 \leq 1+2^{\mu+1}$ physical slots where $\mu=\{0,1,2,3\}$; and for $T_2$ there is the following boundaries $T_{2min} \leq T_2 \leq \text{Reamining PDB}$ where PDB stands for packet delay budget which is the upper limit of the delay that can be incurred by a packet when it is transmitted from a user device it is determined by the Policy and Charging Enforcement Function (PCEF), basically is a pre-configured value under NR standard and $T_2$ must satisfy this upper requirement. On the other hand, $T_{2min}$ is given by the numerology form the following expression $\{1,5,10,20\} \cdot 2\mu$ slots.
+
+The procedure is generally detailed in Figured \ref{fig:overallproc}. However, in our special case of C-V2X, the Pre-emption process is not considered since all the context-aware messages have the same priority. 
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=1]{Figures/RB.pdf}
+\caption{Representation of a Resource Block in C-V2X.}
+\label{fig:fig2}
+\end{figure}
+
+\begin{figure*}
+\centering
+%% Label SW
+\subfloat[SelectionWindow]{
+    \begin{tikzpicture}[x=0.5pt,y=0.5pt,yscale=-1,xscale=0.9]
+%uncomment if require: \path (0,287); %set diagram left start at 0, and has height of 287
+%Shape: Grid [id:dp6512485156411536] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 203; green, 37; blue, 37 }  ,fill opacity=0 ] (104.27,101.05) -- (164.57,101.05) -- (164.57,181.32) -- (104.27,181.32) -- cycle ; \draw   (104.27,101.05) -- (104.27,181.32)(124.27,101.05) -- (124.27,181.32)(144.27,101.05) -- (144.27,181.32)(164.27,101.05) -- (164.27,181.32) ; \draw   (104.27,101.05) -- (164.57,101.05)(104.27,121.05) -- (164.57,121.05)(104.27,141.05) -- (164.57,141.05)(104.27,161.05) -- (164.57,161.05)(104.27,181.05) -- (164.57,181.05) ; \draw    ;
+%Straight Lines [id:da2875062789518992] 
+\draw    (79.2,233.07) -- (492.41,233.07) ;
+\draw [shift={(495.41,233.07)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+%Shape: Grid [id:dp7157580070664178] 
+\draw  [draw opacity=0][dash pattern={on 0.84pt off 2.51pt}] (84.27,81.05) -- (165.27,81.05) -- (165.27,201.92) -- (84.27,201.92) -- cycle ; \draw  [dash pattern={on 0.84pt off 2.51pt}] (84.27,81.05) -- (84.27,201.92)(104.27,81.05) -- (104.27,201.92)(124.27,81.05) -- (124.27,201.92)(144.27,81.05) -- (144.27,201.92)(164.27,81.05) -- (164.27,201.92) ; \draw  [dash pattern={on 0.84pt off 2.51pt}] (84.27,81.05) -- (165.27,81.05)(84.27,101.05) -- (165.27,101.05)(84.27,121.05) -- (165.27,121.05)(84.27,141.05) -- (165.27,141.05)(84.27,161.05) -- (165.27,161.05)(84.27,181.05) -- (165.27,181.05)(84.27,201.05) -- (165.27,201.05) ; \draw  [dash pattern={on 0.84pt off 2.51pt}]  ;
+%Straight Lines [id:da42678637238037775] 
+\draw    (79.2,233.07) -- (79.2,52.74) ;
+\draw [shift={(79.2,49.74)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+%Shape: Grid [id:dp1870557021333734] 
+\draw  [draw opacity=0][dash pattern={on 0.84pt off 2.51pt}] (206.1,80.88) -- (466.94,80.88) -- (466.94,201.75) -- (206.1,201.75) -- cycle ; \draw  [dash pattern={on 0.84pt off 2.51pt}] (206.1,80.88) -- (206.1,201.75)(226.1,80.88) -- (226.1,201.75)(246.1,80.88) -- (246.1,201.75)(266.1,80.88) -- (266.1,201.75)(286.1,80.88) -- (286.1,201.75)(306.1,80.88) -- (306.1,201.75)(326.1,80.88) -- (326.1,201.75)(346.1,80.88) -- (346.1,201.75)(366.1,80.88) -- (366.1,201.75)(386.1,80.88) -- (386.1,201.75)(406.1,80.88) -- (406.1,201.75)(426.1,80.88) -- (426.1,201.75)(446.1,80.88) -- (446.1,201.75)(466.1,80.88) -- (466.1,201.75) ; \draw  [dash pattern={on 0.84pt off 2.51pt}] (206.1,80.88) -- (466.94,80.88)(206.1,100.88) -- (466.94,100.88)(206.1,120.88) -- (466.94,120.88)(206.1,140.88) -- (466.94,140.88)(206.1,160.88) -- (466.94,160.88)(206.1,180.88) -- (466.94,180.88)(206.1,200.88) -- (466.94,200.88) ; \draw  [dash pattern={on 0.84pt off 2.51pt}]  ;
+%Shape: Grid [id:dp9027456816862187] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 203; green, 37; blue, 37 }  ,fill opacity=0 ] (206.1,100.88) -- (266.4,100.88) -- (266.4,181.15) -- (206.1,181.15) -- cycle ; \draw   (206.1,100.88) -- (206.1,181.15)(226.1,100.88) -- (226.1,181.15)(246.1,100.88) -- (246.1,181.15)(266.1,100.88) -- (266.1,181.15) ; \draw   (206.1,100.88) -- (266.4,100.88)(206.1,120.88) -- (266.4,120.88)(206.1,140.88) -- (266.4,140.88)(206.1,160.88) -- (266.4,160.88)(206.1,180.88) -- (266.4,180.88) ; \draw    ;
+%Shape: Grid [id:dp6898813808306987] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 203; green, 37; blue, 37 }  ,fill opacity=0 ] (366.1,100.88) -- (466.2,100.88) -- (466.2,181.15) -- (366.1,181.15) -- cycle ; \draw   (366.1,100.88) -- (366.1,181.15)(386.1,100.88) -- (386.1,181.15)(406.1,100.88) -- (406.1,181.15)(426.1,100.88) -- (426.1,181.15)(446.1,100.88) -- (446.1,181.15)(466.1,100.88) -- (466.1,181.15) ; \draw   (366.1,100.88) -- (466.2,100.88)(366.1,120.88) -- (466.2,120.88)(366.1,140.88) -- (466.2,140.88)(366.1,160.88) -- (466.2,160.88)(366.1,180.88) -- (466.2,180.88) ; \draw    ;
+%Straight Lines [id:da5153876340302614] 
+\draw  [dash pattern={on 0.84pt off 2.51pt}]  (180.76,141.78) -- (192.3,141.85) ;
+%Shape: Brace [id:dp4007736844748875] 
+\draw   (265.12,78.57) .. controls (265.12,73.9) and (262.79,71.57) .. (258.12,71.57) -- (192.82,71.57) .. controls (186.15,71.57) and (182.82,69.24) .. (182.82,64.57) .. controls (182.82,69.24) and (179.49,71.57) .. (172.82,71.57)(175.82,71.57) -- (111.32,71.57) .. controls (106.65,71.57) and (104.32,73.9) .. (104.32,78.57) ;
+%Shape: Brace [id:dp5699605292210723] 
+\draw   (466.24,78.05) .. controls (466.22,73.38) and (463.88,71.06) .. (459.21,71.09) -- (424.85,71.26) .. controls (418.18,71.29) and (414.84,68.98) .. (414.81,64.31) .. controls (414.84,68.98) and (411.52,71.33) .. (404.85,71.36)(407.85,71.35) -- (372.49,71.52) .. controls (367.82,71.55) and (365.5,73.89) .. (365.52,78.56) ;
+%Straight Lines [id:da6768255653842019] 
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (466.47,66.33) -- (466.47,232.98) ;
+%Straight Lines [id:da24409949910806095] 
+\draw    (114.86,229.81) -- (114.95,236.14) ;
+%Straight Lines [id:da0955185346730345] 
+\draw    (256.24,229.81) -- (256.33,236.14) ;
+%Straight Lines [id:da09528139159901916] 
+\draw    (316.5,230.19) -- (316.59,236.52) ;
+%Straight Lines [id:da6640071468062003] 
+\draw    (456.27,231.1) -- (456.36,237.43) ;
+%Straight Lines [id:da6539783584657632] 
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (265.99,64.66) -- (265.99,231.44) ;
+%Straight Lines [id:da37864714044642334] 
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (366.34,63.93) -- (366.34,229.53) ;
+%Straight Lines [id:da9221140349035115] 
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (104.28,63.83) -- (104.28,229.81) ;
+%Shape: Rectangle [id:dp5217855020661433] 
+\draw  [fill={rgb, 255:red, 126; green, 211; blue, 33 }  ,fill opacity=1 ] (406.1,120.88) -- (426.1,120.88) -- (426.1,140.88) -- (406.1,140.88) -- cycle ;
+%Curve Lines [id:da47800863709361274] 
+\draw    (416.1,130.88) .. controls (455.7,101.18) and (450.81,163.22) .. (489.52,135.36) ;
+\draw [shift={(490.7,134.49)}, rotate = 143.13] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Straight Lines [id:da5243907590387165] 
+\draw    (376.34,229.03) -- (376.43,235.36) ;
+%Straight Lines [id:da28070783384047737] 
+\draw    (416.93,230.43) -- (417.02,236.76) ;
+%Shape: Rectangle [id:dp4203495876248613] 
+\draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (366.1,120.88) -- (386.1,120.88) -- (386.1,140.88) -- (366.1,140.88) -- cycle ;
+%Shape: Rectangle [id:dp4803425649908717] 
+\draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (406.1,160.88) -- (426.1,160.88) -- (426.1,180.88) -- (406.1,180.88) -- cycle ;
+%Shape: Rectangle [id:dp3089277155528356] 
+\draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (426.1,160.88) -- (446.1,160.88) -- (446.1,180.88) -- (426.1,180.88) -- cycle ;
+%Curve Lines [id:da9772062178927117] 
+\draw    (376.1,130.88) .. controls (374.78,212.34) and (450.31,221.57) .. (489.59,193.44) ;
+\draw [shift={(490.77,192.58)}, rotate = 143.14] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Curve Lines [id:da3068104064477193] 
+\draw    (416.1,170.88) .. controls (414.7,190.33) and (453.09,212.95) .. (475.76,199.95) ;
+%Curve Lines [id:da96117154746282] 
+\draw    (436.1,170.88) .. controls (434.7,190.33) and (461.2,202.24) .. (475.76,199.95) ;
+%Shape: Rectangle [id:dp41865373133097106] 
+\draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (226.1,140.88) -- (246.1,140.88) -- (246.1,160.88) -- (226.1,160.88) -- cycle ;
+%Curve Lines [id:da6207511872181641] 
+\draw    (236.1,150.88) .. controls (234.76,233.16) and (436.84,229.13) .. (475.76,199.95) ;
+
+% Text Node
+\draw (499.4,243.2) node [anchor=north west][inner sep=0.75pt]  [font=\small] [align=left] {Time};
+% Text Node
+\draw (16.17,33.83) node [anchor=north west][inner sep=0.75pt]   [align=left] {{\small Frequency}};
+% Text Node
+\draw (138.33,47.27) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Sensing Window };
+% Text Node
+\draw (366.93,45.37) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Selection Window};
+% Text Node
+\draw (98.39,240.85) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle n-T_{0}$};
+% Text Node
+\draw (217.45,250) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle n-T_{proc,0}$};
+% Text Node
+\draw (350.48,250) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle n+T_{1}$};
+% Text Node
+\draw (431.02,250) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle n+T_{2}$}; % 441.02,239.76--- 396.36,253.53
+% Text Node
+\draw (492.93,104.53) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Selected \\subchannel};
+% Text Node
+\draw (312.31,239.33) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle n$};
+% Text Node
+\draw (407.69,237.83) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle m$};
+% Text Node
+\draw (492.93,178.53) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Unavailable \\subchannel};
+\end{tikzpicture}
+    \label{fig:SW}
+}
+%% Label RSW
+\subfloat[ReselectionWindow]{ %\centering
+
+\begin{tikzpicture}[x=0.5pt,y=0.5pt,yscale=-1,xscale=0.9]
+%uncomment if require: \path (0,287); %set diagram left start at 0, and has height of 287
+
+%Shape: Grid [id:dp7833818706416105] 
+\draw  [draw opacity=0][dash pattern={on 0.84pt off 2.51pt}] (217.43,64.86) -- (439.11,64.86) -- (439.11,185.72) -- (217.43,185.72) -- cycle ; \draw  [dash pattern={on 0.84pt off 2.51pt}] (217.43,64.86) -- (217.43,185.72)(237.43,64.86) -- (237.43,185.72)(257.43,64.86) -- (257.43,185.72)(277.43,64.86) -- (277.43,185.72)(297.43,64.86) -- (297.43,185.72)(317.43,64.86) -- (317.43,185.72)(337.43,64.86) -- (337.43,185.72)(357.43,64.86) -- (357.43,185.72)(377.43,64.86) -- (377.43,185.72)(397.43,64.86) -- (397.43,185.72)(417.43,64.86) -- (417.43,185.72)(437.43,64.86) -- (437.43,185.72) ; \draw  [dash pattern={on 0.84pt off 2.51pt}] (217.43,64.86) -- (439.11,64.86)(217.43,84.86) -- (439.11,84.86)(217.43,104.86) -- (439.11,104.86)(217.43,124.86) -- (439.11,124.86)(217.43,144.86) -- (439.11,144.86)(217.43,164.86) -- (439.11,164.86)(217.43,184.86) -- (439.11,184.86) ; \draw  [dash pattern={on 0.84pt off 2.51pt}]  ;
+%Shape: Grid [id:dp21634050423417084] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 203; green, 37; blue, 37 }  ,fill opacity=0 ] (217.43,84.86) -- (437.53,84.86) -- (437.53,165.12) -- (217.43,165.12) -- cycle ; \draw   (217.43,84.86) -- (217.43,165.12)(237.43,84.86) -- (237.43,165.12)(257.43,84.86) -- (257.43,165.12)(277.43,84.86) -- (277.43,165.12)(297.43,84.86) -- (297.43,165.12)(317.43,84.86) -- (317.43,165.12)(337.43,84.86) -- (337.43,165.12)(357.43,84.86) -- (357.43,165.12)(377.43,84.86) -- (377.43,165.12)(397.43,84.86) -- (397.43,165.12)(417.43,84.86) -- (417.43,165.12)(437.43,84.86) -- (437.43,165.12) ; \draw   (217.43,84.86) -- (437.53,84.86)(217.43,104.86) -- (437.53,104.86)(217.43,124.86) -- (437.53,124.86)(217.43,144.86) -- (437.53,144.86)(217.43,164.86) -- (437.53,164.86) ; \draw    ;
+%Straight Lines [id:da6894700260787301] 
+\draw    (79.2,231.74) -- (492.41,231.74) ;
+\draw [shift={(495.41,231.74)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+%Straight Lines [id:da3064657369720092] 
+\draw    (79.2,233.07) -- (79.2,52.74) ;
+\draw [shift={(79.2,49.74)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+%Shape: Grid [id:dp5099358395010998] 
+\draw  [draw opacity=0][dash pattern={on 0.84pt off 2.51pt}] (86.1,65.15) -- (188.43,65.15) -- (188.43,186.02) -- (86.1,186.02) -- cycle ; \draw  [dash pattern={on 0.84pt off 2.51pt}] (86.1,65.15) -- (86.1,186.02)(106.1,65.15) -- (106.1,186.02)(126.1,65.15) -- (126.1,186.02)(146.1,65.15) -- (146.1,186.02)(166.1,65.15) -- (166.1,186.02)(186.1,65.15) -- (186.1,186.02) ; \draw  [dash pattern={on 0.84pt off 2.51pt}] (86.1,65.15) -- (188.43,65.15)(86.1,85.15) -- (188.43,85.15)(86.1,105.15) -- (188.43,105.15)(86.1,125.15) -- (188.43,125.15)(86.1,145.15) -- (188.43,145.15)(86.1,165.15) -- (188.43,165.15)(86.1,185.15) -- (188.43,185.15) ; \draw  [dash pattern={on 0.84pt off 2.51pt}]  ;
+%Shape: Grid [id:dp018631925066517674] 
+\draw  [draw opacity=0][fill={rgb, 255:red, 203; green, 37; blue, 37 }  ,fill opacity=0 ] (106.1,85.15) -- (186.1,85.15) -- (186.1,165.42) -- (106.1,165.42) -- cycle ; \draw   (106.1,85.15) -- (106.1,165.42)(126.1,85.15) -- (126.1,165.42)(146.1,85.15) -- (146.1,165.42)(166.1,85.15) -- (166.1,165.42)(186.1,85.15) -- (186.1,165.42) ; \draw   (106.1,85.15) -- (186.1,85.15)(106.1,105.15) -- (186.1,105.15)(106.1,125.15) -- (186.1,125.15)(106.1,145.15) -- (186.1,145.15)(106.1,165.15) -- (186.1,165.15) ; \draw    ;
+%Shape: Brace [id:dp7955561923097922] 
+\draw   (415.66,60) .. controls (415.66,55.33) and (413.33,53) .. (408.66,53) -- (287.26,53) .. controls (280.59,53) and (277.26,50.67) .. (277.26,46) .. controls (277.26,50.67) and (273.93,53) .. (267.26,53)(270.26,53) -- (152.94,53) .. controls (148.27,53) and (145.94,55.33) .. (145.94,60) ;
+%Shape: Brace [id:dp9018490203126517] 
+\draw   (257.67,192.26) .. controls (257.67,196.93) and (260,199.26) .. (264.67,199.26) -- (326.06,199.26) .. controls (332.73,199.26) and (336.06,201.59) .. (336.06,206.26) .. controls (336.06,201.59) and (339.39,199.26) .. (346.06,199.26)(343.06,199.26) -- (410.11,199.26) .. controls (414.78,199.26) and (417.11,196.93) .. (417.11,192.26) ;
+%Straight Lines [id:da7289819232693759] 
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (417.43,55.69) -- (417.43,234.03) ;
+%Straight Lines [id:da24227266119241753] 
+\draw    (117.69,228.48) -- (117.78,234.81) ;
+%Straight Lines [id:da11269755301127726] 
+\draw    (159.17,228.38) -- (159.26,234.71) ;
+%Straight Lines [id:da42942682616342154] 
+\draw    (224.34,228.36) -- (224.43,234.69) ;
+%Straight Lines [id:da7781761540134102] 
+\draw    (417.6,229.43) -- (417.69,235.76) ;
+%Straight Lines [id:da988856833423668] 
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (145.8,52.51) -- (145.8,231.7) ;
+%Shape: Rectangle [id:dp20931329453923575] 
+\draw  [fill={rgb, 255:red, 126; green, 211; blue, 33 }  ,fill opacity=1 ] (297.43,104.86) -- (317.43,104.86) -- (317.43,124.86) -- (297.43,124.86) -- cycle ;
+%Straight Lines [id:da21753258191357472] 
+\draw    (267.67,228.36) -- (267.76,234.69) ;
+%Straight Lines [id:da1463620208441685] 
+\draw    (328.1,228.43) -- (328.19,234.76) ;
+%Shape: Rectangle [id:dp277025023556873] 
+\draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (277.43,84.86) -- (297.43,84.86) -- (297.43,104.86) -- (277.43,104.86) -- cycle ;
+%Shape: Rectangle [id:dp6766513297778411] 
+\draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (337.43,144.86) -- (357.43,144.86) -- (357.43,164.86) -- (337.43,164.86) -- cycle ;
+%Curve Lines [id:da28604576633603673] 
+\draw    (283.43,94.86) .. controls (282.1,176.72) and (340.22,177.42) .. (450.47,170.2) ;
+\draw [shift={(452.14,170.09)}, rotate = 176.23] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Curve Lines [id:da3660635634841527] 
+\draw    (344.1,154.19) .. controls (342.7,173.64) and (417.47,172.76) .. (433.47,171.43) ;
+%Shape: Right Triangle [id:dp5097301173726521] 
+\draw  [fill={rgb, 255:red, 255; green, 28; blue, 28 }  ,fill opacity=1 ] (317.43,124.86) -- (297.43,104.86) -- (317.43,104.86) -- cycle ;
+%Shape: Rectangle [id:dp7832929711662489] 
+\draw  [pattern=_5s0tk869a,pattern size=6pt,pattern thickness=0.75pt,pattern radius=0pt, pattern color={rgb, 255:red, 126; green, 211; blue, 33}] (357.43,104.86) -- (377.43,104.86) -- (377.43,124.86) -- (357.43,124.86) -- cycle ;
+%Curve Lines [id:da8590729952198239] 
+\draw    (303.43,114.86) .. controls (323.59,87.39) and (409.73,81.22) .. (454.14,76.24) ;
+\draw [shift={(455.47,76.09)}, rotate = 173.52] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Curve Lines [id:da7599482659649941] 
+\draw    (363.43,114.86) .. controls (372.92,106.89) and (431.48,110.39) .. (450.49,116.21) ;
+\draw [shift={(452.14,116.76)}, rotate = 199.88] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+%Shape: Rectangle [id:dp4046937514423634] 
+\draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (166.1,125.15) -- (186.1,125.15) -- (186.1,145.15) -- (166.1,145.15) -- cycle ;
+%Shape: Rectangle [id:dp2774016796792489] 
+\draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (217.43,84.86) -- (237.43,84.86) -- (237.43,104.86) -- (217.43,104.86) -- cycle ;
+%Curve Lines [id:da741742954601315] 
+\draw    (227.43,94.86) .. controls (231.98,140.43) and (310.25,175.13) .. (376.16,173.13) ;
+%Curve Lines [id:da1475703928304699] 
+\draw    (176.1,135.15) .. controls (180.65,180.73) and (310.25,175.13) .. (376.16,173.13) ;
+%Straight Lines [id:da2795290933739041] 
+\draw [color={rgb, 255:red, 126; green, 211; blue, 33 }  ,draw opacity=1 ][line width=1.5]    (257.63,53.08) -- (257.63,231.42) ;
+%Straight Lines [id:da9188600032340928] 
+\draw [color={rgb, 255:red, 126; green, 211; blue, 33 }  ,draw opacity=1 ][line width=1.5]    (417.6,51.09) -- (417.6,229.43) ;
+%Straight Lines [id:da5288950944393302] 
+\draw  [dash pattern={on 0.84pt off 2.51pt}]  (190.93,124.56) -- (205.43,124.56) ;
+%Straight Lines [id:da7801083434871847] 
+\draw    (367.77,228.77) -- (367.86,235.1) ;
+
+% Text Node
+\draw (490.73,241.87) node [anchor=north west][inner sep=0.75pt]  [font=\small] [align=left] {Time};
+% Text Node
+\draw (16.17,33.83) node [anchor=north west][inner sep=0.75pt]   [align=left] {{\small Frequency}};
+% Text Node
+\draw (285.07,208.5) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Reselection window };
+% Text Node
+\draw (231,29.73) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Selection window};
+% Text Node
+\draw (215.89,235.85) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle n_{re}$};
+% Text Node
+\draw (140.19,235.4) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle n+T_{1}$};
+% Text Node
+\draw (401.36,236.43) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle n+T_{2}$};
+% Text Node
+\draw (461.93,63.53) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Initial \\selection};
+% Text Node
+\draw (112.64,235) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle n$};
+% Text Node
+\draw (321.86,235.16) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle m$};
+% Text Node
+\draw (457.43,156.53) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Unavailable \\subchannel};
+% Text Node
+\draw (460.43,107.53) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {New \\selection};
+% Text Node
+\draw (235.72,248.33) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle n_{re} +T_{1}$};
+% Text Node
+\draw (361.52,234.83) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle m_{re}$};
+% Text Node
+\draw (396.36,253.53) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle n_{re} +T_{2}^{'}$};
+
+
+\end{tikzpicture}    
+    %\caption{Re-selection Resource Procedure}
+    \label{fig:RSW}
+}
+\caption{Resource Allocation Procedure for C-V2X}
+\end{figure*}
+
+In addition to the procedures for sensing and selecting resources, Rel-16 NR V2X introduces two novel processes: the re-evaluation check and pre-emption. The re-evaluation check involves an UE continually assessing the availability of pre-selected SL resources before transmitting on the initially selected resource, taking into account processing time.
+
+Illustrated in Figure \ref{fig:RSW}, both the re-evaluation and pre-emption checks are carried out within the same timeline for a transmitting UE (TX-UE). In the scenario depicted in Figure \ref{fig:RSW}, assuming a TX-UE initiates its resource selection mechanism at time instant $n$, and selects or reserves a resource at moment $m$, the re-evaluation or pre-emption check begins at time instance $n_{re}$, where $n < n_{re} \leq m - T3$, and $T3 = T_{proc,1}$ represents the processing time for resource re-selection (refer to Table 3 for $T_{proc,1}$). However, it's possible for the re-evaluation or pre-emption check to occur after $m - T_3$ but before $m$ if permitted by UE implementation. Thus, as depicted in Figure \ref{fig:RSW}, the UE is afforded additional sensing time to verify the availability of its intended transmission at slot $m$ until $n_{re} - T_{proc,0}$ (refer to Table 3 for $T_{proc,0}$). The re-evaluation or pre-emption check (if enabled) must be conducted at least once.
+
+While the timeline remains consistent for both re-evaluation and pre-emption checks, the conditions for resource re-selection differ between the two procedures. Specifically, resource re-selection through re-evaluation or pre-emption is permitted when the following condition is met: if the pre-selected or reserved resource(s) in slot $m$ is not included in the identified resource set from the sensing window $[n' - T_0, n' - T_{proc,0}]$, indicating that the pre-selected or reserved resource(s) in $m$ are currently unavailable for transmission. For re-evaluation, only this initial condition applies, and the pre-selected or periodically reserved resource(s) in slot $m$ are re-selected.
+
+
+\begin{figure}
+    \centering
+    \resizebox{\columnwidth}{!}{%
+\begin{tikzpicture}[node distance = 1cm, auto, scale=0.5]
+    % Place nodes
+    \node [block] (init) {Sensing and \\ resource identification};
+    %\node [cloud,font=\bfseries,above=1cm of init] (start) {START};
+    \node [block, below=of init] (identify) {Resource (re-)selection \\ procedure};
+    \node [decision, below=of identify,  yshift=2cm] (mutate) {Re-evaluation?};
+    \node [block, below=of mutate] (transfer) {Transmit PSCCH/PSSCH};
+    \node [block, right of = transfer, xshift=5cm] (evaluate) {Continue using \\ reserved resource};
+    % changed to coordinate
+    \coordinate [left of=identify, node distance=5cm] (update) {};
+    %\coordinate [rigth of=decide, node distance=5cm] (Rupdate) {};
+    \node [decision, below of=transfer] (decide) {Pre-emption?};
+    \node [decision, below of=decide, node distance=3cm] (stop) {Resource re-selection?};
+    % Draw edges
+    %\path [line] (start) -- (init); 
+    \path [line] (init) -- (identify);
+    \path [line] (identify) -- (mutate);
+    \path [line] (mutate) -- node {no} (transfer);
+    
+    \path [line] (mutate) -| node [near start, anchor=south] {yes} (update) |- (identify);
+    
+    \path [line] (transfer) -- (evaluate);
+    \path [line] (transfer) -- (decide);
+    %\path [line] (decide) -| node [near start] {No} (update);
+    %\path [line] (update) |- (identify);
+    \path [line] (decide) -| node [near start, anchor=south] {yes} (update) |- (identify);
+    \path [line] (decide) -- node {no}(stop);
+    \path [line] (stop) -| node [near start, anchor=south ] {yes} (update) |- (identify);
+    \path [line] (stop) -| node [near start, anchor=south] {no} (evaluate);
+    %\path [line] (stop) -| node [near start, anchor=north ] {no} (Rupdate) -- (evaluate);
+\end{tikzpicture}
+}
+    \caption{Overall procedure for 5G-NR mode 2}
+    \label{fig:overallproc}
+\end{figure}
+
+
+\section{VRU Awareness Model}
+
+To begin with, we establish a set of foundational assumptions to lay the groundwork for the analytical model. It is posited that all participants within the urban intersection possess the capability to communicate through devices enabled with the 5G-NR protocol. This assumption stems from the widespread market penetration of this protocol, and considering the prevailing trend of smartphone usage, we can reasonably presume that all individuals within the urban intersection can engage in message exchange over the 5G NR protocol. Additionally, we opt not to consider other wireless access technologies such as WiFi, LTE, DSRC, among others, in order to simplify our evaluation. Furthermore, the analytical framework assumes that the utilization of the 5G NR protocol frequency band through Orthogonal Frequency Division Multiplexing (OFDM) and the low speeds characteristic of the urban intersection scenario enable us to neglect errors in transmission arising from the Doppler effect. Consequently, the model evaluation will be discretely conducted over a finite time instant.
+
+The formalization of the analytical model for VRU Awareness Probability (VAP) for connected VRU is conducted based on the definition of the Neighborhood Awareness Ratio (NAR) in \cite{Boban2015}. NAR represents the probability of receiving at least one message from a vehicle within a $r$ beacon range during time $t$. In Figure \ref{fig:1}, the vehicles denoted as blue cars within the light blue circle emanate from the target vehicle (i.e., the red car), from which this metric is derived in \cite{Boban2015}. The authors scrutinize their findings and propose a correlation between NAR and the Packet Delivery Ratio (PDR)—indicating the ratio of correctly received packets to the total number of transmitted packets from a target vehicle within a range $r$. This analysis considers a time duration of $t=1$ second, leading the authors to conclude that NAR can be modelled as expressed in (\ref{eq1}).
+
+\begin{equation}
+        \label{eq1}
+       \text{NAR}_{r,t} = 1-(1-\text{PDR}(r))^Z, 
+\end{equation}
+
+where $Z$ is closely related to occlusions due to obstacles (such as other vehicles or buildings), the geographical position of the vehicles, and the density of connected devices. These effects can generate what are well-known as hidden or exposed terminal problems. Furthermore, the NAR metric is obtained for each particular vehicle. 
+
+\begin{figure}[ht]
+         \centering         
+         \includegraphics[scale=0.2]{Figures/Intersection_2.pdf}
+         \caption{Beacon range in urban intersection scenario}
+         \label{fig:1}
+\end{figure}
+
+To emphasize the detection of active VRU---defined as the VRU that has a connected device like a  5G-enabled smartphone--- in the radius of transmission of the vehicles, in our model, we define VAP as the probability of receiving at least one message from a VRU in an $r$ distance during time $t$; this metric evaluates the knowledge that vehicles have about VRU presence in their surroundings. VAP can be obtained empirically for a target vehicle $i$ as follows:
+
+\begin{equation}
+       \label{eq2}
+       \text{VAP}_{i,r,t} = \frac{\text{NRV}_{i,r,t}}{\text{NTV}_{i,r,t}},       
+\end{equation}
+
+where $\text{NRV}_{i,r,t}$ is the number of VRU within $r$ around vehicle $i$, from which vehicle $i$ received a message in $t$. $\text{NTV}_{i,r,t}$ is the total number of VRU within $r$ around $i$.
+Taking this expression, we can adapt (\ref{eq1}) to the case only considering the VRU presence. 
+
+\begin{equation}
+       \label{eq3}
+       \text{VAP}_{i,r,t} = 1-(1-\text{PDR}_{\text{VRU}}(r))^Z,     
+\end{equation}
+
+The above expression considers a target vehicle $i$, and $\text{PDR}_{\text{VRU}}(r)$ is the PDR associated with the VRU in the surrounding area from $i$. This last metric depends on the wireless technology, the topology, the density, and the obstacles in the scenario of study. 
+In our case, we are considering using 5G new radio technology, specifically mode 2, in which the participants of the network allocate their resources autonomously without the help of the base stations to send their CAMs/VAMs to accomplish the transmission process of a scheme called Sensing-based Semi-Persistent Scheduling (SB-SPS).
+Using the definition of collision probability in \cite{Gu2023}, for the transmitter-receiver pair $(v_i,v_j)$ under a SPS operation we take the following expression:
+
+\begin{equation}
+\label{eq4}
+P_c(d_{i,j}) = 1 - \prod_{v_K \in V,~ d_{i,j}-d_{int} \leq d_{i,k} \leq d_{i,j} +d_{int}} [1- p_c(d_{i,k})],
+\end{equation}
+
+where $d_{i,j}$ is the distance between $v_i$ and $v_j$ in meters, $v_i$ corresponds to the vehicle $i$, $V$ is the set of vehicles, $p_c(d_{i,k})$ correspond to the resource selection conflict probability and $d_{int}$ is the interference range. Then, to evaluate all the interference from the neighborhood we derive the following expression: 
+
+\begin{equation}
+\label{eq5}
+P^c(r) = \dfrac{1}{2r} \int_{-r}^{r} P_c(x)dx,
+\end{equation}
+
+where $r$ is the beacon range in meters, $P_c$ is the probability of access collision from equation (\ref{eq4}) and $x$ is the distance between the transmitter and any receiver within the beacon range.
+On the other hand, we represent the $\text{PDR}_{\text{VRU}}(r)$ value over a SPS scheme as follows:
+
+\begin{equation}
+\label{eq6}
+\text{PDR}_{\text{VRU}}(r) = 1-P^c(r).
+\end{equation}
+However, for the original model presented in \cite{Gu2023}, the authors did not consider the effects of obstacles in the signal propagation. Therefore, we add losses in the transmission power \cite{Sommer2014}, adding the terms that represent the losses caused by buildings in an urban intersection scenario as follows:
+\begin{equation}
+\label{eq7}
+L_{obs}[dB]=\beta n + \hat{\gamma} d_m,
+\end{equation}
+where $L_{obs}$ is designed to account for variations in signal strength caused by the presence of a building. This is determined by considering two factors: the number of times the line of sight intersects the boundary of the building ($n$) and the total length of the building's intersection ($d_m$). $\beta$ and $\hat{\gamma}$ are calibration factors; the first represents the signal attenuation caused by the building's exterior wall, and the second provides a rough estimate of the signal attenuation caused by the internal structure of the building. This adjustment must be made inside the expression (\ref{eq4}) this derive to an adjusted collision probability $\widehat{p_c}(d_{i,k})$:
+\begin{equation}
+\label{eq10}
+\widehat{p_c}(d_{i,k})=\begin{cases}
+\frac{p_r(1-p_0)N_R(d_{i,k})}{N^2_{rc}}  & \ d_{i,k} \leq d_{sen} \\
+\frac{(1-p_0)N_R(d_{i,k})}{N^2_{rc}}  & \ d_{i,k} > d_{sen} 
+\end{cases}
+\end{equation}  
+
+where $d_{sen}$ has been defined on \cite{Gu2023} and including the obstacle occlusions from equation \ref{eq7} is re-defined as follows: 
+
+\begin{equation}
+\label{eq11}
+    d_{sen} = \left[ \frac{P^tK_0 - L_{obs}}{P_{sen}} \right]^{1/\gamma}.
+\end{equation}
+
+On the other hand, $p_r$ corresponds to the probability that the re-selection counter (RC)---defined in the C-V2X sensing-based Semi-persistent Schedule (SB-SPS) mechanism used by LTE mode 4 and NR mode 2 \cite{3gpp-21916}--- equals zero for any vehicle in any transmission interval, $p_0$ is the probability of resource keep i.e. the vehicle selects the same resource (time-frequency block) as it has been selected in the previous transmission cycle. Then $N_R(d_{i,k})$ is defined as the number of common candidate resources of $v_i$ and $v_k$. Furthermore, $N_{rc}$ is defined as the number of candidate sub-channels. On the other hand, $P^t$ corresponds to the transmit power. Additionally, $K_0$ is defined as the path loss constant to consider the attenuation of the signal, and $P_{sen}$ corresponds to the sensing power threshold.
+With this, it is possible to obtain an expression for the VAP by combining equations (\ref{eq3}), (\ref{eq6}) and (\ref{eq7}) as follows:
+
+\begin{equation}
+        \label{eq8}
+        \text{VAP}_{i,r,t} = 1-(\widehat{P^c}(r))^Z,           
+\end{equation} 
+where $\widehat{P^c}(r)$ is the adjusted model considering the obstacles in the propagation signal, i.e. combining equations (\ref{eq5}) and (\ref{eq10}).
+%For the urban intersection scenario, the overall VAP is obtained as follows:
+Finally, we can redefine the expression in order to represent it in a general way. Considering that the former model was developed under idealistic conditions and other wireless protocols, we can derive the following:
+
+\begin{equation}
+       \label{eq12}
+       \text{VAP}_{i,r,t} = A-B(C-\text{PDR}_{\text{VRU}}(r))^Z.     
+\end{equation}
+
+Where parameters $A,B,C$ and $Z$ depend on the evaluation scenario. Since the model proposed on \cite{Boban2015} works over an idealistic scenario where there are no buildings or interference we propose the parameters $A,B,C$ as customization scalar in order to adjust the model to different scenarios, using different values for theses parameters basically we are moving the curve of the function over axis $Y$ and $X$ specifically on the VAP and PDR axis. 
+%where $N$ corresponds to the total number of motorized vehicles in the scenario. 
+
+\begin{figure*}
+    \centering
+    \subfloat[PDR Average for all users]{\includegraphics[width=0.49\textwidth]{Figures/All_PDR_20Hz.png}}%\qquad
+    \subfloat[VAP for beacon rate = 20Hz]{
+    \includegraphics[width=0.49\textwidth]{Figures/Box_VAP_20Hz.png}
+    }%\qquad
+    %\subfloat[VAP]{
+    %\includegraphics[width=0.34\textwidth]{Figures/Box_VAP_20Hz.png}
+    %}
+    \caption{Results for beacon rate = 20Hz}
+    \label{fig:VAP3}
+\end{figure*}
+
+% \begin{figure}
+%     \centering    
+%     \includegraphics[width=0.5\textwidth]{Figures/Box_VAP_20Hz.png}
+%     \caption{VAP for beacon rate = 20Hz }
+%     \label{fig:enter-label}
+% \end{figure}
+
+
+\section{VAP model Performance Evaluation}
+In this Section, we present the simulation results and perform the methodology proposed by Boban et al. \cite{Boban2015} to fit analytic VAP to the empiric VAP curve using NR C-V2X mode 2.
+
+\begin{figure*}[!ht]
+    \centering
+    \subfloat[Beacon frequency 10 Hz]{\includegraphics[width=0.35\textwidth]{Figures/VAP_10Hz_2.png}}%\qquad
+    \subfloat[Beacon frequency 20 Hz]{
+    \includegraphics[width=0.32\textwidth]{Figures/VAP_20Hz_2.png}
+    }%\qquad
+    \subfloat[Beacon frequency 50 Hz]{
+    \includegraphics[width=0.34\textwidth]{Figures/VAP_50Hz_2.png}
+    }
+    \caption{Results for empiric VAP}
+    \label{fig:VAP1}
+\end{figure*}
+
+\subsection{SPS simulator for 5G-NR}
+To analyze the empiric results for the VAP metric, we decided to work with a Python-based simulator proposed by Gu. et al. \cite{Gu2023}. The simulator is focused on autonomous resource allocation, specifically using mode 4 for LTE. In its last version the simulator is object-oriented programming. So, we can adjust and add many functionalities to update the simulator to 5G NR easly. Figure \ref{SPS2} shows a graphic representation of this simulator. The most important class is the Vehicle class, which includes the resource allocation procedure. The information about the location at every step is provided by a SUMO module. In the SUMO module, the SUMO simulator is used to get the information about the location and vehicle ID from class TwoWayTrACI; it is possible to gather the data from SUMO scenarios and write a CSV file with the vehicles' location and ID. Then, using the class Observed Vehicles, the active vehicles in the scenario are filtered from those that disappear from the beginning. The generated CSV file is used by the class Main. In this last class, all the configuration parameters are defined. The CSV is the reader, and in each time-step, the location for the vehicle is updated. The class Vehicle handles the object related to the resource blocks and messages. Additionally, from the class Channel, handling different resource blocks for each vehicle is possible. The most important methods for getting the performance metrics are written on the class Vehicle. 
+
+Several adjustments are necessary over the SPS simulator to simulate the performance of the VRU awareness probability analytical model. In figure \ref{SPS2} the class and modules modified are represented by dashed lines. The numerology, the sensing window, and the percentage used to create the L2 list parameters are added to the class Main. Additionally, the inclusion of the additional phase of re-evaluation is added following the procedure shown in Figure \ref{fig:overallproc}.  
+We also modified the simulator to obtain the empiric value for VAP, as was shown in equation \ref{eq2}. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.45\textwidth]{Figures/SPS_Simulator_modified.png}
+    \caption{OOP SPS simulator Modified graphic representation}
+    \label{SPS2}
+\end{figure}
+
+
+
+
+
+\subsection{Simulation Settings}
+The evaluation scenario corresponds to an urban intersection which has four corners and two lanes per direction; we have included a crosswalk and walkway for pedestrian trips. We are able to add a building on the scenario which is considered in the attenuation of the propagation signal to evaluate the message reception; we follow the instruction defined on \cite{ETSI5G} to build up this urban scenario. 
+The objective is to evaluate the VRU awareness probability of VAP in an urban context since this context represents the usual context where the VRU are involved. Additionally, our focus is to evaluate the sidelink for NR and autonomous resource allocation algorithms. So, the physical context is taken from an ETSI report where a 5G evaluation scenario is defined for the evaluation \cite{ETSI5G}.  
+All the definition of the simulated scenario are detailed in the Table \ref{tab:setting}.
+\begin{table}[]
+    \centering
+    \caption{Simulation settings}
+    \begin{tabular}{ll}
+         \hline
+         Parameter & Value\\
+         \hline
+         Road Total Length $l$  & 2,1 Km \\
+         Road Total Lane Length  & 6 Km \\
+         Vehicular density $\lambda$  & [0,8  $\sim$ 6,24] $\cdot 10^3$ users$/km^2$ \\ %\textbackslash
+         Max vehicle speed & 50 km/h \\
+         Transmit power $P^t$ & 23 dBm \\
+         Path-loss exponent $\gamma$ & 3.68 \\
+         Path-loss constant $K_0$ & $10^{-4.38}$ \\
+         Obstacle wall constant $\beta$ & 9.2 dB/wall \\
+         Obstacle inner-wall constant $\hat{\gamma}$ & 0.32 dB/m \\
+         Channel bandwidth & 10 Mhz \\
+         Noise PSD & -174 dBm/Hz \\
+         Minimum SINR, $\text{SINR}_{th}$ & 2.76 dB \\
+         Beacon rate $R$ & 10Hz, 20Hz, 50Hz  \\
+         Beacon size $b$ & 300 bytes  \\
+         Beacon range $r$ & 200 m  \\
+         Selection window lower bound $T_1$ & $\leq 4$ ms \\
+         Selection window higher bound $T_2$ & $1/R$ \\
+         Numerology $\mu$ & 0 $\sim$ 2 \\
+         Modulation and coding scheme & MCS-4 \\
+         RC range $[C_1,C_2]$ & $[5,15]$\\  
+         Size of sensing window $T_s$ & 100ms, 1100 ms \\
+         Total duration & 30 s \\
+         Timestep & 0.001 s \\
+         Power level threshold $P_{th}$  & -110 dBm \\
+         Sensing range $d_{sen}$ & 200 m \\
+         Probability of resource keep $p_0$ & 0 \\
+         \hline
+         %Vehicular Density & Low, Medium, High  \\
+         %Street Lengt & 600 [m] \\
+    \end{tabular}
+    
+    \label{tab:setting}
+\end{table}
+
+\subsection{VAP fitting}
+Based on the data collection using the simulator on the previous subsection, we can analyze the VAP empric results. 
+To fit the VAP curve to get an analytical expression, we are following the methodology proposed on \cite{Boban2015}. So, the first step is to define an empirical metric inside the simulator. After that, we can obtain the results for the empiric VAP metric, and we analyze the values modifying the awareness window ($AW$) size; this value was named as $t$ in the equation \ref{eq1}; this time window is the time when we evaluated the awareness from a car to a VRU. In figure \ref{fig:VAP1}, the results for three different beacon frequencies (previously named as $R$) are shown and for different distance ranges (previously named as $r$). We can say a higher beacon frequency transmission impacts major dispersion for different sizes of the awareness window. For a beacon frequency of $20$ [Hz], we can see that the curves for ${50,100,100,200,500}$ [ms] are close to each other. Prior to fitting the curves VAP and PDR we perform a comparison  of a beacon frequency of $20$ [Hz] and $10$ [Hz] and also we analyze 2 different awareness windows for those values, $200$ [ms] and $500$ [ms], in Figure \ref{fig:groupres} the results for the previous four combinations is shown, we can see that for a fixed density scenario if the awareness windows increase we can have a better VAP result, this tendency is also applied for the correspondent density scenarios. On the other hand, if we decrease the beacon frequency, the VRU's PDR also increases, but the VAP remains almost with no changes; this is insightful from the awareness perspective, i.e. a higher frequency does not always imply a higher awareness. 
+
+From the analysis done over Figure \ref{fig:VAP1} and inspired by the reasoning exposed on \cite{Boban2015}, we decided to select a fixed awareness window of $200$ [ms] for the next analysis and evaluation. Additionally, we decided, based on the requirement of future applications, to use the beacon transmission frequency fixed on $20$ [Hz] to simplify our evaluation and simulation runs. 
+
+After performing simulations using different density scenarios, we obtain a set of points in the comparison of VAP and VRU's PDR. So, using the non-linear least squares method for fitting a curve to a set of values \cite{amemiya1983non}. Using the library SciPy published on \cite{bressert2012scipy} we can discover a model with specific values for the customized scalar $A,B,C$ and $Z$. To be able to perform the fitting procedure we need to pre-set a range for all the customized variables presented in equation \ref{eq:12}, to do that, we carried out a trial-and-error evaluation to study the acceptable ranges for each of the variables, with which we defined the ranges and initial conditions for the mentioned library to provide us with an analytical function model. The results of this fitting process are shown in Figure \ref{fig:fitting20Hz}; we can see that the proposed model, which uses the following values $A=$,$B=$,$c=$ and $Z=$, fits well with the set of points.
+
+% aqui tengo q agregar los passos para poder lograr el fitting del VAP utilizando la ecuación generalizada del modelo.
+\begin{figure}
+    \centering    
+    \includegraphics[width=0.5\textwidth]{Figures/Fitting_20Hz.png}
+    \caption{Fitting for 20Hz }
+    \label{fig:groupres}
+\end{figure}
+
+
+\begin{figure}
+    \centering    
+    \includegraphics[width=0.5\textwidth]{Figures/Fitting_20Hz.png}
+    \caption{Fitting for 20Hz }
+    \label{fig:fitting20Hz}
+\end{figure}
+
+%\subsection{Resource allocation and VAP }
+\subsection{Analitycal Model Performance Over Different Occlusions }
+
+\section{Discussion and Future Work}
+In the swiftly progressing domain of autonomous driving, validated analytical tools are pivotal for ensuring the safety of vulnerable road users. These analytical techniques are indispensable for comprehending diverse performance-affecting factors and pinpointing inherent limitations. The primary challenge lies in the latency aspect of C-V2X communication, particularly when utilizing communication mode 2 in NR. Striving to meet the stringent standards set by 3GPP demands the evaluation of awareness within an exceedingly brief timeframe, ideally less than one second. This aligns seamlessly with end-to-end latency constraints and underscores the paramount importance of an efficient assessment framework.
+
+The overarching objective of the presented model is to conduct a thorough evaluation of various vehicular traffic scenarios, placing specific emphasis on the inclusion of obstacles at intersections that impact signal transmission. This goal seeks to emulate the intricate challenges encountered in urban environments, where the safety of vulnerable road users is heavily reliant on the efficacy of communication systems. Furthermore, in future iterations, the model will delve into investigating how the clustering of Vulnerable Road Users (VRUs) influences the awareness metric and other system performance indicators. This exploration represents an initial foray into this aspect and will undergo substantial expansion in subsequent versions of the model.
+
+
+\section{ACK}
+This research has received partial funding from CONICYT Chile-PFCHA/ Doctorado Nacional/2020-21201428, ANID Basal Project FB0008.
+
+
+\section*{Declaration of AI and AI-assisted technologies in the writing process}
+%In that statement, we ask authors to specify the tool that was used and the reason for using the tool. We suggest that authors follow this format when preparing their statement:
+During the preparation of this work, the author(s) used COPILOT and Grammarly in order to improve the writing and for programming help. After using this tool/service, the author(s) reviewed and edited the content as needed and take(s) full responsibility for the content of the publication.
+\balance
+\bibliographystyle{ieeetr} 
+\bibliography{cas-refs}
+\end{document}
+
+

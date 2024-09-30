@@ -1,7 +1,7 @@
 import shapely
 #import shapely.distance
 from shapely.geometry import Polygon, LineString, Point
-
+    
 class Obstacles():
     
     def __init__(self):

@@ -405,7 +405,7 @@ if __name__ == '__main__':
 """ import numpy as np
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
-
+aw
 # Define your model function (e.g., a polynomial, exponential, etc.)
 def my_model(x, a, b, c):
     return a * np.exp(b * x) + c
