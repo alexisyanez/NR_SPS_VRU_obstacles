@@ -113,7 +113,8 @@ def main():
     fig6.add_trace(go.Scatter3d(y=df_20Hz_2_noobs['All_indv_VRU_AVGPDR'], z=df_20Hz_2_noobs['All_indv_emp_VAP'], x=df_20Hz_2_noobs['density_scenario'], mode='markers', name='20Hz_aw500_no-obs'))
     fig6.add_trace(go.Scatter3d(y=df_10Hz_1_noobs['All_indv_VRU_AVGPDR'], z=df_10Hz_1_noobs['All_indv_emp_VAP'], x=df_10Hz_1_noobs['density_scenario'], mode='markers', name='10Hz_aw200_no-obs'))
     fig6.add_trace(go.Scatter3d(y=df_10Hz_2_noobs['All_indv_VRU_AVGPDR'], z=df_10Hz_2_noobs['All_indv_emp_VAP'], x=df_10Hz_2_noobs['density_scenario'], mode='markers', name='10Hz_aw500_no-obs'))
-    fig6.add_trace(go.Scatter3d(y=df_10Hz_2_noobs['All_indv_VRU_AVGPDR'], z=df_10Hz_2_noobs['All_indv_emp_VAP'], x=df_10Hz_2_noobs['density_scenario'], mode='markers', name='10Hz_aw500_no-obs'))
+    
+    fig6.add_trace(go.Scatter3d(y=df_20Hz_HalfBuild_AW200['All_indv_VRU_AVGPDR'], z=df_10Hz_2_noobs['All_indv_emp_VAP'], x=df_10Hz_2_noobs['density_scenario'], mode='markers', name='20Hz_aw200_half-obs'))
         
     fig6.update_xaxes(title_text='VRU PDR AVG', range=[0,1],tickfont_size=16, title_font=dict(size=18))
     fig6.update_yaxes(title_text='VAP', range=[0,1], tickfont_size=16, title_font=dict(size=18))
