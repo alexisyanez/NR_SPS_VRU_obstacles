@@ -41,14 +41,56 @@ def main():
     df_12 = load_data(path_data12)
 
     path_data13 = 'OOP_for_SPS/Final_results_group15_Fitting_20Hz_aw200_half_build.json' #Copy1_Final_resutls_group14_Fitting_20Hz_aw200.json'
-    df_13 = load_data(path_data11)
+    df_13 = load_data(path_data13)
 
     path_data14 = 'OOP_for_SPS/Final_results_group17_Fitting_20Hz_aw200_half_build_saturation.json' #Final_results_group14_Fitting_20Hz_aw200.json'
-    df_14 = load_data(path_data12)
 
-    df_7 = pd.concat([df_7_1,df_7_2,df_11,df_12])
+    df_14 = load_data(path_data14)
+    
+    df_14_group = df_14.groupby('density_scenario').agg({'All_indv_VRU_AVGPDR': lambda x: list(x), 'All_indv_emp_VAP': lambda x: list(x), 'obstacles': lambda x: list(x), 'VRU_PDR_avg': lambda x: list(x)}).reset_index()
+    
+    #print(df_14_group['All_indv_emp_VAP'][1])
+    Sat_mean=[[],[]]
+    for item in df_14_group['All_indv_emp_VAP'][0]:
+        Sat_mean[0].append(np.mean(item))
+    for item in df_14_group['All_indv_emp_VAP'][1]:
+        Sat_mean[1].append(np.mean(item))
+    
+    Sat_18=np.mean(Sat_mean[0])
+    Sat_19=np.mean(Sat_mean[1])
 
-    df_15 = pd.concat([df_13,df_14])
+    print(Sat_18)
+    print(Sat_19)
+
+    Sat_mean_x=[[],[]]
+    for item in df_14_group['All_indv_VRU_AVGPDR'][0]:
+        Sat_mean_x[0].append(np.mean(item))
+    for item in df_14_group['All_indv_VRU_AVGPDR'][1]:
+        Sat_mean_x[1].append(np.mean(item))
+    Sat_x18=np.mean(Sat_mean_x[0])
+    Sat_x19=np.mean(Sat_mean_x[1])
+    
+    #filtro_1 = df_14[df_14['density_scenario'] == 18]
+    #filtro_2 = df_14[df_14['density_scenario'] == 19]
+
+    #df_14_group = pd.DataFrame({'density_scenario': [18,19], 'All_indv_VRU_AVGPDR':[filtro_1['All_indv_VRU_AVGPDR'].mean(),filtro_2['All_indv_VRU_AVGPDR'].mean()], 'All_indv_emp_VAP': [filtro_1['All_indv_emp_VAP'].mean(),filtro_2['All_indv_emp_VAP'].mean()],'obstacles': List_1[3],'VRU_PDR_avg': [filtro_1['VRU_PDR_avg'].mean(),filtro_2['VRU_PDR_avg'].mean()]})
+    ### Hint de copilot:
+    ##import pandas as pd
+
+# Ejemplo de DataFrame
+
+
+####
+
+
+    print(df_14_group['density_scenario'])
+   
+
+    df_7 = pd.concat([df_7_1,df_7_2]) #,df_11,df_12])
+
+    #numeric_df['density_scenario'] = df_14['density_scenario']
+
+    df_15 = pd.concat([df_13]) #,df_14_group])
 
 
     if not os.path.exists("images"):
@@ -114,7 +156,7 @@ def main():
     fig6.add_trace(go.Scatter3d(y=df_10Hz_1_noobs['All_indv_VRU_AVGPDR'], z=df_10Hz_1_noobs['All_indv_emp_VAP'], x=df_10Hz_1_noobs['density_scenario'], mode='markers', name='10Hz_aw200_no-obs'))
     fig6.add_trace(go.Scatter3d(y=df_10Hz_2_noobs['All_indv_VRU_AVGPDR'], z=df_10Hz_2_noobs['All_indv_emp_VAP'], x=df_10Hz_2_noobs['density_scenario'], mode='markers', name='10Hz_aw500_no-obs'))
     
-    fig6.add_trace(go.Scatter3d(y=df_20Hz_HalfBuild_AW200['All_indv_VRU_AVGPDR'], z=df_10Hz_2_noobs['All_indv_emp_VAP'], x=df_10Hz_2_noobs['density_scenario'], mode='markers', name='20Hz_aw200_half-obs'))
+    fig6.add_trace(go.Scatter3d(y=df_20Hz_HalfBuild_AW200['All_indv_VRU_AVGPDR'], z=df_20Hz_HalfBuild_AW200['All_indv_emp_VAP'], x=df_20Hz_HalfBuild_AW200['density_scenario'], mode='markers', name='20Hz_aw200_half-obs'))
         
     fig6.update_xaxes(title_text='VRU PDR AVG', range=[0,1],tickfont_size=16, title_font=dict(size=18))
     fig6.update_yaxes(title_text='VAP', range=[0,1], tickfont_size=16, title_font=dict(size=18))
@@ -163,6 +205,9 @@ def main():
     fig9.add_trace(go.Scatter(x=df_10Hz_1_noobs['All_indv_VRU_AVGPDR'], y=df_10Hz_1_noobs['All_indv_emp_VAP'], marker_color=df_10Hz_1_noobs['density_scenario'], mode='markers',marker_symbol='square', name='10Hz_aw200_no-obs', marker_colorscale="bluered", marker_size=12 , marker_opacity=0.7)) # marker_coloraxis='coloraxis1',
     fig9.add_trace(go.Scatter(x=df_10Hz_2_noobs['All_indv_VRU_AVGPDR'], y=df_10Hz_2_noobs['All_indv_emp_VAP'], marker_color=df_10Hz_2_noobs['density_scenario'], mode='markers',marker_symbol='cross', name='10Hz_aw500_no-obs', marker_colorscale="bluered", marker_size=12 , marker_opacity=0.7)) # marker_coloraxis='coloraxis1', 
     
+    #fig9.add_trace(go.Scatter(x=df_20Hz_HalfBuild_AW200['All_indv_VRU_AVGPDR'], y=df_20Hz_HalfBuild_AW200['All_indv_emp_VAP'], marker_color=df_20Hz_HalfBuild_AW200['density_scenario'], mode='markers',marker_symbol='cross', name='20Hz_aw500_no-obs', marker_colorscale="bluered", marker_size=12 , marker_opacity=0.7)) # marker_coloraxis='coloraxis1', 
+    
+
         #lowess_1 = sm.nonparametric.lowess(df_20Hz_1_obs['All_indv_emp_VAP'], df_20Hz_1_obs['All_indv_VRU_AVGPDR'], frac=0.2)
         #lowess_2 = sm.nonparametric.lowess(df['All_indv_emp_VAP'][no_obs], df['All_indv_VRU_AVGPDR'][no_obs], frac=0.2)
         #st.write(lowess_1)
@@ -212,11 +257,11 @@ def main():
         ),
         annotations=[
             dict(
-                x=1.2,
+                x=1.21,
                 y=0.5,
                 xref="paper",
                 yref="paper",
-                text="$$\\text{Density x} 10^3 [users/Km^2]$$",
+                text="Density x 10^3 [users/Km^2]",
                 textangle= -90,
                 showarrow=False,
                 #arrowhead=2
@@ -248,7 +293,7 @@ def main():
     #a['All_indv_VRU_AVGPDR'] = np.concatenate([a['All_indv_VRU_AVGPDR'], nuevos_valores])
     #print(a)
 
-    fig11.add_trace(go.Scatter(x=a['All_indv_VRU_AVGPDR'], y=my_model(a['All_indv_VRU_AVGPDR'], *optimized_params), mode='lines', name='Fitted Curve model for noobs', line=dict(color='orange')))
+    fig11.add_trace(go.Scatter(x=a['All_indv_VRU_AVGPDR'], y=my_model(a['All_indv_VRU_AVGPDR'], *optimized_params), mode='lines', name='Fitted model for no-obs', line=dict(color='orange')))
     
     #fig11.add_trace(go.Scatter(x=df_20Hz_1_noobs['All_indv_VRU_AVGPDR'], y=my_model(df_20Hz_1_noobs['All_indv_VRU_AVGPDR'], *optimized_params), mode='lines', name='Fitted Curve model for noobs', line=dict(color='orange')))
 
@@ -262,7 +307,7 @@ def main():
     fig10.update_xaxes(title_text='VRU PDR AVG', range=[0,1], tickfont_size=16)
     fig10.update_yaxes(title_text='VAP', range=[0,1], tickfont_size=16)
     
-    fig10.add_trace(go.Scatter(x=df_20Hz_1_obs['All_indv_VRU_AVGPDR'], y=df_20Hz_1_obs['All_indv_emp_VAP'], mode='markers', name='empiric 20Hz_aw200_obs', 
+    fig10.add_trace(go.Scatter(x=df_20Hz_1_obs['All_indv_VRU_AVGPDR'], y=df_20Hz_1_obs['All_indv_emp_VAP'], mode='markers', name='Empiric', 
                                     marker=dict(
                                         color=df_20Hz_1_obs['density_scenario'],  # Data values for coloring
                                         colorscale='bluered',  # Colorscale
@@ -273,9 +318,24 @@ def main():
                                     )
                                 )
     )
+    
                                 # marker_color=df_20Hz_1_obs['density_scenario'], marker_colorscale='Viridis', marker_cmin=100, marker_cmax=200)) #, marker_coloraxis='coloraxis1'))
+    
+    #fig10.add_trace(go.Scatter(x=df_20Hz_HalfBuild_AW200['All_indv_VRU_AVGPDR'], y=df_20Hz_HalfBuild_AW200['All_indv_emp_VAP'], mode='markers', name='empiric 20Hz_aw200_half-obs', 
+    #                                marker=dict(
+    #                                    color=df_20Hz_HalfBuild_AW200['density_scenario'],  # Data values for coloring
+    #                                    colorscale='bluered',  # Colorscale
+    #                                    #cmin=100,  # Minimum bound for the colorscale
+    #                                    #cmax=400,  # Maximum bound for the colorscale
+    #                                    showscale=True,  # Show colorscale legend
+    #                                    size = 12,
+    #                                    symbol='x'
+    #                                )
+    #                            )
+    #)
+       
     fig10.add_trace(go.Scatter(x=df_20Hz_1_obs['All_indv_VRU_AVGPDR'], y=my_model(df_20Hz_1_obs['All_indv_VRU_AVGPDR'], *optimized_params), mode='markers', name='Theoretical', marker_symbol='cross', marker_size = 10,line=dict(color='orange')))
-    fig10.add_trace(go.Scatter(x=a['All_indv_VRU_AVGPDR'], y=my_model(a['All_indv_VRU_AVGPDR'], *optimized_params), mode='lines', name='Fitted Curve model for noobs', line=dict(color='orange')))
+    fig10.add_trace(go.Scatter(x=a['All_indv_VRU_AVGPDR'], y=my_model(a['All_indv_VRU_AVGPDR'], *optimized_params), mode='lines', name='Fitted curve', line=dict(color='orange')))
     fig10.update_layout(
         width=600,
         height=500,
@@ -291,7 +351,7 @@ def main():
                 y=0.5,
                 xref="paper",
                 yref="paper",
-                text="$$\\text{Density x} 10^3 [users/Km^2]$$",
+                text="Density x 10^3 [users/Km^2]",
                 textangle= -90,
                 showarrow=False,
                 #arrowhead=2
@@ -312,6 +372,105 @@ def main():
     )
     #st.plotly_chart(fig10)  
     fig10.write_image("images/2-fig5.pdf", format='pdf')
+       
+    a=my_model(df_20Hz_1_obs['All_indv_VRU_AVGPDR'], *optimized_params)
+    x2=np.array(df_20Hz_HalfBuild_AW200['All_indv_VRU_AVGPDR'])
+    x2=np.append(x2,[Sat_x18,Sat_x19])
+
+    b=my_model(x2 , *optimized_params)
+    
+    P_o=df_20Hz_1_obs['All_indv_emp_VAP'].reset_index()
+    P_h=df_20Hz_HalfBuild_AW200['All_indv_emp_VAP'].reset_index()
+
+    predicted_obs=np.array(P_o['All_indv_emp_VAP'])
+
+    predicted_half_obs=np.array(P_h['All_indv_emp_VAP'])
+
+    predicted_half_obs= np.append(predicted_half_obs,[Sat_18,Sat_19])
+    actual=np.array(a)
+    actual_b=np.array(b)
+    rmse_obs = np.sqrt(((predicted_obs - actual) ** 2).mean())
+    rmse_half_obs = np.sqrt(((predicted_half_obs - actual_b) ** 2).mean())
+
+    print("Vector half-building")
+    print(len(predicted_half_obs))
+    print("Vector all-building")
+    print(len(df_20Hz_1_obs['All_indv_VRU_AVGPDR']))
+    print("Vector theoretical")
+    print(len(my_model(df_20Hz_1_obs['All_indv_VRU_AVGPDR'], *optimized_params)))
+    print(len(actual_b))
+
+    print(predicted_obs)
+    print(predicted_half_obs)
+    print(actual) #df_77['Predicted'])
+    print(rmse_obs)
+    print(rmse_half_obs)
+
+    mse_1 = np.mean((actual - predicted_obs) ** 2)
+    print("Mean Squared Error (MSE) obs:", mse_1)
+
+# Calcular el Mean Absolute Error (MAE)
+    mae_1 = np.mean(np.abs(actual - predicted_obs))
+    print("Mean Absolute Error (MAE) obs:", mae_1)
+    
+    mse_2 = np.mean((actual_b - predicted_half_obs) ** 2)
+    print("Mean Squared Error (MSE) half-obs:", mse_2)
+
+# Calcular el Mean Absolute Error (MAE)
+    mae_2 = np.mean(np.abs(actual_b - predicted_half_obs))
+    print("Mean Absolute Error (MAE) half-obs:", mae_2)
+
+# Mismo grafico pero con half-obs
+    data = {'All_indv_VRU_AVGPDR': np.linspace(0, 1, num=50)}
+    a2 = pd.DataFrame(data)
+
+    fig15 = make_subplots(rows=1, cols=1) #px.scatter(df_20Hz_1, x='All_indv_VRU_AVGPDR', y='All_indv_emp_VAP',color='obstacles', symbol='obstacles', title='VAP v/s VRU PDR through scenarios') # notched=True,
+    #fig10.update_traces(hovertemplate=None)
+
+    fig15.update_xaxes(title_text='VRU PDR AVG', range=[0,1], tickfont_size=16)
+    fig15.update_yaxes(title_text='VAP', range=[0,1], tickfont_size=16)   
+    
+    #new_df=pd.DataFrame({'star_time':["0","0"], 'end_time':["0","0"], 'Total_cumulative_PDR':[0,0], 'All_PDR_Vector':[0,0], 'ALL_PDR_std': [0,0], 'VRU_PDR_avg':[0,0] ,'VRU_PDR_std':[0,0],'All_indv_emp_VAP':[0,0],'All_indv_VRU_AVGPDR':[0,0], 'All_indv_VRU_AVGPDR_pair': [0,0], 'All_VAP_emp_avg':[0,0], 'obstacles':[True, True], 'density_scenario':[5.440,6.240] })
+    
+    df_20Hz_HalfBuild_AW200.loc[len(df_20Hz_HalfBuild_AW200)] = [5.440, None, None, None, None]  # Agregar el primer valor
+    df_20Hz_HalfBuild_AW200.loc[len(df_20Hz_HalfBuild_AW200)] = [6.240, None, None, None, None]  # Agregar el segundo valor
+    
+    fig15.add_trace(go.Scatter(x=x2, y=predicted_half_obs, mode='markers', name='Empiric', 
+                                    marker=dict(
+                                        color=df_20Hz_HalfBuild_AW200['density_scenario'],  # Data values for coloring
+                                        colorscale='bluered',  # Colorscale
+                                        showscale=True,  # Show colorscale legend
+                                        size = 12,
+                                        symbol='x'
+                                    )
+                                )
+    )
+       
+    fig15.add_trace(go.Scatter(x=x2, y=my_model(x2, *optimized_params), mode='markers', name='Theoretical', marker_symbol='cross', marker_size = 10,line=dict(color='orange')))
+    fig15.add_trace(go.Scatter(x=a2['All_indv_VRU_AVGPDR'], y=my_model(a2['All_indv_VRU_AVGPDR'], *optimized_params), mode='lines', name='Fitted curve', line=dict(color='orange')))
+    fig15.update_layout(
+        width=600,
+        height=500,
+        legend=dict(
+            x=0,  
+            y=1,
+            traceorder="normal",            
+        ),
+        margin=dict(l=50, r=100, b=100, t=100, pad=4),
+        annotations=[
+            dict(
+                x=1.2,
+                y=0.5,
+                xref="paper",
+                yref="paper",
+                text="Density x 10^3 [users/Km^2]",
+                textangle= -90,
+                showarrow=False,
+            )
+        ],
+    )
+    fig15.write_image("images/2-fig6.pdf", format='pdf')
+
 
 #@st.cache_data
 def plot_scatter4(df_7,ind): 

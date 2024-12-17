@@ -82,9 +82,23 @@ On the other hand, regarding the radio access for C-V2X technology, it is possib
 In this work, we focus on studying 5G New Radio (NR) toward VRU inclusion in the vehicular networking context.
 The advent of 5G-NR introduces novel features that significantly contribute to ensuring safety in scenarios involving autonomous vehicles, connected sensors, smart signalling, and VRU interactions. Particularly relevant are the advancements in 5G-NR that result in reduced latency compared to preceding technologies. The target requirements set for up to $3$ [ms] maximum end-to-end latency in extended sensor and high-grade automated driving scenarios underscore the transformative impact of 5G-NR in the field \cite{Kabil2022}.
 
+\begin{figure*}[ht]
+\centering
+\includegraphics[scale=0.4]{Figures/System_overview.png}
+\caption{Proposed system overview.}
+\label{fig:1-0}
+\end{figure*}
+
 5G-NR presents two different modes of communication to exploit device-to-device D2D through the sidelink; in this research, we focus on communication mode 2, where the resource allocation procedures are done autonomously; this implies novel challenges since the use of this mode 2 over the sidelink is critical where the devices lost base station coverage and collision of packets can often occur because the resources are allocated autonomously from each device. There are several proposals to improve this allocation procedure \cite{Shin2023}, as it directly impacts the performance of the communication network. Let's consider VRU as an active user of the communication network; this impact becomes relevant to study to establish if the proposed improvements are going in the right direction, not only in terms of network performance but also in the VRU awareness levels.
 
 In urban intersection scenarios, challenges arise from exposed and hidden terminal problems, as depicted in Figure \ref{fig:1-1}. Taking cyclist B as an example, the exposed terminal perceives the physical channel as occupied, influenced by signals received from neighbouring entities A, C, and D. This phenomenon directly influences the resource allocation algorithm, tasked with determining suitable resources for transmitting awareness messages such as CAMs and VAMs. Additionally, within the same figure, a hidden terminal scenario unfolds with pedestrian C situated beyond the coverage range of vehicle D. This spatial disparity increases the likelihood of multiple terminals selecting the same resource, thereby introducing conflicts into the resource allocation algorithm.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.26]{Figures/Comparative_approachs.png}
+\caption{Comparison of common and proposed approach.}
+\label{fig:1-0-1}
+\end{figure}
 
 \begin{figure}[ht]
 \centering
@@ -139,27 +153,27 @@ Despite the effectiveness of analytical models in vehicular communication scenar
 
 Prior investigations have scrutinized the performance of Cellular Vehicular-to-Everything (C-V2X) through the lens of the resource reservation mode, akin to LTE's mode 4 and NR's mode 2 \cite{Gonzalez2019}. These examinations have studied diverse sources of signal transmission errors, emphasizing the realm of vehicular communication within highway scenarios. Nevertheless, scant attention has been allocated to considering potential obstacles that might impede signal propagation, an issue commonly encountered in urban intersection scenarios.
 
-\begin{table*}[!h]
-\centering
-\caption{Comparison of Simulation tools}
-\label{TabTools}
-\begin{tabular}
-{p{0.14\textwidth}p{0.20\textwidth}p{0.10\textwidth}p{0.10\textwidth}p{0.10\textwidth}p{0.10\textwidth}p{0.10\textwidth}}
-\\
-\hline 
- Tool & Technology & Related Framework & SUMO Integration & Urban Scenario & ETSI Messages & Language \\
-\hline 
-SimuLTE \cite{virdis2014simulte} & LTE rel8, mode 3 & Omnet++, INet & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & C++ \\
-Simu5G \cite{Nardini2020} & LTE, 5G, NR-V2X mode 1  & Omnet++, INet, VEINS & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & C++ \\
-Artery-C \cite{Hegde2020} & LTE, C-V2X (Rel 14) Mode 3 and Mode 4 & Omnet++, INet, VEINS, SimuLTE, Vanetza, Artery & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & C++ \\
-Open C-V2X\cite{mccarthy2021opencv2x} & LTE, C-V2X (Rel 14) Mode 4 & Omnet++, SimuLTE, Artery, VEINS & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & C++ \\
-WiLab-V2Xsim \cite{Todisco2021} & 802.11p, LTE, NR, C-V2X Mode 4 and Mode 2 & LTEV2Vsim & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & Matlab \\
-Simulator for SPS \cite{Gu2023} & LTE, C-V2X (Rel 16) Mode 4 & - & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & Python \\
-ms-van3t \cite{RAVIGLIONE202470}  & 802.11p, LTE Rel 14, NR Rel 16, C-V2X Mode 4 and Mode 2 & NS-3, 5G-LENA & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & C++ \\
- \hline
-\end{tabular}
+% \begin{table*}[!h]
+% \centering
+% \caption{Comparison of Simulation tools}
+% \label{TabTools}
+% \begin{tabular}
+% {p{0.14\textwidth}p{0.20\textwidth}p{0.10\textwidth}p{0.10\textwidth}p{0.10\textwidth}p{0.10\textwidth}p{0.10\textwidth}}
+% \\
+% \hline 
+%  Tool & Technology & Related Framework & SUMO Integration & Urban Scenario & ETSI Messages & Language \\
+% \hline 
+% SimuLTE \cite{virdis2014simulte} & LTE rel8, mode 3 & Omnet++, INet & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & C++ \\
+% Simu5G \cite{Nardini2020} & LTE, 5G, NR-V2X mode 1  & Omnet++, INet, VEINS & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & C++ \\
+% Artery-C \cite{Hegde2020} & LTE, C-V2X (Rel 14) Mode 3 and Mode 4 & Omnet++, INet, VEINS, SimuLTE, Vanetza, Artery & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & C++ \\
+% Open C-V2X\cite{mccarthy2021opencv2x} & LTE, C-V2X (Rel 14) Mode 4 & Omnet++, SimuLTE, Artery, VEINS & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & C++ \\
+% WiLab-V2Xsim \cite{Todisco2021} & 802.11p, LTE, NR, C-V2X Mode 4 and Mode 2 & LTEV2Vsim & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & Matlab \\
+% Simulator for SPS \cite{Gu2023} & LTE, C-V2X (Rel 16) Mode 4 & - & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{1em}} & Python \\
+% ms-van3t \cite{RAVIGLIONE202470}  & 802.11p, LTE Rel 14, NR Rel 16, C-V2X Mode 4 and Mode 2 & NS-3, 5G-LENA & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$} & C++ \\
+%  \hline
+% \end{tabular}
         
-\end{table*}
+% \end{table*}
 
 
 In a study by Gu et al., \cite{Gu2023}, an exploration into interference effects in signal propagation was undertaken to utilize C-V2X technology. The researchers directed their efforts towards optimizing the re-selection counter, an important parameter instrumental in resource reservation, ensuring the efficient transmission of periodic messages across the network. However, it is essential to note that this study did not study the intricacies of 5G-NR or account for obstacles within an urban scenario.
@@ -168,9 +182,9 @@ In a divergent approach, Lara et al. \cite{Lara2021} presented an all-encompassi
 In their comprehensive study, Molina et al. \cite{molina2017system} presented an insightful classification outlining four distinct categories of packet errors impacting C-V2X Mode 4, a precursor technology to NR Mode 2. These categories span a spectrum of errors, encompassing those arising from half-duplex transmissions, instances where received signal power falls below the sensing power threshold, errors due to propagation effects, and collisions between packets. The systematic categorization and elucidation of packet errors significantly contribute to our understanding of the challenges associated with C-V2X Mode 4 and its potential evolution into NR Mode 2.
 In a study spearheaded by Stipancic et al. \cite{stipancic2020pedestrian}, the authors proposed an innovative modelling approach to evaluate the effects of various factors, such as exposure, intersection geometry, and signalization, on pedestrian injuries at urban signalized intersections. Their method incorporates a comprehensive Full Bayes spatial Poisson Log-Normal model, which accounts for underlying variations and spatial correlations that are not directly observable. Employing the Integrated Nested Laplace Approximation technique, the researchers harnessed a substantial dataset comprising geometric and signalization-related information from 1864 intersections in Montreal, Quebec. Their model analysis affirmed a positive relationship between pedestrian and vehicle traffic volumes and the frequency of pedestrian injuries at these intersections. It is crucial to highlight that although their research doesn't directly involve wireless networks, it offers valuable insights into understanding and modelling injuries among Vulnerable Road Users from a physical standpoint.
 
-\subsection{Simulation tools} 
+%\subsection{Simulation tools} 
 
-To study suitable simulation frameworks which can be used for our analytical model implementation, this section shows the efforts to simulate wireless communication protocols in a vehicular context using C-V2X. 5G-NR is a wireless protocol published by 3GPP; some efforts from the scientific community have been made to simulate 5G-NR networks; for example, in Simu5G \cite{Nardini2020}, we can see that they integrate 5G protocols with the well-known vehicular simulator VEINS. Simu5G is deployed over OMNet++, which is based on C++; Simu5G can simulate an urban scenario but only uses mode 1 to exploit device-to-device (D2D) communication over the 5G-NR protocol; so, communication using the sidelink is only available when passing through a base station. On the other hand, Artery-C published on \cite{Hegde2020} enables 5G NR over ETSI messages format using VANETZA; we can see modes 1 and 2 are already implemented, but the simulator has many sub-modules which need to be installed before running the scenarios, it is not simple to build-up the setup for Artery-C since there is no documentation and version matching for every module is highly sensitive. On the other hand, Open C-V2X \cite{mccarthy2021opencv2x} implement mode 4 using SimuLTE \cite{virdis2014simulte} as a base, SimuLTE is the predecessor of Simu5G where just mode 3 is implemented. Conversely, a Matlab-based simulator is presented in WiLabV2Xsim \cite{Todisco2021} as an extension of a previous version. It is possible to run the simulator only in a highway scenario. Authors in \cite{RAVIGLIONE202470} have presented an MSVan3t, it is an extension for 5G-LENA, including the sidelink on their simulation based on NS-3, oriented to include full-stack protocols including LTE, NR and mode 4 and 2, respectively. On \cite{Gu2023}, authors present an SPS simulator for the autonomous resource allocation on LTE; in a recent version, they have updated the simulator to an Object object-oriented programming; simplicity is one of the most important aspects of this simulator. Although there is no formal documentation associated to it, it is really easy to understand the functionalities since it was programmed on Python. So, adding new classes or modifying them to accomplish other goals is simple.
+%To study suitable simulation frameworks which can be used for our analytical model implementation, this section shows the efforts to simulate wireless communication protocols in a vehicular context using C-V2X. 5G-NR is a wireless protocol published by 3GPP; some efforts from the scientific community have been made to simulate 5G-NR networks; for example, in Simu5G \cite{Nardini2020}, we can see that they integrate 5G protocols with the well-known vehicular simulator VEINS. Simu5G is deployed over OMNet++, which is based on C++; Simu5G can simulate an urban scenario but only uses mode 1 to exploit device-to-device (D2D) communication over the 5G-NR protocol; so, communication using the sidelink is only available when passing through a base station. On the other hand, Artery-C published on \cite{Hegde2020} enables 5G NR over ETSI messages format using VANETZA; we can see modes 1 and 2 are already implemented, but the simulator has many sub-modules which need to be installed before running the scenarios, it is not simple to build-up the setup for Artery-C since there is no documentation and version matching for every module is highly sensitive. On the other hand, Open C-V2X \cite{mccarthy2021opencv2x} implement mode 4 using SimuLTE \cite{virdis2014simulte} as a base, SimuLTE is the predecessor of Simu5G where just mode 3 is implemented. Conversely, a Matlab-based simulator is presented in WiLabV2Xsim \cite{Todisco2021} as an extension of a previous version. It is possible to run the simulator only in a highway scenario. Authors in \cite{RAVIGLIONE202470} have presented an MSVan3t, it is an extension for 5G-LENA, including the sidelink on their simulation based on NS-3, oriented to include full-stack protocols including LTE, NR and mode 4 and 2, respectively. On \cite{Gu2023}, authors present an SPS simulator for the autonomous resource allocation on LTE; in a recent version, they have updated the simulator to an Object object-oriented programming; simplicity is one of the most important aspects of this simulator. Although there is no formal documentation associated to it, it is really easy to understand the functionalities since it was programmed on Python. So, adding new classes or modifying them to accomplish other goals is simple.
 
 \begin{table}[]
     \centering
@@ -187,12 +201,16 @@ To study suitable simulation frameworks which can be used for our analytical mod
        $PDR_{VRU}$  & PDR from VRU  \\ 
        $v_i$  & Vehicle $i$ \\ 
        $P_c$  & Collision Probability \\
-       $d_{i,j}$  & The distance between $v_i$ and $v_j$ in meters  \\
-       
+       $d_{i,j}$  & The distance between $v_i$ and $v_j$ in meters  \\       
        $P^t$  & Transmision Power  \\
+       $P_{sen}$  & Sensing Power  \\
        $N_a$  & Numbers of resources availables \\
-       $K$ & Path loss constant \\
-       $\beta$ & Long Term Evolution \\
+       $\mu$  & 5G numerology \\
+       $K_0$ & Path loss constant \\
+       $L_{obs}$ & Obstacles losses \\
+       $\beta$ & Obstacle wall constant \\
+       $\hat{\gamma}$ &  Obstacle inner-wall constant\\
+       $d_m$ &  Building's intersection distance\\
        $A$ & Customize scalar\\
        $B$ & Customize scalar\\
        $C$ & Customize scalar\\
@@ -224,7 +242,7 @@ The procedure is generally detailed in Figured \ref{fig:overallproc}. However, i
 \begin{figure*}
 \centering
 %% Label SW
-\subfloat[SelectionWindow]{
+\subfloat[Selection Window]{
     \begin{tikzpicture}[x=0.5pt,y=0.5pt,yscale=-1,xscale=0.9]
 %uncomment if require: \path (0,287); %set diagram left start at 0, and has height of 287
 %Shape: Grid [id:dp6512485156411536] 
@@ -317,8 +335,7 @@ The procedure is generally detailed in Figured \ref{fig:overallproc}. However, i
 % Text Node
 \draw (492.93,178.53) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {Unavailable \\subchannel};
 \end{tikzpicture}
-    \label{fig:SW}
-}
+\label{fig:SW}}
 %% Label RSW
 \subfloat[ReselectionWindow]{ %\centering
 
@@ -427,12 +444,9 @@ The procedure is generally detailed in Figured \ref{fig:overallproc}. However, i
 \draw (361.52,234.83) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle m_{re}$};
 % Text Node
 \draw (396.36,253.53) node [anchor=north west][inner sep=0.75pt]  [font=\footnotesize] [align=left] {$\displaystyle n_{re} +T_{2}^{'}$};
-
-
 \end{tikzpicture}    
     %\caption{Re-selection Resource Procedure}
-    \label{fig:RSW}
-}
+\label{fig:RSW}}
 \caption{Resource Allocation Procedure for C-V2X}
 \end{figure*}
 
@@ -493,7 +507,6 @@ The formalization of the analytical model for VRU Awareness Probability (VAP) fo
         \label{eq1}
        \text{NAR}_{r,t} = 1-(1-\text{PDR}(r))^Z, 
 \end{equation}
-
 where $Z$ is closely related to occlusions due to obstacles (such as other vehicles or buildings), the geographical position of the vehicles, and the density of connected devices. These effects can generate what are well-known as hidden or exposed terminal problems. Furthermore, the NAR metric is obtained for each particular vehicle. 
 
 \begin{figure}[ht]
@@ -509,7 +522,6 @@ To emphasize the detection of active VRU---defined as the VRU that has a connect
        \label{eq2}
        \text{VAP}_{i,r,t} = \frac{\text{NRV}_{i,r,t}}{\text{NTV}_{i,r,t}},       
 \end{equation}
-
 where $\text{NRV}_{i,r,t}$ is the number of VRU within $r$ around vehicle $i$, from which vehicle $i$ received a message in $t$. $\text{NTV}_{i,r,t}$ is the total number of VRU within $r$ around $i$.
 Taking this expression, we can adapt (\ref{eq1}) to the case only considering the VRU presence. 
 
@@ -526,14 +538,12 @@ Using the definition of collision probability in \cite{Gu2023}, for the transmit
 \label{eq4}
 P_c(d_{i,j}) = 1 - \prod_{v_K \in V,~ d_{i,j}-d_{int} \leq d_{i,k} \leq d_{i,j} +d_{int}} [1- p_c(d_{i,k})],
 \end{equation}
-
 where $d_{i,j}$ is the distance between $v_i$ and $v_j$ in meters, $v_i$ corresponds to the vehicle $i$, $V$ is the set of vehicles, $p_c(d_{i,k})$ correspond to the resource selection conflict probability and $d_{int}$ is the interference range. Then, to evaluate all the interference from the neighborhood we derive the following expression: 
 
 \begin{equation}
 \label{eq5}
 P^c(r) = \dfrac{1}{2r} \int_{-r}^{r} P_c(x)dx,
 \end{equation}
-
 where $r$ is the beacon range in meters, $P_c$ is the probability of access collision from equation (\ref{eq4}) and $x$ is the distance between the transmitter and any receiver within the beacon range.
 On the other hand, we represent the $\text{PDR}_{\text{VRU}}(r)$ value over a SPS scheme as follows:
 
@@ -554,7 +564,6 @@ where $L_{obs}$ is designed to account for variations in signal strength caused 
 \frac{(1-p_0)N_R(d_{i,k})}{N^2_{rc}}  & \ d_{i,k} > d_{sen} 
 \end{cases}
 \end{equation}  
-
 where $d_{sen}$ has been defined on \cite{Gu2023} and including the obstacle occlusions from equation \ref{eq7} is re-defined as follows: 
 
 \begin{equation}
@@ -575,17 +584,16 @@ Finally, we can redefine the expression in order to represent it in a general wa
 
 \begin{equation}
        \label{eq12}
-       \text{VAP}_{i,r,t} = A-B(C-\text{PDR}_{\text{VRU}}(r))^Z.     
+       \text{VAP}_{i,r,t} = A-B(C-\text{PDR}_{\text{VRU}}(r))^Z,     
 \end{equation}
-
-Where parameters $A,B,C$ and $Z$ depend on the evaluation scenario. Since the model proposed on \cite{Boban2015} works over an idealistic scenario where there are no buildings or interference we propose the parameters $A,B,C$ as customization scalar in order to adjust the model to different scenarios, using different values for theses parameters basically we are moving the curve of the function over axis $Y$ and $X$ specifically on the VAP and PDR axis. 
+where parameters $A,B,C$ and $Z$ depend on the evaluation scenario. Since the model proposed on \cite{Boban2015} works over an idealistic scenario where there are no buildings or interference we propose the parameters $A,B,C$ as customization scalar in order to adjust the model to different scenarios, using different values for theses parameters basically we are moving the curve of the function over axis $Y$ and $X$ specifically on the VAP and PDR axis. 
 %where $N$ corresponds to the total number of motorized vehicles in the scenario. 
 
 \begin{figure*}
     \centering
-    \subfloat[PDR Average for all users]{\includegraphics[width=0.49\textwidth]{Figures/All_PDR_20Hz.png}}%\qquad
+    \subfloat[PDR Average for all users]{\includegraphics[width=0.49\textwidth]{Figures/fig6-2_PDRALLL_20Hz_500ms.pdf}}%\qquad
     \subfloat[VAP for beacon rate = 20Hz]{
-    \includegraphics[width=0.49\textwidth]{Figures/Box_VAP_20Hz.png}
+    \includegraphics[width=0.49\textwidth]{Figures/fig6-2_VAPVRU_20Hz_500ms.pdf}
     }%\qquad
     %\subfloat[VAP]{
     %\includegraphics[width=0.34\textwidth]{Figures/Box_VAP_20Hz.png}
@@ -619,7 +627,8 @@ In this Section, we present the simulation results and perform the methodology p
 \end{figure*}
 
 \subsection{SPS simulator for 5G-NR}
-To analyze the empiric results for the VAP metric, we decided to work with a Python-based simulator proposed by Gu. et al. \cite{Gu2023}. The simulator is focused on autonomous resource allocation, specifically using mode 4 for LTE. In its last version the simulator is object-oriented programming. So, we can adjust and add many functionalities to update the simulator to 5G NR easly. Figure \ref{SPS2} shows a graphic representation of this simulator. The most important class is the Vehicle class, which includes the resource allocation procedure. The information about the location at every step is provided by a SUMO module. In the SUMO module, the SUMO simulator is used to get the information about the location and vehicle ID from class TwoWayTrACI; it is possible to gather the data from SUMO scenarios and write a CSV file with the vehicles' location and ID. Then, using the class Observed Vehicles, the active vehicles in the scenario are filtered from those that disappear from the beginning. The generated CSV file is used by the class Main. In this last class, all the configuration parameters are defined. The CSV is the reader, and in each time-step, the location for the vehicle is updated. The class Vehicle handles the object related to the resource blocks and messages. Additionally, from the class Channel, handling different resource blocks for each vehicle is possible. The most important methods for getting the performance metrics are written on the class Vehicle. 
+On \cite{Gu2023}, authors present a Semi-Persistant Scheduling (SPS) simulator for the autonomous resource allocation on LTE; in a recent version, they have updated the simulator to an Object object-oriented programming; simplicity is one of the most important aspects of this simulator. Although there is no formal documentation associated to it, it is really easy to understand the functionalities since it was programmed on Python. So, adding new classes or modifying them to accomplish other goals is simple.
+So, to analyze the empiric results for the VAP metric, we decided to work with a Python-based simulator proposed by Gu. et al. \cite{Gu2023}. The simulator is focused on autonomous resource allocation, specifically using mode 4 for LTE. In its last version the simulator is object-oriented programming. So, we can adjust and add many functionalities to update the simulator to 5G NR easly. Figure \ref{SPS2} shows a graphic representation of this simulator. The most important class is the Vehicle class, which includes the resource allocation procedure. The information about the location at every step is provided by a SUMO module. In the SUMO module, the SUMO simulator is used to get the information about the location and vehicle ID from class TwoWayTrACI; it is possible to gather the data from SUMO scenarios and write a CSV file with the vehicles' location and ID. Then, using the class Observed Vehicles, the active vehicles in the scenario are filtered from those that disappear from the beginning. The generated CSV file is used by the class Main. In this last class, all the configuration parameters are defined. The CSV is the reader, and in each time step, the location for the vehicle is updated. The class Vehicle handles the object related to the resource blocks and messages. Additionally, from the class Channel, handling different resource blocks for each vehicle is possible. The most important methods for getting the performance metrics are written on the class Vehicle. 
 
 Several adjustments are necessary over the SPS simulator to simulate the performance of the VRU awareness probability analytical model. In figure \ref{SPS2} the class and modules modified are represented by dashed lines. The numerology, the sensing window, and the percentage used to create the L2 list parameters are added to the class Main. Additionally, the inclusion of the additional phase of re-evaluation is added following the procedure shown in Figure \ref{fig:overallproc}.  
 We also modified the simulator to obtain the empiric value for VAP, as was shown in equation \ref{eq2}. 
@@ -636,6 +645,7 @@ We also modified the simulator to obtain the empiric value for VAP, as was shown
 
 
 \subsection{Simulation Settings}
+
 The evaluation scenario corresponds to an urban intersection which has four corners and two lanes per direction; we have included a crosswalk and walkway for pedestrian trips. We are able to add a building on the scenario which is considered in the attenuation of the propagation signal to evaluate the message reception; we follow the instruction defined on \cite{ETSI5G} to build up this urban scenario. 
 The objective is to evaluate the VRU awareness probability of VAP in an urban context since this context represents the usual context where the VRU are involved. Additionally, our focus is to evaluate the sidelink for NR and autonomous resource allocation algorithms. So, the physical context is taken from an ETSI report where a 5G evaluation scenario is defined for the evaluation \cite{ETSI5G}.  
 All the definition of the simulated scenario are detailed in the Table \ref{tab:setting}.
@@ -679,6 +689,36 @@ All the definition of the simulated scenario are detailed in the Table \ref{tab:
     
     \label{tab:setting}
 \end{table}
+\begin{table}[]
+\centering
+\caption{Density Scenarios' Characterization}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llllll}
+\hline
+\begin{tabular}[c]{@{}l@{}}
+
+Density\\ Scenario\end{tabular} & Pedestrian & Cyclist & Total VRU & Cars & \begin{tabular}[c]{@{}l@{}}Area\\ (users/$Km^2$)\end{tabular} \\ \hline
+d1  & 60   & 20  & 80   & 120 & 800  \\
+d2  & 90   & 30  & 120  & 120 & 960  \\
+d3  & 120  & 40  & 160  & 120 & 1120 \\
+d4  & 150  & 50  & 200  & 120 & 1280 \\
+d5  & 180  & 60  & 240  & 120 & 1440 \\
+d6  & 210  & 70  & 280  & 120 & 1600 \\
+d7  & 240  & 80  & 320  & 120 & 1760 \\
+d8  & 300  & 100 & 400  & 120 & 2080 \\
+d9  & 360  & 120 & 480  & 120 & 2400 \\
+d10 & 420  & 140 & 560  & 120 & 2720 \\
+d11 & 480  & 160 & 640  & 120 & 3040 \\
+d12 & 560  & 180 & 740  & 120 & 3440 \\
+d13 & 640  & 200 & 840  & 120 & 3840 \\
+d14 & 740  & 200 & 940  & 120 & 4240 \\
+d15 & 840  & 200 & 1040 & 120 & 4640 \\
+d16 & 1040 & 200 & 1240 & 120 & 5440 \\
+d17 & 1240 & 200 & 1440 & 120 & 6240 \\
+\hline
+\end{tabular}%
+}
+\end{table}
 
 \subsection{VAP fitting}
 Based on the data collection using the simulator on the previous subsection, we can analyze the VAP empric results. 
@@ -686,20 +726,20 @@ To fit the VAP curve to get an analytical expression, we are following the metho
 
 From the analysis done over Figure \ref{fig:VAP1} and inspired by the reasoning exposed on \cite{Boban2015}, we decided to select a fixed awareness window of $200$ [ms] for the next analysis and evaluation. Additionally, we decided, based on the requirement of future applications, to use the beacon transmission frequency fixed on $20$ [Hz] to simplify our evaluation and simulation runs. 
 
-After performing simulations using different density scenarios, we obtain a set of points in the comparison of VAP and VRU's PDR. So, using the non-linear least squares method for fitting a curve to a set of values \cite{amemiya1983non}. Using the library SciPy published on \cite{bressert2012scipy} we can discover a model with specific values for the customized scalar $A,B,C$ and $Z$. To be able to perform the fitting procedure we need to pre-set a range for all the customized variables presented in equation \ref{eq:12}, to do that, we carried out a trial-and-error evaluation to study the acceptable ranges for each of the variables, with which we defined the ranges and initial conditions for the mentioned library to provide us with an analytical function model. The results of this fitting process are shown in Figure \ref{fig:fitting20Hz}; we can see that the proposed model, which uses the following values $A=$,$B=$,$c=$ and $Z=$, fits well with the set of points.
+After performing simulations using different density scenarios, we obtain a set of points in the comparison of VAP and VRU's PDR. So, using the non-linear least squares method for fitting a curve to a set of values \cite{amemiya1983non}. Using the library SciPy published on \cite{bressert2012scipy} we can discover a model with specific values for the customized scalar $A,B,C$ and $Z$. To be able to perform the fitting procedure, we need to pre-set a range for all the customized variables presented in equation \ref{eq:12}, to do that, we carried out a trial-and-error evaluation to study the acceptable ranges for each of the variables, with which we defined the ranges and initial conditions for the mentioned library to provide us with an analytical function model. The results of this fitting process are shown in Figure \ref{fig:fitting20Hz}; we can see that the proposed model, which uses the following values $A= 1.94$, $B=2$, $C=1$ and $Z=0.15$, fits well with the set of points.
 
 % aqui tengo q agregar los passos para poder lograr el fitting del VAP utilizando la ecuación generalizada del modelo.
 \begin{figure}
     \centering    
-    \includegraphics[width=0.5\textwidth]{Figures/Fitting_20Hz.png}
-    \caption{Fitting for 20Hz }
-    \label{fig:groupres}
+    \includegraphics[width=0.5\textwidth]{Figures/fig3.pdf}
+    \caption{Relation betwen VRU PDR and VAP for beacon rate $R=\{10,20\} ~ \text{[Hz]}$ and awareness window $AW=\{200,500\} ~ \text{[ms]}$}
+    \label{fig:groupes}
 \end{figure}
 
 
 \begin{figure}
     \centering    
-    \includegraphics[width=0.5\textwidth]{Figures/Fitting_20Hz.png}
+    \includegraphics[width=0.5\textwidth]{Figures/2-fig4.pdf}
     \caption{Fitting for 20Hz }
     \label{fig:fitting20Hz}
 \end{figure}
@@ -707,7 +747,38 @@ After performing simulations using different density scenarios, we obtain a set 
 %\subsection{Resource allocation and VAP }
 \subsection{Analitycal Model Performance Over Different Occlusions }
 
-\section{Discussion and Future Work}
+To analyze the model’s performance in the face of physical modifications in the scenario, we proceed to evaluate it in a context where we have removed half of the buildings located at the urban intersection chosen for assessment. Figure \ref{fig:fitting20HzHalf} shows that the model adjusted to the intersection without considering buildings—meaning without obstacles affecting the propagation of radio signals containing cooperative awareness messages—fits well with the scenario where all obstacles are present. Additionally, the model accurately represents the relationship between VAP and PDR even when considering only half of the buildings in the urban intersection. Consequently, we establish that the presence of obstacles in the scenario does not significantly impact the VAP-PDR relationship. Based on previous evaluations, the model exhibits greater dependence on message transmission frequency and the size of the awareness window (AW).
+
+\begin{figure}
+    \centering    
+    \includegraphics[width=0.5\textwidth]{Figures/2-fig5.pdf}
+    \caption{Empiric v/s Theoretical VAP for $20$[Hz] considering four buildings at the intersection (obs)}
+    \label{fig:fitting20Hzfull}
+\end{figure}
+
+
+% \begin{figure}
+%     \centering    
+%     \includegraphics[width=0.5\textwidth]{Figures/2-fig6.pdf}
+%     \caption{Empiric v/s Theoretical VAP for $20$[Hz] considering two buildings at the intersection (half-obs)}
+%     \label{fig:fitting20HzHalf}
+% \end{figure}
+
+\begin{table}[]
+\caption{Errors for different scenarios}
+\centering
+
+\begin{tabular}{llll}
+\hline
+Scenario & MAE & MSE & RMSE \\ \hline
+Highly Obstructed (HO) & 0.0229 & 0.0009 & 0.0309 \\
+Partially Obstructed (PO) & 0.0211 & 0.0007 & 0.0265 \\ \hline
+\end{tabular}%
+\end{table}
+
+
+
+\section{Conclusion and Future Work}
 In the swiftly progressing domain of autonomous driving, validated analytical tools are pivotal for ensuring the safety of vulnerable road users. These analytical techniques are indispensable for comprehending diverse performance-affecting factors and pinpointing inherent limitations. The primary challenge lies in the latency aspect of C-V2X communication, particularly when utilizing communication mode 2 in NR. Striving to meet the stringent standards set by 3GPP demands the evaluation of awareness within an exceedingly brief timeframe, ideally less than one second. This aligns seamlessly with end-to-end latency constraints and underscores the paramount importance of an efficient assessment framework.
 
 The overarching objective of the presented model is to conduct a thorough evaluation of various vehicular traffic scenarios, placing specific emphasis on the inclusion of obstacles at intersections that impact signal transmission. This goal seeks to emulate the intricate challenges encountered in urban environments, where the safety of vulnerable road users is heavily reliant on the efficacy of communication systems. Furthermore, in future iterations, the model will delve into investigating how the clustering of Vulnerable Road Users (VRUs) influences the awareness metric and other system performance indicators. This exploration represents an initial foray into this aspect and will undergo substantial expansion in subsequent versions of the model.
