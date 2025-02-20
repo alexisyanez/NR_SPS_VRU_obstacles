@@ -82,6 +82,9 @@ def main():
         # Drop rows with NaN values in important columns
         filtered_df = filtered_df.dropna(subset=['max_dist_clust', 'All_PDR_Vector'])
 
+        # For to show a better X-axis
+        mapping = {3: 1, 4: 2, 5: 3, 10: 4, 15: 5}
+
         # Plot the Boxplot
         fig = px.box(
             filtered_df, 
@@ -99,8 +102,11 @@ def main():
             title_x=0.5
         )
 
-        fig.update_xaxes(tickvals=df_2['max_dist_clust'].unique(), ticktext=['3', '4', '5', '10', '15'])
-        fig.update_yaxes(range=[0.5,1])
+        fig.update_xaxes(
+            tickvals=[3, 4, 5, 10, 15], 
+            ticktext=[mapping[val] for val in [3, 4, 5, 10, 15]]
+            )
+        fig.update_yaxes(range=[0.8,1])
 
         st.plotly_chart(fig)
 
@@ -152,11 +158,16 @@ def main():
             title_x=0.5
         )
 
-        fig3.update_xaxes(tickvals=[3,4,5,10,15], ticktext=['3', '4', '5', '10', '15'])
+        fig3.update_xaxes(
+            tickvals=[3, 4, 5, 10, 15], 
+            ticktext=[mapping[val] for val in [3, 4, 5, 10, 15]]
+            )
         fig3.update_yaxes(range=[0.5,1])
 
         st.plotly_chart(fig3)
         #plot_box(df_3)
+
+
 
 
 @st.cache_data
