@@ -54,7 +54,7 @@ def main():
 
         st.plotly_chart(fig2)
 
-        st.write("Trying Explode VAP")
+        st.write("Trying Explode VAP Only for No-cluster")
 
         df_1_2=df_1.explode(['All_indv_emp_VAP'])   
 
