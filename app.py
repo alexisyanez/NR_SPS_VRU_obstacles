@@ -103,10 +103,13 @@ def main():
         )
 
         fig.update_xaxes(
-            tickvals=[3, 4, 5, 10, 15], 
-            ticktext=[mapping[val] for val in [3, 4, 5, 10, 15]]
-            )
-        fig.update_yaxes(range=[0.8,1])
+            tickvals=[3, 4, 5, 10, 15],  # Values to appear on X-axis
+            ticktext=[str(val) for val in [3, 4, 5, 10, 15]],  # Corresponding tick labels
+            tickmode='array',  # Ensure you are using the specified tickvals and ticktext
+            type='category'  # This will treat the x-axis as categorical, bringing ticks closer together
+        )
+
+        fig.update_yaxes(range=[0.9,1.1])
 
         st.plotly_chart(fig)
 
@@ -159,10 +162,13 @@ def main():
         )
 
         fig3.update_xaxes(
-            tickvals=[3, 4, 5, 10, 15], 
-            ticktext=[mapping[val] for val in [3, 4, 5, 10, 15]]
-            )
-        fig3.update_yaxes(range=[0.5,1])
+            tickvals=[3, 4, 5, 10, 15],  # Values to appear on X-axis
+            ticktext=[str(val) for val in [3, 4, 5, 10, 15]],  # Corresponding tick labels
+            tickmode='array',  # Ensure you are using the specified tickvals and ticktext
+            type='category'  # This will treat the x-axis as categorical, bringing ticks closer together
+        )
+
+        fig3.update_yaxes(range=[0.9,1.1])
 
         st.plotly_chart(fig3)
         #plot_box(df_3)
