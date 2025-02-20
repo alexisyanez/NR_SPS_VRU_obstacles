@@ -131,7 +131,7 @@ def main():
             type='category'  # This will treat the x-axis as categorical, bringing ticks closer together
         )
 
-        fig.update_yaxes(range=[0.9,1.1])
+        fig.update_yaxes(range=[0.8,1.05])
 
         st.plotly_chart(fig)
 
