@@ -54,15 +54,15 @@ def main():
 
         st.plotly_chart(fig2)
 
-        # df_1=df_1.explode(['All_indv_emp_VAP'])   
+        df_1_2=df_1.explode(['All_indv_emp_VAP'])   
 
-        # #df_1['index'] = df_1.index 
+        df_1_2['index'] = df_1_2.index 
 
-        # fig2_1 = px.box(
-        #     df_1, 
-        #     x='index', 
-        #     y='All_indv_emp_VAP', 
-        #     notched=True,
+        #fig2_1 = px.box(
+        #    df_1, 
+        #    x='index', 
+        #    y='All_indv_emp_VAP', 
+        #    notched=True,
         #     title='ALL Individual Empiric VAP for no-clustering',
         #     labels={'All_indv_emp_VAP': 'Average All_indv_emp_VAP','index': 'Index'},
         #     points='all'
