@@ -92,7 +92,7 @@ def main():
         filtered_df = df_2[df_2['max_speed_diff'] == selected_speed]
 
         # Check for missing columns or NaN values
-        print(filtered_df.columns)  # Debugging line
+        #print(filtered_df.columns)  # Debugging line
         if filtered_df.empty:
             st.error("No data available for the selected speed.")
             return
@@ -137,7 +137,7 @@ def main():
 
         ## VAP metric
 
-        # df_2_1=df_2.explode(['All_indv_emp_VAP'])   
+        df_2_1=df_2.explode(['All_indv_emp_VAP'])   
 
         # # Slider for selecting max_speed_diff
         # selected_speed_1 = st.select_slider(
@@ -213,7 +213,7 @@ def main():
         filtered_df_2 = df_3[df_3['max_speed_diff'] == selected_speed_2]
 
         # Check for missing columns or NaN values
-        print(filtered_df_2.columns)  # Debugging line
+        #print(filtered_df_2.columns)  # Debugging line
         if filtered_df_2.empty:
             st.error("No data available for the selected speed.")
             return
