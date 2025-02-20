@@ -78,7 +78,7 @@ def main():
                 title_x=0.5
             )
 
-        st.plotly_chart(fig2_1,use_container_width=True)
+            st.plotly_chart(fig2_1,use_container_width=True)
         st.success('¡Gráfico generado con éxito!')
 
         st.write("Density Scenario 15")
