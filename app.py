@@ -32,6 +32,28 @@ def main():
     with st.expander('Show PDR Box Plot for PDR'):
         st.write("No-Cluster")
 
+        df_1['index'] = df_1.index 
+
+        fig2 = px.box(
+            filtered_df, 
+            x='index', 
+            y='All_PDR_Vector', 
+            notched=True,
+            title=f'ALL PDR Average for max_speed_diff = {selected_speed}',
+            labels={'ALL_PDR_avg': 'Average ALL_PDR','index': 'Index'},
+            points='all'
+        )
+        fig2.update_layout(
+            xaxis_title='index', 
+            yaxis_title='Average ALL_PDR', 
+            font_size=12, 
+            title_x=0.5
+        )
+
+        st.plotly_chart(fig2)
+
+        st.write("Density Scenario 15")
+
         # Slider for selecting max_speed_diff
         selected_speed = st.select_slider(
             label='Select max_speed_diff', 
@@ -41,7 +63,7 @@ def main():
         )
 
         # Filter the DataFrame based on the slider value
-        filtered_df = df_1[df_1['max_speed_diff'] == selected_speed]
+        filtered_df = df_2[df_2['max_speed_diff'] == selected_speed]
 
         # Check for missing columns or NaN values
         print(filtered_df.columns)  # Debugging line
@@ -75,11 +97,11 @@ def main():
 
         st.plotly_chart(fig)
 
-        st.write("Density Scenario 15")
-        plot_box(df_2)
+        
+        #plot_box(df_2)
 
         st.write("Density Scenario 16")
-        plot_box(df_3)
+        #plot_box(df_3)
 
 
 @st.cache_data
