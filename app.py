@@ -72,8 +72,8 @@ def main():
             return
 
         # Ensure correct data types
-        filtered_df['max_dist_clust'] = pd.to_numeric(filtered_df['max_dist_clust'], errors='coerce')
-        filtered_df['All_PDR_Vector'] = pd.to_numeric(filtered_df['All_PDR_Vector'], errors='coerce')
+        filtered_df.loc[:, 'max_dist_clust'] = pd.to_numeric(filtered_df['max_dist_clust'], errors='coerce')
+        filtered_df.loc[:, 'All_PDR_Vector'] = pd.to_numeric(filtered_df['All_PDR_Vector'], errors='coerce')
 
         # Drop rows with NaN values in important columns
         filtered_df = filtered_df.dropna(subset=['max_dist_clust', 'All_PDR_Vector'])
