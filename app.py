@@ -70,7 +70,7 @@ def main():
         selected_size = st.select_slider(
             label='Select max_speed_diff', 
             options=[2, 3, 4, 5, 6], 
-            value=10,
+            value=2,
             key='slider_size'
         )
 
