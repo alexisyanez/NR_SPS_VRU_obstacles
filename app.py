@@ -116,7 +116,7 @@ def main():
             label='Select max_speed_diff', 
             options=[5, 10, 15], 
             value=10,
-            key='slider_speed'
+            key='slider_speed_2'
         )
 
         # Filter the DataFrame based on the slider value
@@ -129,8 +129,8 @@ def main():
             return
 
         # Ensure correct data types
-        filtered_df_2.loc[:, 'max_dist_clust'] = pd.to_numeric(filtered_df['max_dist_clust'], errors='coerce')
-        filtered_df_2.loc[:, 'All_PDR_Vector'] = pd.to_numeric(filtered_df['All_PDR_Vector'], errors='coerce')
+        filtered_df_2.loc[:, 'max_dist_clust'] = pd.to_numeric(filtered_df_2['max_dist_clust'], errors='coerce')
+        filtered_df_2.loc[:, 'All_PDR_Vector'] = pd.to_numeric(filtered_df_2['All_PDR_Vector'], errors='coerce')
 
         # Drop rows with NaN values in important columns
         filtered_df_2 = filtered_df_2.dropna(subset=['max_dist_clust', 'All_PDR_Vector'])
