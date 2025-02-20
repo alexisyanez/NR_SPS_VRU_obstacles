@@ -60,23 +60,23 @@ def main():
 
         df_1_2['index'] = df_1_2.index 
 
-        #fig2_1 = px.box(
-        #    df_1, 
-        #    x='index', 
-        #    y='All_indv_emp_VAP', 
-        #    notched=True,
-        #     title='ALL Individual Empiric VAP for no-clustering',
-        #     labels={'All_indv_emp_VAP': 'Average All_indv_emp_VAP','index': 'Index'},
-        #     points='all'
-        # )
-        # fig2_1.update_layout(
-        #     xaxis_title='index', 
-        #     yaxis_title='Emp VAP', 
-        #     font_size=12, 
-        #     title_x=0.5
-        # )
+        fig2_1 = px.box(
+            df_1_2, 
+            x='index', 
+            y='All_indv_emp_VAP', 
+            notched=True,
+            title='ALL Individual Empiric VAP for no-clustering',
+            labels={'All_indv_emp_VAP': 'Average All_indv_emp_VAP','index': 'Index'},
+             points='all'
+        )
+        fig2_1.update_layout(
+            xaxis_title='index', 
+            yaxis_title='Emp VAP', 
+            font_size=12, 
+            title_x=0.5
+        )
 
-        # st.plotly_chart(fig2_1)
+        st.plotly_chart(fig2_1)
 
         st.write("Density Scenario 15")
 
