@@ -66,14 +66,15 @@ def main():
             key='slider_speed'
         )
 
-        # Slider for selecting max_speed_diff
+        # Slider for selecting cl cluster 
         selected_size = st.select_slider(
-            label='Select max_speed_diff', 
+            label='Select Cluster Size', 
             options=[2, 3, 4, 5, 6], 
             value=2,
             key='slider_size'
         )
 
+        st.write("You are selecting the pairs cluster size for min_max: [2,10];[3,15];[4,20];[5,25];[6,30];")
         # Filter the DataFrame based on the slider value
         filtered_df = df_2[(df_2['max_speed_diff'] == selected_speed) & (df_2['min_cl'] == selected_size) ]
 
@@ -135,8 +136,18 @@ def main():
             key='slider_speed_2'
         )
 
+        # Slider for selecting cl cluster 
+        selected_size_2 = st.select_slider(
+            label='Select Cluster Size', 
+            options=[2, 3, 4, 5, 6], 
+            value=2,
+            key='slider_size_2'
+        )
+
+        st.write("You are selecting the pairs cluster size for min_max: [2,10];[3,15];[4,20];[5,25];[6,30];")
+
         # Filter the DataFrame based on the slider value
-        filtered_df_2 = df_3[df_3['max_speed_diff'] == selected_speed_2]
+        filtered_df_2 = df_3[(df_3['max_speed_diff'] == selected_speed_2) & (df_3['min_cl'] == selected_size)]
 
         # Check for missing columns or NaN values
         #print(filtered_df_2.columns)  # Debugging line
