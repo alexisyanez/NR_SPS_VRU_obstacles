@@ -29,7 +29,7 @@ def main():
         st.write("Density Scenario 16")
         st.write(df_3)
     
-    with st.expander('Show PDR Box Plot for PDR'):
+    with st.expander('Show Box Plot for PDR'):
         st.write("No-Cluster")
 
         df_1=df_1.explode(['All_PDR_Vector'])   
@@ -54,33 +54,6 @@ def main():
 
         st.plotly_chart(fig2, use_container_width=True)
 
-        st.write("Trying Explode VAP Only for No-cluster")
-
-        # Mostrar spinner mientras se carga el gráfico
-        #with st.spinner('Generando el gráfico, por favor espera...'):
-        # df_1_2=df_1.explode(['All_indv_emp_VAP'])   
-
-        # df_1_2['index'] = df_1_2.index 
-
-        # fig2_1 = px.box(
-        #     df_1_2, 
-        #     x='index', 
-        #     y='All_indv_emp_VAP', 
-        #     notched=True,
-        #     title='ALL Individual Empiric VAP for no-clustering',
-        #     labels={'All_indv_emp_VAP': 'Average All_indv_emp_VAP','index': 'Index'},
-        #     points= False
-        # )
-        # fig2_1.update_layout(
-        #     xaxis_title='index', 
-        #     yaxis_title='Emp VAP', 
-        #     font_size=12, 
-        #     title_x=0.5
-        # )
-
-        # st.plotly_chart(fig2_1,use_container_width=True)
-        # #st.success('¡Gráfico generado con éxito!')
-
         st.write("Density Scenario 15")
 
         df_2=df_2.explode(['All_PDR_Vector'])   
@@ -93,8 +66,16 @@ def main():
             key='slider_speed'
         )
 
+        # Slider for selecting max_speed_diff
+        selected_size = st.select_slider(
+            label='Select max_speed_diff', 
+            options=[2, 3, 4, 5, 6], 
+            value=10,
+            key='slider_size'
+        )
+
         # Filter the DataFrame based on the slider value
-        filtered_df = df_2[df_2['max_speed_diff'] == selected_speed]
+        filtered_df = df_2[df_2['max_speed_diff'] == selected_speed & df_2['min_cl'] == selected_size ]
 
         # Check for missing columns or NaN values
         #print(filtered_df.columns)  # Debugging line
@@ -140,67 +121,7 @@ def main():
 
         st.plotly_chart(fig,use_container_width=True)
 
-        ## VAP metric
-
-        df_2_1=df_2.explode(['All_indv_emp_VAP'])   
-
-        # # Slider for selecting max_speed_diff
-        # selected_speed_1 = st.select_slider(
-        #     label='Select max_speed_diff', 
-        #     options=[5, 10, 15], 
-        #     value=10,
-        #     key='slider_speed_1'
-        # )
-
-        # # Filter the DataFrame based on the slider value
-        # filtered_df_1_2 = df_2_1[df_2_1['max_speed_diff'] == selected_speed_1]
-
-        # # Check for missing columns or NaN values
-        # print(filtered_df_1_2.columns)  # Debugging line
-        # if filtered_df_1_2.empty:
-        #     st.error("No data available for the selected speed.")
-        #     return
-
-        # # Ensure correct data types
-        # filtered_df_1_2.loc[:, 'max_dist_clust'] = pd.to_numeric(filtered_df_1_2['max_dist_clust'], errors='coerce')
-        # filtered_df_1_2.loc[:, 'All_indv_emp_VAP'] = pd.to_numeric(filtered_df_1_2['All_indv_emp_VAP'], errors='coerce')
-
-        # # Drop rows with NaN values in important columns
-        # filtered_df_1_2 = filtered_df_1_2.dropna(subset=['max_dist_clust', 'All_indv_emp_VAP'])
-
-        # # For to show a better X-axis
-        # #mapping = {3: 1, 4: 2, 5: 3, 10: 4, 15: 5}
-
-        # # Plot the Boxplot
-        # fig_1 = px.box(
-        #     filtered_df_1_2, 
-        #     x='max_dist_clust', 
-        #     y='All_indv_emp_VAP', 
-        #     notched=True,
-        #     title=f'ALL PDR Average for max_speed_diff = {selected_speed_1}',
-        #     labels={'All_indv_emp_VAP': 'Average ALL_PDR_indv_emp_VAP', 'max_dist_clust': 'Maximum Distance to Cluster Head'},
-        #     points='all'
-        # )
-        # fig_1.update_layout(
-        #     xaxis_title='Maximum Distance for Cluster member [m]', 
-        #     yaxis_title='Average All_indv_emp_VAP', 
-        #     font_size=12, 
-        #     title_x=0.5
-        # )
-
-        # fig_1.update_xaxes(
-        #     tickvals=[3, 4, 5, 10, 15],  # Values to appear on X-axis
-        #     ticktext=[str(val) for val in [3, 4, 5, 10, 15]],  # Corresponding tick labels
-        #     tickmode='array',  # Ensure you are using the specified tickvals and ticktext
-        #     type='category'  # This will treat the x-axis as categorical, bringing ticks closer together
-        # )
-
-        # fig_1.update_yaxes(range=[0.9,1.1])
-
-        # st.plotly_chart(fig_1)
-
         
-        #plot_box(df_2)
 
         st.write("Density Scenario 16")
 
@@ -317,6 +238,99 @@ def main():
         # fig3_1.update_yaxes(range=[0.9,1.1])
 
         # st.plotly_chart(fig3_1)
+
+    with st.expander('Show Box Plot for VAP'):
+        st.write("Trying Explode VAP Only for No-cluster")
+
+        st.write("VAP for No-cluster")
+        # Mostrar spinner mientras se carga el gráfico
+        #with st.spinner('Generando el gráfico, por favor espera...'):
+        df_1_2=df_1.explode(['All_indv_emp_VAP'])   
+
+        df_1_2['index'] = df_1_2.index 
+
+        fig2_1 = px.box(
+            df_1_2, 
+            x='index', 
+            y='All_indv_emp_VAP', 
+            notched=True,
+            title='ALL Individual Empiric VAP for no-clustering',
+            labels={'All_indv_emp_VAP': 'Average All_indv_emp_VAP','index': 'Index'},
+            points= False
+        )
+        fig2_1.update_layout(
+            xaxis_title='index', 
+            yaxis_title='Emp VAP', 
+            font_size=12, 
+            title_x=0.5
+        )
+
+        st.plotly_chart(fig2_1,use_container_width=True)
+
+        st.write("VAP for Density Scenario 16")
+        # #st.success('¡Gráfico generado con éxito!')
+
+        ## VAP metric
+
+        # df_2_1=df_2.explode(['All_indv_emp_VAP'])   
+
+        # # Slider for selecting max_speed_diff
+        # selected_speed_1 = st.select_slider(
+        #     label='Select max_speed_diff', 
+        #     options=[5, 10, 15], 
+        #     value=10,
+        #     key='slider_speed_1'
+        # )
+
+        # # Filter the DataFrame based on the slider value
+        # filtered_df_1_2 = df_2_1[df_2_1['max_speed_diff'] == selected_speed_1]
+
+        # # Check for missing columns or NaN values
+        # print(filtered_df_1_2.columns)  # Debugging line
+        # if filtered_df_1_2.empty:
+        #     st.error("No data available for the selected speed.")
+        #     return
+
+        # # Ensure correct data types
+        # filtered_df_1_2.loc[:, 'max_dist_clust'] = pd.to_numeric(filtered_df_1_2['max_dist_clust'], errors='coerce')
+        # filtered_df_1_2.loc[:, 'All_indv_emp_VAP'] = pd.to_numeric(filtered_df_1_2['All_indv_emp_VAP'], errors='coerce')
+
+        # # Drop rows with NaN values in important columns
+        # filtered_df_1_2 = filtered_df_1_2.dropna(subset=['max_dist_clust', 'All_indv_emp_VAP'])
+
+        # # For to show a better X-axis
+        # #mapping = {3: 1, 4: 2, 5: 3, 10: 4, 15: 5}
+
+        # # Plot the Boxplot
+        # fig_1 = px.box(
+        #     filtered_df_1_2, 
+        #     x='max_dist_clust', 
+        #     y='All_indv_emp_VAP', 
+        #     notched=True,
+        #     title=f'ALL PDR Average for max_speed_diff = {selected_speed_1}',
+        #     labels={'All_indv_emp_VAP': 'Average ALL_PDR_indv_emp_VAP', 'max_dist_clust': 'Maximum Distance to Cluster Head'},
+        #     points='all'
+        # )
+        # fig_1.update_layout(
+        #     xaxis_title='Maximum Distance for Cluster member [m]', 
+        #     yaxis_title='Average All_indv_emp_VAP', 
+        #     font_size=12, 
+        #     title_x=0.5
+        # )
+
+        # fig_1.update_xaxes(
+        #     tickvals=[3, 4, 5, 10, 15],  # Values to appear on X-axis
+        #     ticktext=[str(val) for val in [3, 4, 5, 10, 15]],  # Corresponding tick labels
+        #     tickmode='array',  # Ensure you are using the specified tickvals and ticktext
+        #     type='category'  # This will treat the x-axis as categorical, bringing ticks closer together
+        # )
+
+        # fig_1.update_yaxes(range=[0.9,1.1])
+
+        # st.plotly_chart(fig_1)
+
+        
+        #plot_box(df_2)
 
 
 
