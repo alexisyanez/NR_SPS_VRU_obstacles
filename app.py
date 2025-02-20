@@ -35,7 +35,7 @@ def main():
         df_1['index'] = df_1.index 
 
         fig2 = px.box(
-            filtered_df, 
+            df_1, 
             x='index', 
             y='All_PDR_Vector', 
             notched=True,
