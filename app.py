@@ -54,17 +54,17 @@ def main():
 
         st.plotly_chart(fig2)
 
-        df_1=df_1.explode(['All_indv_emp_VAP'])   
+        df_1=df_1.explode(['emp_VAP_avg'])   
 
         #df_1['index'] = df_1.index 
 
         fig2_1 = px.box(
             df_1, 
             x='index', 
-            y='All_indv_emp_VAP', 
+            y='emp_VAP_avg', 
             notched=True,
             title='ALL Individual Empiric VAP for no-clustering',
-            labels={'All_indv_emp_VAP': 'Average All_indv_emp_VAP','index': 'Index'},
+            labels={'emp_VAP_avg': 'Average emp_VAP_avg','index': 'Index'},
             points='all'
         )
         fig2_1.update_layout(
@@ -137,7 +137,7 @@ def main():
 
         ## VAP metric
 
-        df_2_1=df_2.explode(['All_indv_emp_VAP'])   
+        df_2_1=df_2.explode(['emp_VAP_avg'])   
 
         # Slider for selecting max_speed_diff
         selected_speed_1 = st.select_slider(
@@ -158,10 +158,10 @@ def main():
 
         # Ensure correct data types
         filtered_df_1_2.loc[:, 'max_dist_clust'] = pd.to_numeric(filtered_df_1_2['max_dist_clust'], errors='coerce')
-        filtered_df_1_2.loc[:, 'All_indv_emp_VAP'] = pd.to_numeric(filtered_df_1_2['All_indv_emp_VAP'], errors='coerce')
+        filtered_df_1_2.loc[:, 'emp_VAP_avg'] = pd.to_numeric(filtered_df_1_2['emp_VAP_avg'], errors='coerce')
 
         # Drop rows with NaN values in important columns
-        filtered_df_1_2 = filtered_df_1_2.dropna(subset=['max_dist_clust', 'All_indv_emp_VAP'])
+        filtered_df_1_2 = filtered_df_1_2.dropna(subset=['max_dist_clust', 'emp_VAP_avg'])
 
         # For to show a better X-axis
         #mapping = {3: 1, 4: 2, 5: 3, 10: 4, 15: 5}
@@ -170,15 +170,15 @@ def main():
         fig_1 = px.box(
             filtered_df_1_2, 
             x='max_dist_clust', 
-            y='All_indv_emp_VAP', 
+            y='emp_VAP_avg', 
             notched=True,
             title=f'ALL PDR Average for max_speed_diff = {selected_speed_1}',
-            labels={'All_indv_emp_VAP': 'Average ALL_PDR_indv_emp_VAP', 'max_dist_clust': 'Maximum Distance to Cluster Head'},
+            labels={'emp_VAP_avg': 'Average ALL_PDR_indv_emp_VAP', 'max_dist_clust': 'Maximum Distance to Cluster Head'},
             points='all'
         )
         fig_1.update_layout(
             xaxis_title='Maximum Distance for Cluster member [m]', 
-            yaxis_title='Average All_indv_emp_VAP', 
+            yaxis_title='Average emp_VAP_avg', 
             font_size=12, 
             title_x=0.5
         )
@@ -256,7 +256,7 @@ def main():
 
         ## VAP metric
 
-        df_3_1=df_3.explode(['All_indv_emp_VAP'])   
+        df_3_1=df_3.explode(['emp_VAP_avg'])   
 
         # Slider for selecting max_speed_diff
         selected_speed_2_1 = st.select_slider(
@@ -277,10 +277,10 @@ def main():
 
         # Ensure correct data types
         filtered_df_2_1.loc[:, 'max_dist_clust'] = pd.to_numeric(filtered_df_1_2['max_dist_clust'], errors='coerce')
-        filtered_df_2_1.loc[:, 'All_indv_emp_VAP'] = pd.to_numeric(filtered_df_1_2['All_indv_emp_VAP'], errors='coerce')
+        filtered_df_2_1.loc[:, 'emp_VAP_avg'] = pd.to_numeric(filtered_df_1_2['emp_VAP_avg'], errors='coerce')
 
         # Drop rows with NaN values in important columns
-        filtered_df_2_1 = filtered_df_2_1.dropna(subset=['max_dist_clust', 'All_indv_emp_VAP'])
+        filtered_df_2_1 = filtered_df_2_1.dropna(subset=['max_dist_clust', 'emp_VAP_avg'])
 
         # For to show a better X-axis
         #mapping = {3: 1, 4: 2, 5: 3, 10: 4, 15: 5}
@@ -289,15 +289,15 @@ def main():
         fig3_1 = px.box(
             filtered_df_2_1, 
             x='max_dist_clust', 
-            y='All_indv_emp_VAP', 
+            y='emp_VAP_avg', 
             notched=True,
             title=f'ALL PDR Average for max_speed_diff = {selected_speed_2_1}',
-            labels={'All_indv_emp_VAP': 'Average ALL_PDR_indv_emp_VAP', 'max_dist_clust': 'Maximum Distance to Cluster Head'},
+            labels={'emp_VAP_avg': 'Average ALL_PDR_indv_emp_VAP', 'max_dist_clust': 'Maximum Distance to Cluster Head'},
             points='all'
         )
         fig3_1.update_layout(
             xaxis_title='Maximum Distance for Cluster member [m]', 
-            yaxis_title='Average All_indv_emp_VAP', 
+            yaxis_title='Average emp_VAP_avg', 
             font_size=12, 
             title_x=0.5
         )
