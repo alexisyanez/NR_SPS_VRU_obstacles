@@ -83,7 +83,7 @@ def main():
         filtered_df = filtered_df.dropna(subset=['max_dist_clust', 'All_PDR_Vector'])
 
         # For to show a better X-axis
-        mapping = {3: 1, 4: 2, 5: 3, 10: 4, 15: 5}
+        #mapping = {3: 1, 4: 2, 5: 3, 10: 4, 15: 5}
 
         # Plot the Boxplot
         fig = px.box(
