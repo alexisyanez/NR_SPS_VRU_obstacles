@@ -32,6 +32,8 @@ def main():
     with st.expander('Show PDR Box Plot for PDR'):
         st.write("No-Cluster")
 
+        df_1=df_1.explode(['All_PDR_Vector'])   
+
         df_1['index'] = df_1.index 
 
         fig2 = px.box(
@@ -53,6 +55,8 @@ def main():
         st.plotly_chart(fig2)
 
         st.write("Density Scenario 15")
+
+        df_2=df_2.explode(['All_PDR_Vector'])   
 
         # Slider for selecting max_speed_diff
         selected_speed = st.select_slider(
