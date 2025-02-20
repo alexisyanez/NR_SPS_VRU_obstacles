@@ -54,6 +54,8 @@ def main():
 
         st.plotly_chart(fig2)
 
+        st.write("Trying Explode VAP")
+
         df_1_2=df_1.explode(['All_indv_emp_VAP'])   
 
         df_1_2['index'] = df_1_2.index 
