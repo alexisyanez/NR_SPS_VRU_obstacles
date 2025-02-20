@@ -39,7 +39,7 @@ def main():
             x='index', 
             y='All_PDR_Vector', 
             notched=True,
-            title=f'ALL PDR Average for max_speed_diff = {selected_speed}',
+            title='ALL PDR Average for no-clustering',
             labels={'ALL_PDR_avg': 'Average ALL_PDR','index': 'Index'},
             points='all'
         )
