@@ -1,10 +1,3 @@
-import streamlit as st
-import json
-import pandas as pd
-import plotly.express as px
-import numpy as np
-import os
-
 def main():
     st.set_page_config(layout='centered')
     st.title('Results visualization for Clustering in OOP for SPS')
@@ -42,6 +35,19 @@ def main():
 
         # Filter the DataFrame based on the slider value
         filtered_df = df_1[df_1['max_speed_diff'] == selected_speed]
+
+        # Check for missing columns or NaN values
+        print(filtered_df.columns)  # Debugging line
+        if filtered_df.empty:
+            st.error("No data available for the selected speed.")
+            return
+
+        # Ensure correct data types
+        filtered_df['max_dist_clust'] = pd.to_numeric(filtered_df['max_dist_clust'], errors='coerce')
+        filtered_df['All_PDR_Vector'] = pd.to_numeric(filtered_df['All_PDR_Vector'], errors='coerce')
+
+        # Drop rows with NaN values in important columns
+        filtered_df = filtered_df.dropna(subset=['max_dist_clust', 'All_PDR_Vector'])
 
         # Plot the Boxplot
         fig = px.box(
