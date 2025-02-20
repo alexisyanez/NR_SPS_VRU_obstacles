@@ -75,7 +75,7 @@ def main():
         )
 
         # Filter the DataFrame based on the slider value
-        filtered_df = df_2[df_2['max_speed_diff'] == selected_speed & df_2['min_cl'] == selected_size ]
+        filtered_df = df_2[(df_2['max_speed_diff'] == selected_speed) & (df_2['min_cl'] == selected_size) ]
 
         # Check for missing columns or NaN values
         #print(filtered_df.columns)  # Debugging line
