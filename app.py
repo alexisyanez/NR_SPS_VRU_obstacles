@@ -67,7 +67,7 @@ def main():
             notched=True,
             title='ALL Individual Empiric VAP for no-clustering',
             labels={'All_indv_emp_VAP': 'Average All_indv_emp_VAP','index': 'Index'},
-             points='all'
+            points='outliers'
         )
         fig2_1.update_layout(
             xaxis_title='index', 
