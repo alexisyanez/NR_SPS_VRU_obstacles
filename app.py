@@ -58,28 +58,28 @@ def main():
 
         # Mostrar spinner mientras se carga el gráfico
         #with st.spinner('Generando el gráfico, por favor espera...'):
-        df_1_2=df_1.explode(['All_indv_emp_VAP'])   
+        # df_1_2=df_1.explode(['All_indv_emp_VAP'])   
 
-        df_1_2['index'] = df_1_2.index 
+        # df_1_2['index'] = df_1_2.index 
 
-        fig2_1 = px.box(
-            df_1_2, 
-            x='index', 
-            y='All_indv_emp_VAP', 
-            notched=True,
-            title='ALL Individual Empiric VAP for no-clustering',
-            labels={'All_indv_emp_VAP': 'Average All_indv_emp_VAP','index': 'Index'},
-            points= False
-        )
-        fig2_1.update_layout(
-            xaxis_title='index', 
-            yaxis_title='Emp VAP', 
-            font_size=12, 
-            title_x=0.5
-        )
+        # fig2_1 = px.box(
+        #     df_1_2, 
+        #     x='index', 
+        #     y='All_indv_emp_VAP', 
+        #     notched=True,
+        #     title='ALL Individual Empiric VAP for no-clustering',
+        #     labels={'All_indv_emp_VAP': 'Average All_indv_emp_VAP','index': 'Index'},
+        #     points= False
+        # )
+        # fig2_1.update_layout(
+        #     xaxis_title='index', 
+        #     yaxis_title='Emp VAP', 
+        #     font_size=12, 
+        #     title_x=0.5
+        # )
 
-        st.plotly_chart(fig2_1,use_container_width=True)
-        #st.success('¡Gráfico generado con éxito!')
+        # st.plotly_chart(fig2_1,use_container_width=True)
+        # #st.success('¡Gráfico generado con éxito!')
 
         st.write("Density Scenario 15")
 
@@ -138,7 +138,7 @@ def main():
 
         fig.update_yaxes(range=[0.8,1.05])
 
-        st.plotly_chart(fig)
+        st.plotly_chart(fig,use_container_width=True)
 
         ## VAP metric
 
@@ -256,7 +256,7 @@ def main():
 
         fig3.update_yaxes(range=[0.8,1.05])
 
-        st.plotly_chart(fig3)
+        st.plotly_chart(fig3,use_container_width=True)
         #plot_box(df_3)
 
         ## VAP metric
