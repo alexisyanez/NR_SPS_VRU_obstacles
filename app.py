@@ -102,7 +102,7 @@ def main():
             notched=True,
             title=f'ALL PDR Average for max_speed_diff = {selected_speed}',
             labels={'ALL_PDR_avg': 'Average ALL_PDR', 'max_dist_clust': 'Maximum Distance to Cluster Head'},
-            points='all'
+            points=False #'all'
         )
         fig.update_layout(
             xaxis_title='Maximum Distance for Cluster member [m]', 
@@ -170,7 +170,7 @@ def main():
             notched=True,
             title=f'ALL PDR Average for max_speed_diff = {selected_speed_2}',
             labels={'ALL_PDR_avg': 'Average ALL_PDR', 'max_dist_clust': 'Maximum Distance to Cluster Head'},
-            points='all'
+            points=False #'all'
         )
         fig3.update_layout(
             xaxis_title='Maximum Distance for Cluster member [m]', 
